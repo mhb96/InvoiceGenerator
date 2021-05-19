@@ -1,3 +1,5 @@
+using ElectronNET.API;
+using ElectronNET.API.Entities;
 using InvoiceGenerator.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,8 +17,15 @@ using System.Threading.Tasks;
 
 namespace InvoiceGenerator
 {
+    /// <summary>
+    /// Implements the start up.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -66,6 +75,24 @@ namespace InvoiceGenerator
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            if (HybridSupport.IsElectronActive)
+                CreateWindow();
+        }
+        private async void CreateWindow()
+        {
+            var window = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
+            {
+                WebPreferences = new WebPreferences { NativeWindowOpen = true }
+                //Width = 1000,
+                //Height = 800,
+                //Show = false,
+            });
+
+            window.OnClose += () =>
+            {
+                Electron.App.Quit();
+            };
         }
     }
 }
