@@ -1,6 +1,6 @@
 using ElectronNET.API;
 using ElectronNET.API.Entities;
-using InvoiceGenerator.Data;
+using InvoiceGenerator.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

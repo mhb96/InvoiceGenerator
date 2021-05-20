@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace InvoiceGenerator.Data
+namespace InvoiceGenerator.Repository
 {
     public class ApplicationDbContext : IdentityDbContext
     {
