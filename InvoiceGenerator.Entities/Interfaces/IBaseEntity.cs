@@ -1,10 +1,11 @@
-﻿
-using InvoiceGenerator.Entities.Interfaces;
-using System;
+﻿using System;
 
-namespace InvoiceGenerator.Entities
+namespace InvoiceGenerator.Entities.Interfaces
 {
-    public class BaseEntity : IBaseEntity
+    /// <summary>
+    /// Defines the base entity.
+    /// </summary>
+    public interface IBaseEntity
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -12,7 +13,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The identifier.
         /// </value>
-        public long Id { get; set; }
+        long Id { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is deleted.
@@ -20,7 +21,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         ///   <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
         /// </value>
-        public bool IsDeleted { get; set; }
+        bool IsDeleted { get; set; }
 
         /// <summary>
         /// Gets or sets the created at.
@@ -28,6 +29,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The created at.
         /// </value>
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        DateTime CreatedAt { get; set; }
     }
 }

@@ -1,13 +1,9 @@
-﻿using InvoiceGenerator.Entities.Interfaces;
-
-namespace InvoiceGenerator.Entities
+﻿namespace InvoiceGenerator.Entities.Interfaces
 {
     /// <summary>
-    /// Implements item entity.
+    /// Defins the item entity
     /// </summary>
-    /// <seealso cref="InvoiceGenerator.Entities.BaseEntity" />
-    /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IItem" />
-    public class Item : BaseEntity, IItem
+    public interface IItem : IBaseEntity
     {
         /// <summary>
         /// Gets or sets the product/service name.
@@ -15,7 +11,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The product/service name.
         /// </value>
-        public string Name { get; set; }
+        string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the last name.
@@ -23,7 +19,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The last name.
         /// </value>
-        public int Quantity { get; set; }
+        int Quantity { get; set; }
 
         /// <summary>
         /// Gets or sets the unit price.
@@ -31,7 +27,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The unit price.
         /// </value>
-        public decimal UnitPrice { get; set; }
+        decimal UnitPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice no.
@@ -39,7 +35,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The invoice no.
         /// </value>
-        public long InvoiceNo { get; set; }
+        long InvoiceNo { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice.
@@ -47,6 +43,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The invoice.
         /// </value>
-        public virtual IInvoice Invoice { get; set; }
+        IInvoice Invoice { get; set; }
     }
 }

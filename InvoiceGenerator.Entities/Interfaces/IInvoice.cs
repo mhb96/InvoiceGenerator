@@ -1,23 +1,19 @@
-﻿using InvoiceGenerator.Entities.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace InvoiceGenerator.Entities
+namespace InvoiceGenerator.Entities.Interfaces
 {
     /// <summary>
-    /// Implements the invoice entity.
+    /// Defines the invoice interface.
     /// </summary>
-    /// <seealso cref="InvoiceGenerator.Entities.BaseEntity" />
-    /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IInvoice" />
-    public class Invoice : BaseEntity, IInvoice
-    {
-        /// <summary>
-        /// Gets or sets the client name.
-        /// </summary>
-        /// <value>
-        /// The client name.
-        /// </value>
-        public string ClientName { get; set; }
+    public interface IInvoice : IBaseEntity
+    { /// <summary>
+      /// Gets or sets the client name.
+      /// </summary>
+      /// <value>
+      /// The client name.
+      /// </value>
+        string ClientName { get; set; }
 
         /// <summary>
         /// Gets or sets the company name.
@@ -25,7 +21,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The company name.
         /// </value>
-        public string CompanyName { get; set; }
+        string CompanyName { get; set; }
 
         /// <summary>
         /// Gets or sets the Address.
@@ -33,7 +29,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The Address.
         /// </value>
-        public string Address { get; set; }
+        string Address { get; set; }
 
         /// <summary>
         /// Gets or sets the due date.
@@ -41,7 +37,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The due date.
         /// </value>
-        public DateTime DueDate { get; set; }
+        DateTime DueDate { get; set; }
 
         /// <summary>
         /// Gets or sets the list of comments.
@@ -49,7 +45,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The list of comments.
         /// </value> 
-        public List<Comment> Comments { get; set; }
+        List<Comment> Comments { get; set; }
 
         /// <summary>
         /// Gets or sets the list of items.
@@ -57,6 +53,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The list of items.
         /// </value> 
-        public List<Item> Items { get; set; }
+        List<Item> Items { get; set; }
     }
 }
