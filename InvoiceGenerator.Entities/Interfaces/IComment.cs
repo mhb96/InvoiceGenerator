@@ -1,12 +1,9 @@
-﻿using InvoiceGenerator.Entities.Interfaces;
-
-namespace InvoiceGenerator.Entities
+﻿namespace InvoiceGenerator.Entities.Interfaces
 {
     /// <summary>
-    /// Implements the commnet entity.
+    /// Defins the comment entity.
     /// </summary>
-    /// <seealso cref="InvoiceGenerator.Entities.BaseEntity" />
-    public class Comment : BaseEntity, IComment
+    public interface IComment : IBaseEntity
     {
         /// <summary>
         /// Gets or sets the comment value.
@@ -14,7 +11,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The comment value.
         /// </value>
-        public string Value { get; set; }
+        string Value { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice no.
@@ -22,7 +19,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The invoice no.
         /// </value>
-        public long InvoiceNo { get; set; }
+        long InvoiceNo { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice.
@@ -30,6 +27,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The invoice.
         /// </value>
-        public virtual IInvoice Invoice { get; set; }
+        IInvoice Invoice { get; set; }
     }
 }

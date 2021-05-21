@@ -1,19 +1,14 @@
-﻿
-using InvoiceGenerator.Entities.Interfaces;
+﻿using InvoiceGenerator.Entities.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace InvoiceGenerator.Entities
 {
-    public class BaseEntity : IBaseEntity
+    /// <summary>
+    /// Implements the role entity
+    /// </summary>
+    public class Role : IdentityRole<long>, IRole
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
-        public long Id { get; set; }
-
         /// <summary>
         /// Gets or sets a value indicating whether this instance is deleted.
         /// </summary>
@@ -28,6 +23,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The created at.
         /// </value>
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
     }
 }

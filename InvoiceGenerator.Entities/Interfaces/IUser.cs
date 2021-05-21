@@ -1,15 +1,9 @@
-﻿using InvoiceGenerator.Entities.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System;
-
-namespace InvoiceGenerator.Entities
+﻿namespace InvoiceGenerator.Entities.Interfaces
 {
     /// <summary>
-    /// Implements the user entity.
+    ///  Defines the user entity.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Identity.IdentityUser{System.Int64}" />
-    /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IUser" />
-    public class User : IdentityUser<long>, IUser
+    public interface IUser: IBaseEntity
     {
         /// <summary>
         /// Gets or sets the first name.
@@ -33,6 +27,14 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The email.
         /// </value>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>
+        /// The email.
+        /// </value>
         public string Password { get; set; }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The Company Name.
         /// </value> 
-        public string CompanyName { get; set; }
+        string CompanyName { get; set; }
 
         /// <summary>
         /// Gets or sets the contact no.
@@ -49,7 +51,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The contact no.
         /// </value> 
-        public string ContactNo { get; set; }
+        string ContactNo { get; set; } // we already have phone number in the identiy
 
         /// <summary>
         /// Gets or sets the Address.
@@ -57,7 +59,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The Address.
         /// </value> 
-        public string Address { get; set; }
+        string Address { get; set; }
 
         /// <summary>
         /// Gets or sets the VAT.
@@ -65,7 +67,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The VAT.
         /// </value> 
-        public decimal VAT { get; set; }
+        decimal VAT { get; set; }
 
         /// <summary>
         /// Gets or sets the Company Logo.
@@ -73,22 +75,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The Company Logo.
         /// </value> 
-        public string CompanyLogo { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is deleted.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created at.
-        /// </summary>
-        /// <value>
-        /// The created at.
-        /// </value>
-        public DateTime CreatedAt { get; set; }
+        string CompanyLogo { get; set; }
     }
 }
