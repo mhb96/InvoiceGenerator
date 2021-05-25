@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace InvoiceGenerator.Repository.Configurations
 {
+    // Not Used
     internal class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
     {
         public void Configure(EntityTypeBuilder<Invoice> builder)
