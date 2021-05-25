@@ -1,8 +1,9 @@
 ﻿using InvoiceGenerator.Entities;
+using InvoiceGenerator.Entities.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration;
+
 
 namespace InvoiceGenerator.Repository.Configurations
 {
@@ -12,13 +13,13 @@ namespace InvoiceGenerator.Repository.Configurations
         {
             builder.HasQueryFilter(e => !e.IsDeleted);
 
-            builder.HasMany<Item>(u => u.Items)
-                .WithOne(i => i.Invoice)
+            builder.HasMany<IItem>(u => u.Items)
+                .WithOne(i => (Invoice)i.Invoice)
                 .HasForeignKey(u => u.InvoiceNo)
                 .IsRequired();
 
-            builder.HasMany<Comment>(u => u.Comments)
-                .WithOne(c => c.Invoice)
+            builder.HasMany<IComment>(u => u.Comments)
+                .WithOne(c => (Invoice)c.Invoice)
                 .HasForeignKey(ur => ur.InvoiceNo);
         }
     }
