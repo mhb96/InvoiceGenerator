@@ -20,6 +20,7 @@
     <DotNetCliToolReference Include="ElectronNET.CLI" Version="0.0.9" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InvoiceGenerator.Entities\InvoiceGenerator.Entities.csproj" />
     <ProjectReference Include="..\InvoiceGenerator.Repository\InvoiceGenerator.Repository.csproj" />
   </ItemGroup>
   <ItemGroup>
