@@ -40,12 +40,12 @@ namespace InvoiceGenerator.Entities.Interfaces
         DateTime DueDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of comments.
+        /// Gets or sets the comment.
         /// </summary>
         /// <value>
-        /// The list of comments.
+        /// The comment.
         /// </value> 
-        List<Comment> Comments { get; set; }
+        string Comment { get; set; }
 
         /// <summary>
         /// Gets or sets the list of items.
