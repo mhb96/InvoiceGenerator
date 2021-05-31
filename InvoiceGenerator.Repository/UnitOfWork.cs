@@ -16,7 +16,7 @@ namespace InvoiceGenerator.Repository
     /// UnitOfWork definition.
     /// </summary>
     /// <seealso cref="IUnitOfWork" />
-    public class UnitOfWork<TContext> : IUnitOfWork where TContext : ApplicationDbContext
+    public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
     {
         private bool _disposed;
         private readonly TContext _context;
