@@ -47,6 +47,13 @@ namespace InvoiceGenerator
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddAsyncInitializer<Initializer>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
+
+            services.AddScoped<RoleManager<Role>>();
+            services.AddScoped<UserManager<User>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

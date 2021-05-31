@@ -1,4 +1,5 @@
-﻿using InvoiceGenerator.Entities;
+﻿using AspNetCore.AsyncInitialization;
+using InvoiceGenerator.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InvoiceGenerator.Repository
 {
-    public class Initializer
+    public class Initializer : IAsyncInitializer
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;

@@ -18,7 +18,7 @@ namespace InvoiceGenerator
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            // await host.InitAsync();
+            await host.InitAsync();
             host.Run();
         }
 
