@@ -1,4 +1,5 @@
 ﻿using AspNetCore.AsyncInitialization;
+using InvoiceGenerator.Common.Constants;
 using InvoiceGenerator.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ namespace InvoiceGenerator.Repository
                 {
                     await CreateAdmin();
                     await _unitOfWork.SaveAsync();
+
                 }
 
                 var invoice = new Invoice();
@@ -79,8 +81,8 @@ namespace InvoiceGenerator.Repository
 
         private async Task CreateRoles()
         {
-            await _roleManager.CreateAsync(new Role { Name = "Admin" });
-            await _roleManager.CreateAsync(new Role { Name = "User" });
+            await _roleManager.CreateAsync(new Role { Name = Roles.Admin });
+            await _roleManager.CreateAsync(new Role { Name = Roles.User });
         }
 
         private async Task CreateAdmin()
@@ -135,6 +137,10 @@ namespace InvoiceGenerator.Repository
                 _logger.LogError("Log in failed", exception);
                 throw exception;
             }
+
+            var createdUser = await _userManager.FindByEmailAsync(email);
+            await _userManager.AddToRoleAsync(createdUser, Roles.Admin);
+            await _userManager.AddToRoleAsync(createdUser, Roles.User);
         }
 
         private Invoice CreateInvoice()

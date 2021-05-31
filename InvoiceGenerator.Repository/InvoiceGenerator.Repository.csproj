@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InvoiceGenerator.Common\InvoiceGenerator.Common.csproj" />
     <ProjectReference Include="..\InvoiceGenerator.Entities\InvoiceGenerator.Entities.csproj" />
   </ItemGroup>
 
