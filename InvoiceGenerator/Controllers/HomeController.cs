@@ -23,25 +23,34 @@ namespace InvoiceGenerator.Controllers
 
         public IActionResult Index()
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login");
+            }
+
+
+
+
             return View();
         }
-
 
         [HttpGet]
         public IActionResult Login() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel input)
+        public async Task<IActionResult> Login([FromBody] LoginModel input)
         {
-            if (input == null) return View();
-            if (string.IsNullOrEmpty(input.Username)) return View();
-            if (string.IsNullOrEmpty(input.Password)) return View();
-
-            var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, true, false);
-            if (result.Succeeded)
+            try
+            {
+                var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, true, false);
                 return RedirectToAction(nameof(Index));
-            else
-                return View();
+
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Invalid user credentials.");
+                return Ok(e);
+            }
         }
 
         [HttpPost]
