@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceGenerator.Repository
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, long>
+    public class InGenDbContext : IdentityDbContext<User, Role, long>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public InGenDbContext(DbContextOptions<InGenDbContext> options)
             : base(options)
         {
         }
