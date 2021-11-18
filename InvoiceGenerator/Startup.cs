@@ -4,17 +4,11 @@ using InvoiceGenerator.Entities;
 using InvoiceGenerator.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InvoiceGenerator
 {
@@ -37,23 +31,38 @@ namespace InvoiceGenerator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //Register database.
+            services.AddDbContext<InGenDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("InGenDbContext")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            //Adds initialzer.
+            services.AddAsyncInitializer<Initializer>();
+
+            //Registers unit of work.
+            services.AddScoped<IUnitOfWork, UnitOfWork<InGenDbContext>>();
+           
+            //Registers services and their interfaces.
+
+            //Adds Controllers with views.
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddAsyncInitializer<Initializer>();
-
-            services.AddScoped<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
-
-            services.AddScoped<RoleManager<Role>>();
-            services.AddScoped<UserManager<User>>();
+            //Registers Identity managers.
+            services.AddIdentity<User, Role>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredUniqueChars = 0;
+                    options.User.RequireUniqueEmail = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+                })
+                .AddRoleManager<RoleManager<Role>>()
+                .AddUserManager<UserManager<User>>()
+                .AddEntityFrameworkStores<InGenDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,11 +79,10 @@ namespace InvoiceGenerator
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

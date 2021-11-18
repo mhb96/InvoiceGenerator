@@ -12,13 +12,13 @@ namespace InvoiceGenerator.Repository
 {
     public class Initializer : IAsyncInitializer
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly InGenDbContext _dbContext;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<Initializer> _logger;
 
-        public Initializer(ApplicationDbContext dbContext, UserManager<User> userManager, RoleManager<Role> roleManager, IUnitOfWork unitOfWork, ILogger<Initializer> logger)
+        public Initializer(InGenDbContext dbContext, UserManager<User> userManager, RoleManager<Role> roleManager, IUnitOfWork unitOfWork, ILogger<Initializer> logger)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -36,7 +36,7 @@ namespace InvoiceGenerator.Repository
             try
             {
                 _logger.LogInformation("Initializing the database.");
-                await _dbContext.Database.EnsureCreatedAsync();
+                await _dbContext.Database.MigrateAsync();
 
                 if (!await _dbContext.Roles.AnyAsync())
                 {
@@ -99,7 +99,7 @@ namespace InvoiceGenerator.Repository
             const decimal vat = 2.5M;
             var roles = new List<string> { "Admin", "User" };
 
-            await CreateUser(roles, firstName, lastName, email, userName, password, companyName, contactNo, companyLogo, address, vat);
+            await CreateUser(roles: roles, firstName: firstName, lastName: lastName, email: email, userName: userName, password: password, companyName: companyName, contactNo: contactNo, companyLogo: companyLogo, address: address, vat: vat);
         }
 
         //TODO refactor
