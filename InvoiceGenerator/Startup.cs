@@ -35,8 +35,7 @@ namespace InvoiceGenerator
             services.AddDbContext<InGenDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("InGenDbContext")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-
-            //Adds initialzer.
+            //Adds initializer.
             services.AddAsyncInitializer<Initializer>();
 
             //Registers unit of work.

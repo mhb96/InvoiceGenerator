@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace InvoiceGenerator.Controllers
@@ -27,30 +25,19 @@ namespace InvoiceGenerator.Controllers
             {
                 return RedirectToAction("Login");
             }
-
-
-
-
             return View();
         }
 
         [HttpGet]
         public IActionResult Login() => View();
 
-        [HttpPost]
+        [HttpPost("/home/login")]
         public async Task<IActionResult> Login([FromBody] LoginModel input)
         {
-            try
-            {
-                var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, true, false);
+            var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, true, false);
+            if (result.Succeeded)
                 return RedirectToAction(nameof(Index));
-
-            }
-            catch(Exception e)
-            {
-                _logger.LogError(e, $"Invalid user credentials.");
-                return Ok(e);
-            }
+            return BadRequest("Invalid credentials. Please try again.");
         }
 
         [HttpPost]
@@ -59,7 +46,6 @@ namespace InvoiceGenerator.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(Login)); // test, or add "Home", action, controller
         }
-
 
         public IActionResult Privacy()
         {

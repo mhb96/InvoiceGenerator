@@ -1,25 +1,27 @@
 ﻿"use strict";
+
 app.controller("login",
-    function ($scope, $http) {
+    function ($scope, httpRequest) {
         $scope.init = function () {
-            console.log("123");
-            $scope.username = null;
-            $scope.password = null;
         }
 
         $scope.login = function () {
             var model = {
-                Username : $scope.username,
-                Password : $scope.password
+                username: $scope.username,
+                password: $scope.password
             };
-            $http({
+            var requestModel = {
                 method: "POST",
-                url: `/home/login`,
-                data: model
-            }).then(function () {},
+                url: '/home/login',
+                model: model
+            };
+            httpRequest.post(requestModel).then(
+                function () { },
                 function (error) {
-                    alert('error', `Invalid user credentials.`);
-             });
-        }
+                    $scope.username = null;
+                    $scope.password = null;
+                    swalert('error', `${error.data}`, 'Error');
+                });
+        };
     }
 );
