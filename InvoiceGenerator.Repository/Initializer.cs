@@ -48,7 +48,6 @@ namespace InvoiceGenerator.Repository
                 {
                     await CreateAdmin();
                     await _unitOfWork.SaveAsync();
-
                 }
 
                 var invoice = new Invoice();
@@ -112,7 +111,7 @@ namespace InvoiceGenerator.Repository
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
                 UserName = userName,
-                NormalizedUserName = email.ToUpper(),
+                NormalizedUserName = userName.ToUpper(),
                 AccessFailedCount = 0,
                 EmailConfirmed = true,
                 FirstName = firstName,

@@ -2,7 +2,6 @@
 {
     public class LoginModel
     {
-
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
