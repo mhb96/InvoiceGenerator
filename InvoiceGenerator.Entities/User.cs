@@ -68,6 +68,14 @@ namespace InvoiceGenerator.Entities
         public decimal VAT { get; set; }
 
         /// <summary>
+        /// Gets or sets the business email.
+        /// </summary>
+        /// <value>
+        /// The business email.
+        /// </value> 
+        public string BusinessEmail { get; set; }
+
+        /// <summary>
         /// Gets or sets the Company Logo.
         /// </summary>
         /// <value>
