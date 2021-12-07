@@ -6,7 +6,7 @@ namespace InvoiceGenerator.Entities
     /// Implements the commnet entity.
     /// </summary>
     /// <seealso cref="InvoiceGenerator.Entities.BaseEntity" />
-    public class Comment : BaseEntity, IComment
+    public class Comment : BaseEntity
     {
         /// <summary>
         /// Gets or sets the comment value.
@@ -30,6 +30,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The invoice.
         /// </value>
-        public virtual IInvoice Invoice { get; set; }
+        public virtual Invoice Invoice { get; set; }
     }
 }

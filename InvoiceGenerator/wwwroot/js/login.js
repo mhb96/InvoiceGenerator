@@ -11,8 +11,7 @@ app.controller("login",
                 password: $scope.password
             };
             var requestModel = {
-                method: "POST",
-                url: '/home/login',
+                url: '/user/login',
                 model: model
             };
             httpRequest.post(requestModel).then(
@@ -20,7 +19,7 @@ app.controller("login",
                 function (error) {
                     $scope.username = null;
                     $scope.password = null;
-                    swalert('error', `${error.data}`, 'Error');
+                    swalert('error', 'Error', `${error.data}`);
                 });
         };
     }

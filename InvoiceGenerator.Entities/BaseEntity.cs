@@ -1,5 +1,4 @@
-﻿
-using InvoiceGenerator.Entities.Interfaces;
+﻿using InvoiceGenerator.Entities.Interfaces;
 using System;
 
 namespace InvoiceGenerator.Entities

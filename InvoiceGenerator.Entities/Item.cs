@@ -7,7 +7,7 @@ namespace InvoiceGenerator.Entities
     /// </summary>
     /// <seealso cref="InvoiceGenerator.Entities.BaseEntity" />
     /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IItem" />
-    public class Item : BaseEntity, IItem
+    public class Item : BaseEntity
     {
         /// <summary>
         /// Gets or sets the product/service name.
@@ -47,6 +47,6 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The invoice.
         /// </value>
-        public virtual IInvoice Invoice { get; set; }
+        public virtual Invoice Invoice { get; set; }
     }
 }

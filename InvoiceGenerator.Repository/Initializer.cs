@@ -93,7 +93,7 @@ namespace InvoiceGenerator.Repository
             const string lastName = "Adminton";
             const string companyName = "AdminLtd.";
             const string contactNo = "0507562785";
-            const string companyLogo = "/source/destination";
+            const string companyLogo = "/src/destination";
             const string address = "1, Admin Rd, Adminopolis, Administan";
             const decimal vat = 2.5M;
             var roles = new List<string> { "Admin", "User" };
@@ -109,9 +109,11 @@ namespace InvoiceGenerator.Repository
             var user = new User
             {
                 Email = email,
+                BusinessEmail = email,
                 NormalizedEmail = email.ToUpper(),
                 UserName = userName,
                 NormalizedUserName = userName.ToUpper(),
+                Password = password,
                 AccessFailedCount = 0,
                 EmailConfirmed = true,
                 FirstName = firstName,
@@ -120,14 +122,14 @@ namespace InvoiceGenerator.Repository
                 ContactNo = contactNo,
                 Address = address,
                 VAT = vat,
-                CompanyLogo = companyLogo,
+                CompanyLogo = new Image { CreatedAt = DateTime.Now, ImageName = "image-test", IsDeleted = false },
                 LockoutEnabled = false
             };
 
             var ir = await _userManager.CreateAsync(user, password);
             if (ir.Succeeded)
             {
-                _logger.LogDebug($"Created user `{email}` successfully");
+                _logger.LogInformation($"Created user `{email}` successfully");
             }
             else
             {

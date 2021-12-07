@@ -9,7 +9,7 @@ namespace InvoiceGenerator.Entities
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Identity.IdentityUser{System.Int64}" />
     /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IUser" />
-    public class User : IdentityUser<long>, IUser
+    public class User : IdentityUser<long>, IBaseEntity
     {
         /// <summary>
         /// Gets or sets the first name.
@@ -81,7 +81,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The Company Logo.
         /// </value> 
-        public string CompanyLogo { get; set; }
+        public Image CompanyLogo { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is deleted.

@@ -41,6 +41,26 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("InvoiceGenerator.Entities.Image", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("InvoiceGenerator.Entities.Invoice", b =>
                 {
                     b.Property<long>("Id")
@@ -52,6 +72,9 @@ namespace InvoiceGenerator.Repository.Migrations
 
                     b.Property<string>("ClientName")
                         .HasColumnType("TEXT");
+
+                    b.Property<long>("CompanyLogoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("TEXT");
@@ -66,6 +89,8 @@ namespace InvoiceGenerator.Repository.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyLogoId");
 
                     b.ToTable("Invoices");
                 });
@@ -146,8 +171,11 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CompanyLogo")
+                    b.Property<string>("BusinessEmail")
                         .HasColumnType("TEXT");
+
+                    b.Property<long?>("CompanyLogoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("TEXT");
@@ -218,6 +246,8 @@ namespace InvoiceGenerator.Repository.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyLogoId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -339,6 +369,17 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Navigation("Invoice");
                 });
 
+            modelBuilder.Entity("InvoiceGenerator.Entities.Invoice", b =>
+                {
+                    b.HasOne("InvoiceGenerator.Entities.Image", "CompanyLogo")
+                        .WithMany()
+                        .HasForeignKey("CompanyLogoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CompanyLogo");
+                });
+
             modelBuilder.Entity("InvoiceGenerator.Entities.Item", b =>
                 {
                     b.HasOne("InvoiceGenerator.Entities.Invoice", "Invoice")
@@ -348,6 +389,15 @@ namespace InvoiceGenerator.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("InvoiceGenerator.Entities.User", b =>
+                {
+                    b.HasOne("InvoiceGenerator.Entities.Image", "CompanyLogo")
+                        .WithMany()
+                        .HasForeignKey("CompanyLogoId");
+
+                    b.Navigation("CompanyLogo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
