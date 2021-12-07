@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\InvoiceGenerator.Entities\InvoiceGenerator.Entities.csproj" />
     <ProjectReference Include="..\InvoiceGenerator.Repository\InvoiceGenerator.Repository.csproj" />
+    <ProjectReference Include="..\InvoiceGenerator.Services\InvoiceGenerator.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="electron.manifest.json">

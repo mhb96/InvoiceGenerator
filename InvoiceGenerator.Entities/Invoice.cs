@@ -9,7 +9,7 @@ namespace InvoiceGenerator.Entities
     /// </summary>
     /// <seealso cref="InvoiceGenerator.Entities.BaseEntity" />
     /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IInvoice" />
-    public class Invoice : BaseEntity, IInvoice
+    public class Invoice : BaseEntity
     {
         /// <summary>
         /// Gets or sets the client name.
@@ -58,5 +58,21 @@ namespace InvoiceGenerator.Entities
         /// The list of items.
         /// </value> 
         public List<Item> Items { get; set; }
+
+        /// <summary>
+        /// Gets or sets the company logo id.
+        /// </summary>
+        /// <value>
+        /// The company logo id.
+        /// </value> 
+        public long CompanyLogoId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the company logo.
+        /// </summary>
+        /// <value>
+        /// The company logo.
+        /// </value> 
+        public Image CompanyLogo { get; set; }
     }
 }

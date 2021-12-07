@@ -7,7 +7,7 @@ namespace InvoiceGenerator.Entities
     /// <summary>
     /// Implements the role entity
     /// </summary>
-    public class Role : IdentityRole<long>, IRole
+    public class Role : IdentityRole<long>, IBaseEntity
     {
         /// <summary>
         /// Gets or sets a value indicating whether this instance is deleted.

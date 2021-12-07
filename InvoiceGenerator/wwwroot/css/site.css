@@ -69,3 +69,47 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.login-card {
+    width: 400px;
+}
+
+.login-button {
+    width: 250px;
+    background-color: #4e73df;
+    color: white;
+    border-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.register-button {
+    width: 150px;
+    background-color: green;
+    color: white;
+    border-color: white;
+    margin-top:30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.strikethrough-line {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+}
+.strikethrough-text {
+    background: #fff;
+    padding: 0 10px;
+}
+
+.register-card {
+    width: 600px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}

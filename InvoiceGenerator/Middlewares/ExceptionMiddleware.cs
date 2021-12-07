@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using InvoiceGenerator.Common.Exception;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -34,11 +36,18 @@ namespace InvoiceGenerator.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong, encountered exception {ex}", ex);
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                await context.Response.WriteAsync(ex.Message);
+                _logger.LogError($"Something went wrong", ex);
+                await HandleExceptionAsync(context, ex);
             }
+        }
+
+        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            if (exception is IGException igException)
+                return context.Response.WriteAsync(JsonConvert.SerializeObject(igException.Message));
+            else return context.Response.WriteAsync(JsonConvert.SerializeObject("Something went wrong."));
         }
     }
 }

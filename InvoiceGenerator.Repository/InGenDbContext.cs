@@ -27,7 +27,11 @@ namespace InvoiceGenerator.Repository
         /// </summary>
         public DbSet<Item> Items { get; set; }
 
-        // No need to have configuration file for small stuff
+        /// <summary>
+        /// Gets or sets the images.
+        /// </summary>
+        public DbSet<Image> Images { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -35,12 +39,14 @@ namespace InvoiceGenerator.Repository
             builder.Entity<Invoice>().HasQueryFilter(e => !e.IsDeleted);
 
             builder.Entity<Item>()
-               .HasOne<Invoice>(i => (Invoice)i.Invoice).WithMany(i => i.Items)
+               .HasOne<Invoice>(i => (Invoice)i.Invoice)
+               .WithMany(i => i.Items)
                .HasForeignKey(i => i.InvoiceNo)
                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Comment>()
-             .HasOne<Invoice>(i => (Invoice)i.Invoice).WithMany(c => c.Comments)
+             .HasOne<Invoice>(i => (Invoice)i.Invoice)
+             .WithMany(c => c.Comments)
              .HasForeignKey(i => i.InvoiceNo)
              .OnDelete(DeleteBehavior.Restrict);
         }
