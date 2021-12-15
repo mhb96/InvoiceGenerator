@@ -15,7 +15,9 @@ app.controller("login",
                 model: model
             };
             httpRequest.post(requestModel).then(
-                function () { },
+                function () {
+                    window.location.href = "/home/index";
+                },
                 function (error) {
                     $scope.username = null;
                     $scope.password = null;

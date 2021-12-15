@@ -1,7 +1,7 @@
-﻿using InvoiceGenerator.Common.Models.User;
-using InvoiceGenerator.Entities;
+﻿using InvoiceGenerator.Entities;
 using InvoiceGenerator.Models;
 using InvoiceGenerator.Services;
+using InvoiceGenerator.Services.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,21 +29,17 @@ namespace InvoiceGenerator.Controllers
         [HttpPost("/user/login")]
         public async Task<IActionResult> Login([FromBody] LoginModel input)
         {
-            if (input.Password is null || input.Password is null)
+            if (input.Password is null || input.Password is null || !await _userService.SignInAsync(new SignInModel { Username = input.Username, Password = input.Password }))
                 return BadRequest("Invalid credentials. Please try again.");
-
-            var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, true, false);
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
-            return BadRequest("Invalid credentials. Please try again.");
+            return Ok();
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(Login)); // test, or add "Home", action, controller
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpGet("/user/register")]
@@ -66,9 +62,7 @@ namespace InvoiceGenerator.Controllers
                 CompanyLogo = input.CompanyLogo
             });
 
-            var result = await _signInManager.PasswordSignInAsync(input.UserName, input.Password, true, false);
-
-            if (result.Succeeded)
+            if (await _userService.SignInAsync(new SignInModel { Username = input.UserName, Password = input.Password}))
                 return Ok();
             return BadRequest("Registration failed.");
         }

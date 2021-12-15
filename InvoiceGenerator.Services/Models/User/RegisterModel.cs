@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace InvoiceGenerator.Common.Models.User
+namespace InvoiceGenerator.Services.Models.User
 {
     public class RegisterModel
     {

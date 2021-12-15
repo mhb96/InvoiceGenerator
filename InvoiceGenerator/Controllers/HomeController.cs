@@ -12,11 +12,12 @@ namespace InvoiceGenerator.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, SignInManager<User> signInManager, IUserService userService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
