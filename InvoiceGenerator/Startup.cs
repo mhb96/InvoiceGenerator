@@ -46,6 +46,7 @@ namespace InvoiceGenerator
             services.AddScoped<IUnitOfWork, UnitOfWork<InGenDbContext>>();
             services.AddScoped<IFileHelper, FileHelper>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
            
             //Registers services and their interfaces.
 

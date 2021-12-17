@@ -10,7 +10,7 @@ namespace InvoiceGenerator.Controllers
     {
         private readonly IInvoiceService _invoiceService;
 
-        public HomeController(InvoiceService invoiceService)
+        public HomeController(IInvoiceService invoiceService)
         {
             _invoiceService = invoiceService;
         }
