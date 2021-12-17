@@ -1,4 +1,5 @@
 ﻿using InvoiceGenerator.Entities;
+using InvoiceGenerator.Repository.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,12 @@ namespace InvoiceGenerator.Repository
         public DbSet<Comment> Comments { get; set; }
 
         /// <summary>
-        /// Gets or sets thr invoices.
+        /// Gets or sets the clients
+        /// </summary>
+        public DbSet<Client> Clients { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoices.
         /// </summary>
 
         public DbSet<Invoice> Invoices { get; set; }
@@ -36,8 +42,6 @@ namespace InvoiceGenerator.Repository
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Invoice>().HasQueryFilter(e => !e.IsDeleted);
-
             builder.Entity<Item>()
                .HasOne<Invoice>(i => (Invoice)i.Invoice)
                .WithMany(i => i.Items)
@@ -49,6 +53,8 @@ namespace InvoiceGenerator.Repository
              .WithMany(c => c.Comments)
              .HasForeignKey(i => i.InvoiceNo)
              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.ApplyConfiguration(new InvoiceConfiguration());
         }
     }
 }
