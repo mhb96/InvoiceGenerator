@@ -28,12 +28,28 @@ namespace InvoiceGenerator.Entities
         public string CompanyName { get; set; }
 
         /// <summary>
-        /// Gets or sets the Address.
+        /// Gets or sets the address.
         /// </summary>
         /// <value>
-        /// The Address.
+        /// The address.
         /// </value>
         public string Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
+        /// <value>
+        /// The email address.
+        /// </value>
+        public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number.
+        /// </summary>
+        /// <value>
+        /// The phone number.
+        /// </value>
+        public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the due date.
@@ -74,5 +90,21 @@ namespace InvoiceGenerator.Entities
         /// The company logo.
         /// </value> 
         public Image CompanyLogo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total fee.
+        /// </summary>
+        /// <value>
+        /// The total fee.
+        /// </value> 
+        public decimal TotalFee { get; set; }
+
+        /// <summary>
+        /// Gets or sets the vat.
+        /// </summary>
+        /// <value>
+        /// The vat.
+        /// </value> 
+        public decimal Vat { get; set; }
     }
 }
