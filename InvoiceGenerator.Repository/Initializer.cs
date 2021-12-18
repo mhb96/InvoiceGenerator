@@ -148,6 +148,12 @@ namespace InvoiceGenerator.Repository
         {
             return new Invoice
             {
+                CompanyLogo = new Image { CreatedAt = DateTime.Now, ImageName = "image-test", IsDeleted = false },
+                EmailAddress = "client@email.com",
+                IsDeleted = false,
+                TotalFee = 101,
+                PhoneNumber = "9021212121212",
+                Vat = 21,
                 Address = "one, Derby st, derbany",
                 ClientName = "Herby Derpy",
                 CompanyName = "Herby Industries",

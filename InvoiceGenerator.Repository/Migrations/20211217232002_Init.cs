@@ -112,8 +112,12 @@ namespace InvoiceGenerator.Repository.Migrations
                     ClientName = table.Column<string>(type: "TEXT", nullable: true),
                     CompanyName = table.Column<string>(type: "TEXT", nullable: true),
                     Address = table.Column<string>(type: "TEXT", nullable: true),
+                    EmailAddress = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
                     DueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CompanyLogoId = table.Column<long>(type: "INTEGER", nullable: false),
+                    TotalFee = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Vat = table.Column<decimal>(type: "TEXT", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -214,6 +218,32 @@ namespace InvoiceGenerator.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Address = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceNo = table.Column<long>(type: "INTEGER", nullable: false),
+                    InvoiceId = table.Column<long>(type: "INTEGER", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -302,6 +332,11 @@ namespace InvoiceGenerator.Repository.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Clients_InvoiceId",
+                table: "Clients",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_InvoiceNo",
                 table: "Comments",
                 column: "InvoiceNo");
@@ -333,6 +368,9 @@ namespace InvoiceGenerator.Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Comments");

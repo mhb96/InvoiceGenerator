@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenerator.Repository.Migrations
 {
     [DbContext(typeof(InGenDbContext))]
-    [Migration("20211206205227_Init")]
+    [Migration("20211217232002_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,43 @@ namespace InvoiceGenerator.Repository.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.12");
+
+            modelBuilder.Entity("InvoiceGenerator.Entities.Client", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("InvoiceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("InvoiceNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("Clients");
+                });
 
             modelBuilder.Entity("InvoiceGenerator.Entities.Comment", b =>
                 {
@@ -87,8 +124,20 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("TotalFee")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Vat")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -358,6 +407,15 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("InvoiceGenerator.Entities.Client", b =>
+                {
+                    b.HasOne("InvoiceGenerator.Entities.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceId");
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("InvoiceGenerator.Entities.Comment", b =>

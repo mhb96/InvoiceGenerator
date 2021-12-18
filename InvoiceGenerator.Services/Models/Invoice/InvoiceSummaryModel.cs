@@ -5,9 +5,10 @@ namespace InvoiceGenerator.Services.Models
 {
     public class InvoiceSummaryModel
     {
-        public DateTime Date { get; set; }
-        public long InvoiceNo { get; set; }
+        public string CreatedDate { get; set; }
+        public string DueDate { get; set; }
+        public string InvoiceNo { get; set; }
         public string ToCompany { get; set; }
-        public decimal TotalFee { get; set; }
+        public string TotalFee { get; set; }
     }
 }
