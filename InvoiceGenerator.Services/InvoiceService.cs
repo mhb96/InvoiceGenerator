@@ -16,7 +16,14 @@ namespace InvoiceGenerator.Services
         }
 
         public async Task<List<InvoiceSummaryModel>> GetForDashboardAsync() =>
-            await UnitOfWork.Query<Invoice>().Select(i => new InvoiceSummaryModel { Date = i.CreatedAt.Date, InvoiceNo = i.Id, ToCompany = i.ClientName, TotalFee = i.TotalFee }).ToListAsync();
+            await UnitOfWork.Query<Invoice>().Select(i => new InvoiceSummaryModel
+            {
+                CreatedDate = i.CreatedAt.ToString("dd/MM/yyyy"),
+                DueDate = i.DueDate.ToString("dd/MM/yyyy"),
+                InvoiceNo = i.Id.ToString("D6"),
+                ToCompany = i.ClientName,
+                TotalFee = i.TotalFee.ToString("F")
+            }).ToListAsync();
 
         public async Task DeleteAsync(long id)
         {

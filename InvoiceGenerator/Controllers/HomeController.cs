@@ -25,6 +25,10 @@ namespace InvoiceGenerator.Controllers
 
         [Authorize]
         [HttpGet("/api/get/invoices")]
-        public async Task<IActionResult> GetInvoices() => Ok(new DashoardOutputViewModel { Invoices = await _invoiceService.GetForDashboardAsync() });
+        public async Task<IActionResult> GetInvoices()
+        {
+            var invoices = await _invoiceService.GetForDashboardAsync();
+            return Ok(new DashboardOutputViewModel { Invoices = invoices });
+        }
     }
 }

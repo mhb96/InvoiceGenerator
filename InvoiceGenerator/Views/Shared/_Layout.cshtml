@@ -41,7 +41,11 @@
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600">@User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value <span class="ml-2 fas fa-caret-down"></span></span>
                                 </a>
-                                <div />
+                                <div class="dropdown-menu" style="margin-left: -65px;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item text-gray-600" href="#">Edit user</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item text-gray-600" href="#">Logout</a>
+                                </div>
                             </div>
                         </li>
                     }
@@ -55,15 +59,17 @@
         </main>
     </div>
     <script src="~/theme/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="~/lib/angular/angular.min.js" type="text/javascript"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/theme/js/sb-admin-2.min.js"></script>
+    <script src="~/lib/angular/angular.min.js" type="text/javascript"></script>
     <script src="~/theme/vendor/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="~/theme/vendor/datatables/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+    <script src="~/theme/vendor/datatables/angular-datatables.min.js" type="text/javascript"></script>
+    <script src="~/theme/vendor/datatables/angular-datatables.buttons.min.js" type="text/javascript"></script>
+    <script src="~/theme/js/sb-admin-2.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     <script>
-        var app = angular.module("App", []);
+        var app = angular.module("App", ['datatables']);
         var swalert;
     </script>
     <script  type="module" src="~/js/site.js" asp-append-version="true"></script>
