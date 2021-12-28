@@ -148,7 +148,6 @@ namespace InvoiceGenerator.Repository
         {
             return new Invoice
             {
-                CompanyLogo = new Image { CreatedAt = DateTime.Now, ImageName = "image-test", IsDeleted = false },
                 EmailAddress = "client@email.com",
                 IsDeleted = false,
                 TotalFee = 101,

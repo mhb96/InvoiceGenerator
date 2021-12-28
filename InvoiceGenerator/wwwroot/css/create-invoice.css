@@ -1,0 +1,301 @@
+﻿.report {
+    zoom: 125%;
+    width: 19cm;
+    margin: 0 auto;
+    position: relative;
+    color: #555555;
+    background: #FFFFFF;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+}
+
+#logo {
+    float: left;
+    margin-top: 8px;
+}
+
+    #logo img {
+        max-height: 100px;
+        max-width: 100px
+    }
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+h1 {
+    float: right;
+    text-align: right;
+    margin-top: 50px;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+a {
+    color: #0087C3;
+    text-decoration: none;
+}
+
+body {
+}
+
+.company {
+    margin-left: 125px;
+    margin-top: 20px;
+    width: 300px;
+}
+
+    .company h2 {
+        font-size: 1.5em;
+        font-weight: normal;
+        margin: 10px auto;
+    }
+
+header .clearfix{
+    padding: 40px 0;
+    border-bottom: 1px solid #AAAAAA;
+}
+.clearfix {
+    padding: 40px 0;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+#client {
+    padding-left: 20px;
+    border-left: 6px solid #0087C3;
+    float: left;
+    width: 400px;
+}
+
+    #client .to {
+        font-size: 1.5em;
+        font-weight: normal;
+        margin: 0px auto 5px;
+    }
+
+    #client .name {
+        font-size: 1.17em;
+        font-weight: bold;
+        margin: 0px auto;
+    }
+
+    #client .company {
+        font-size: 1.17em;
+        font-weight: bold;
+        margin: 0px auto 15px;
+    }
+
+    #client .address {
+        margin: 0px auto 5px;
+    }
+
+#invoice {
+    margin-top:40px;
+    float: right;
+    text-align: right;
+}
+
+    #invoice .date {
+        font-size: 1.1em;
+        color: #777777;
+    }
+    #invoice h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+.items-table {
+}
+
+table .final-column {
+    border-right: 0px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+    table thead {
+        border-bottom: 1px solid #000;
+    }
+
+    table th {
+        text-align: center;
+        font-size: 15px;
+        border-right: 1px solid #000;
+    }
+
+    table td {
+        border-right: 1px solid #000;
+        border-top: 1px solid #000;
+        padding: 10px 0;
+    }
+
+    table .no {
+        width: 40px;
+        text-align: center;
+    }
+
+    table .desc {
+        width: 350px;
+        padding-left: 10px;
+    }
+
+    table .unit {
+        width: 100px;
+        text-align: center;
+    }
+
+    table .qty {
+        width: 100px;
+        text-align: center;
+    }
+
+    table .total {
+        width: 100px;
+        text-align: center;
+    }
+
+    table .delete {
+        width: 30px;
+        text-align: center;
+    }
+
+#thanks {
+    font-size: 2em;
+    margin-bottom: 50px;
+}
+
+.notice {
+    width: 350px;
+}
+
+    .notice h3 {
+        font-size: 1.17em;
+        font-weight: bold;
+        background-color: #0087C3;
+        color: #FFFFFF;
+        margin: 0;
+        padding: 6px 10px 5px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom: 1px solid #0087C3;
+    }
+
+    .notice div {
+        height: 150px;
+        margin: 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border: 1px solid #0087C3;
+    }
+
+    .notice input {
+        height:140px;
+        margin: 0px;
+        padding: 10px;
+        padding-left: 25px;
+    }
+
+.summary {
+    width: 350px;
+    float: right;
+}
+
+    .summary h3 {
+        font-size: 1.17em;
+        font-weight: bold;
+        background-color: #0087C3;
+        color: #FFFFFF;
+        margin: 0;
+        padding: 6px 10px 5px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom: 1px solid #0087C3;
+    }
+
+    .summary div {
+        margin: 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border: 1px solid #0087C3;
+    }
+
+        .summary div p {
+            font-size: 15px;
+            font-weight: bold;
+            margin: 0px;
+            padding: 10px;
+            border-bottom: 1px solid #0087C3;
+        }
+
+.title {
+    text-align: left;
+}
+
+.value {
+    float: right;
+}
+
+footer {
+    color: #777777;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #AAAAAA;
+    padding: 8px 0;
+    text-align: center;
+}
+
+#add-item {
+    border-radius: 5px;
+    border: 2px solid #36b9cc;
+}
+
+#add-items-title {
+    border-bottom: 2px solid #36b9cc;
+}
+
+#new-item-name {
+    width: 375px;
+    padding-right: 10px;
+}
+
+#new-item-quantity {
+    width: 150px;
+    border-left: 1px solid #36b9cc;
+    padding-left: 10px;
+    border-right: 1px solid #36b9cc;
+    padding-right: 10px;
+}
+
+#new-item-price {
+    width: 150px;
+    padding-left: 10px;
+    border-right: 1px solid #36b9cc;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+#add-item-button {
+    height: 40px;
+    width: 40px;
+    color: white;
+}
+
+#vat-input {
+    width: 100px;
+}
+
+.invalid{
+    box-shadow: 0 0 0 0.2rem rgb(226 0 0 / 0.40)
+}

@@ -9,7 +9,7 @@ app.controller("dashboard",
 
         $scope.getInvoices = function () {
             var requestModel = {
-                url: '/api/get/invoices'
+                url: '/api/invoices/get'
             };
             httpRequest.get(requestModel).then(
                 function (result) {
@@ -20,7 +20,5 @@ app.controller("dashboard",
                     swalert('error', 'Error', `${error.data}`);
                 });
         }
-    }
-
-    
+    }    
 );
