@@ -59,6 +59,7 @@ html {
 }
 
 body {
+    background-color:#d9eff361;
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }

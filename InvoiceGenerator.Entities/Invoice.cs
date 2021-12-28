@@ -36,6 +36,14 @@ namespace InvoiceGenerator.Entities
         public string Address { get; set; }
 
         /// <summary>
+        /// Gets or sets the phone number.
+        /// </summary>
+        /// <value>
+        /// The phone number.
+        /// </value>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the email address.
         /// </summary>
         /// <value>
@@ -44,12 +52,12 @@ namespace InvoiceGenerator.Entities
         public string EmailAddress { get; set; }
 
         /// <summary>
-        /// Gets or sets the phone number.
+        /// Gets or sets the created date.
         /// </summary>
         /// <value>
-        /// The phone number.
+        /// The created date.
         /// </value>
-        public string PhoneNumber { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         /// <summary>
         /// Gets or sets the due date.
@@ -60,12 +68,12 @@ namespace InvoiceGenerator.Entities
         public DateTime DueDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of comments.
+        /// Gets or sets the comment.
         /// </summary>
         /// <value>
-        /// The list of comments.
+        /// The comment.
         /// </value> 
-        public List<Comment> Comments { get; set; }
+        public string Comment { get; set; }
 
         /// <summary>
         /// Gets or sets the list of items.
@@ -74,22 +82,6 @@ namespace InvoiceGenerator.Entities
         /// The list of items.
         /// </value> 
         public List<Item> Items { get; set; }
-
-        /// <summary>
-        /// Gets or sets the company logo id.
-        /// </summary>
-        /// <value>
-        /// The company logo id.
-        /// </value> 
-        public long CompanyLogoId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the company logo.
-        /// </summary>
-        /// <value>
-        /// The company logo.
-        /// </value> 
-        public Image CompanyLogo { get; set; }
 
         /// <summary>
         /// Gets or sets the total fee.

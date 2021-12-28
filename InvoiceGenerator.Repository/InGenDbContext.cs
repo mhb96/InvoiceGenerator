@@ -48,12 +48,6 @@ namespace InvoiceGenerator.Repository
                .HasForeignKey(i => i.InvoiceNo)
                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Comment>()
-             .HasOne<Invoice>(i => (Invoice)i.Invoice)
-             .WithMany(c => c.Comments)
-             .HasForeignKey(i => i.InvoiceNo)
-             .OnDelete(DeleteBehavior.Restrict);
-
             builder.ApplyConfiguration(new InvoiceConfiguration());
         }
     }
