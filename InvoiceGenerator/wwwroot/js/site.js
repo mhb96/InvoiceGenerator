@@ -1,6 +1,6 @@
 ﻿import Swal from "../theme/vendor/sweetalert2/src/sweetalert2.js"
 
-swalert = function (type, title, message, confirmButtonText = "OK", showCancelButton = false, timer = null, link = null, position = null) {
+swalert = function (type, title, message, confirmButtonText = "OK", link = null, showCancelButton = false, timer = null, position = null) {
     Swal.fire({
         position: position,// 'top-right',
         icon: type,
@@ -9,8 +9,9 @@ swalert = function (type, title, message, confirmButtonText = "OK", showCancelBu
         showConfirmButton: true,
         confirmButtonText: confirmButtonText,
         showCancelButton: showCancelButton,
-        timer: timer,
-        footer: link == null ? null : `<a class="btn btn-primary" href="${link}">Go to page</a>`
+        timer: timer
+    }).then(function () {
+        if(link != null) window.location.href = link;
     });
 };
 

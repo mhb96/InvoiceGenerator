@@ -10,13 +10,13 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h4 class="font-weight-bold text-primary pt-1">New Invoice</h4>
-                <h5 class="font-weight-bold text-info pt-2"> Please fill the invoice details</h5>
+                <h5 class="text-info pt-2"> Please fill your invoice details</h5>
                 <a class="btn btn-success" style="padding-top:7px;" ng-click="create()" href="">Save & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
             </div>
             <div class="card-body">
                 <div class="card report mb-5">
                     <header class="clearfix">
-                        <div id="logo"><img src=""></div>
+                        <div id="logo"><img ng-src="{{logo}}"></div>
                         <h1>INVOICE</h1>
                         <div class="company">
                             <h2>{{userCompanyName}}</h2>
@@ -108,7 +108,7 @@
                                         <td class="desc">{{item.name}}</td>
                                         <td class="qty">{{item.quantity}}</td>
                                         <td class="unit">{{item.unitPrice}}</td>
-                                        <td class="total">{{item.total}}</td>
+                                        <td class="total">{{item.total | number:2}}</td>
                                         <td class="final-column delete"><i class="fas fa-minus-square text-danger" ng-click="deleteItem($index)"></i></td>
                                     </tr>
                                 </tbody>
@@ -118,9 +118,9 @@
                         <div class="summary">
                             <h3>Summary</h3>
                             <div>
-                                <p><span class="title">SubTotal Fee</span><span class="value">AED {{subTotal}}</span></p>
+                                <p><span class="title">SubTotal Fee</span><span class="value">AED {{subTotal | number:2}}</span></p>
                                 <p class="d-flex"><span class="mr-auto pt-2">VAT </span><span class="pt-2 mr-2">%</span> <input type="number" class="form-control form-control-user " id="vat-input" min="0.00" max="100.00" step="0.01" ng-model="vat" ng-change="vatChange()" ng-class="(vatError == 1) ? 'invalid' : ''"></p>
-                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value"> AED {{total}}</span></p>
+                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value"> AED {{total | number:2}}</span></p>
                             </div>
                         </div>
                         <div class="notice">

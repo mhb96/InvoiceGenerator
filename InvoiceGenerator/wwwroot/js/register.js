@@ -3,10 +3,6 @@
 
 app.controller("register",
     function ($scope, httpRequest) {
-        $scope.init = function () {
-           
-        }
-
         $scope.create = function () {
 
             if ($scope.password != $scope.confirmPassword) {
@@ -31,7 +27,7 @@ app.controller("register",
             };
             httpRequest.postForm(requestModel).then(
                 function () {
-                    swalert('success', 'Success', 'Registration successful!', `<a class="text-light" href="${window.dashboardUrl}">Proceed to dashboard</a>`)
+                    swalert('success', 'Success', 'Registration successful!', 'Proceed to dashboard', `${window.dashboardUrl}`);
                 },
                 function (error) {
                     $scope.password = null;

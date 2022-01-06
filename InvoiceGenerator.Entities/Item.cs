@@ -18,12 +18,12 @@ namespace InvoiceGenerator.Entities
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the last name.
+        /// Gets or sets the quantity.
         /// </summary>
         /// <value>
-        /// The last name.
+        /// The quantity.
         /// </value>
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         /// <summary>
         /// Gets or sets the unit price.

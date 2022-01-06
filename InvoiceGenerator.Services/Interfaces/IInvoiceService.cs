@@ -1,4 +1,5 @@
 ﻿using InvoiceGenerator.Services.Models;
+using InvoiceGenerator.Services.Models.Invoice;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,6 @@ namespace InvoiceGenerator.Services
     {
         public Task<List<InvoiceSummaryModel>> GetForDashboardAsync();
         public Task DeleteAsync(long id);
+        public Task<long> CreateAsync(CreateInvoiceModel input);
     }
 }

@@ -15,12 +15,12 @@ app.controller("create",
             $scope.vat = 0;
             $scope.vatError = false;
             $scope.updateDueDate();
-            //$scope.getUserDetails();
+            $scope.getUserDetails();
         }
 
         $scope.getUserDetails = function () {
             var requestModel = {
-                url: '/api/get/invoiceUserDetails'
+                url: '/api/user/getUserInvoiceDetails'
             };
             httpRequest.get(requestModel).then(
                 function (result) {
@@ -28,6 +28,7 @@ app.controller("create",
                     $scope.userCompanyAddress = result.data.address;
                     $scope.userCompanyPhone = result.data.contactNo;
                     $scope.userCompanyEmail = result.data.email;
+                    $scope.logo = result.data.logo;
                     $scope.vat = result.data.vat;
                 },
                 function (error) {
@@ -63,7 +64,7 @@ app.controller("create",
             var item = {
                 name: $scope.itemName,
                 quantity: $scope.itemQty,
-                unitPrice: $scope.itemPrice.toFixed(2),
+                unitPrice: $scope.itemPrice,
                 total: ($scope.itemPrice * $scope.itemQty).toFixed(2),
             }
             $scope.items.push(item);
@@ -72,15 +73,6 @@ app.controller("create",
             $scope.itemName = "";
             $scope.itemQty = null;
             $scope.itemPrice = null;
-            return;
-        }
-
-        $scope.updateSummary = function () {
-            $scope.subTotal = Number(0);
-            $scope.items.forEach(item =>
-                $scope.subTotal = (Number(item.total) + Number($scope.subTotal)).toFixed(2)
-            );
-            $scope.total = (Number($scope.subTotal) + (Number($scope.vat) / 100 * Number($scope.subTotal))).toFixed(2)
             return;
         }
 
@@ -97,6 +89,19 @@ app.controller("create",
             return;
         }
 
+        $scope.updateSummary = function () {
+            let subTotal = 0;
+            let total = 0;
+            $scope.subTotal = 0;
+            $scope.items.forEach(item =>
+                subTotal = (item.quantity * item.unitPrice) + subTotal
+            );
+            $scope.subTotal = subTotal.toFixed(2);
+            total = subTotal + ($scope.vat / 100 * subTotal);
+            $scope.total = total.toFixed(2);
+            return;
+        }
+
         $scope.create = function () {
             if ($scope.items.length === 0) { swalert('error', 'Error', `Item list cannot be empty.`); return; }
             if ($scope.dateError) { swalert('error', 'Error', `Due Date cannot be less than Date Of Invoice.`); return; }
@@ -105,7 +110,7 @@ app.controller("create",
             if ($scope.vatError) { swalert('error', 'Error', `Invalid VAT entered. <br>Value can only exist between 0-100 with 0.01 intervals`); return; }
             if ($scope.subTotal === undefined || $scope.subTotal === 0 || $scope.subTotal === null) { swalert('error', 'Error', `subTotal Fee cannot be zero or undefined.`); return; }
             if ($scope.total === undefined || $scope.total === 0 || $scope.total === null) { swalert('error', 'Error', `Total Fee cannot be zero or undefined.`); return; }
-            if ($scope.companyName === "" || $scope.companyName === null) { swalert('error', 'Error', `Company Name cannot be empty.`); return; }
+            if ($scope.companyName === "" || $scope.companyName === null || $scope.companyName === undefined) { swalert('error', 'Error', `Company Name cannot be empty.`); return; }
 
             var invoice = {
                 clientName: $scope.clientName,
@@ -128,8 +133,8 @@ app.controller("create",
                 model: invoice
             };
             httpRequest.post(requestModel).then(
-                function () {
-                    swalert('success', 'Success', 'Invoice created successfuly.', '<a style="color:#ffffff" href="/home/index">OK</a>')
+                function (result) {
+                    swalert('success', 'Success', 'Invoice created successfuly.', 'OK', '/invoice/view/' + result)
                 },
                 function (error) {
                     swalert('error', 'Error', `${error.data}`);

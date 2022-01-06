@@ -1,4 +1,5 @@
-﻿using InvoiceGenerator.Common.Exception;
+﻿using InvoiceGenerator.Common.DataTypes;
+using InvoiceGenerator.Common.Exception;
 using InvoiceGenerator.Common.Extensions;
 using InvoiceGenerator.Common.Helpers.Interfaces;
 using InvoiceGenerator.Common.Models.Image;
@@ -17,14 +18,14 @@ namespace InvoiceGenerator.Common.Helpers
         {
             _webHostEnvironment = webHostEnvironment;
         }
-        public async Task<ImageModel> UploadAsync(IFormFile file, string type)
+        public async Task<ImageModel> UploadAsync(IFormFile file, FileType type)
         {
-            var fileType = file.IsImage() ? "Image" : null;
+            var fileType = file.IsImage() ? FileType.image : FileType.invalid;
             if (fileType != type)
                 throw new IGException("Invalid file type.");
 
             string wwwRootPath = _webHostEnvironment.WebRootPath;
-            var uploadPath = Path.Combine(wwwRootPath + $"\\Upload\\{fileType}\\");
+            var uploadPath = Path.Combine(wwwRootPath + $"\\upload\\{fileType}\\");
             if (!Directory.Exists(uploadPath))
                 Directory.CreateDirectory(uploadPath);
 
@@ -34,6 +35,12 @@ namespace InvoiceGenerator.Common.Helpers
             using var fileStream = new FileStream(filePath, FileMode.Create);
             await file.CopyToAsync(fileStream);
             return new ImageModel { ImageFile = file, ImageName = fileName };
+        }
+        public string GetImageAddress(string fileName)
+        {
+            var uploadPath = "/upload/image/";
+            string filePath = fileName == null ? Path.Combine(uploadPath, "placeholder.png") : Path.Combine(uploadPath, fileName);
+            return filePath;
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace InvoiceGenerator.Models
+﻿namespace InvoiceGenerator.Common.Models
 {
-    public class ItemInputModel
+    public class ItemModel
     {
         public string Name { get; set; }
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        public decimal Total { get; set; }
     }
 }
