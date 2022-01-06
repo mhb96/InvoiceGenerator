@@ -20,8 +20,8 @@ namespace InvoiceGenerator.Services
             _itemService = itemService;
         }
 
-        public async Task<List<InvoiceSummaryModel>> GetForDashboardAsync() =>
-            await UnitOfWork.Query<Invoice>().Select(i => new InvoiceSummaryModel
+        public async Task<List<InvoiceSummaryModel>> GetForDashboardAsync(long userId) =>
+            await UnitOfWork.Query<Invoice>(i => i.UserId == userId).Select(i => new InvoiceSummaryModel
             {
                 CreatedDate = i.CreatedAt.ToString("dd/MM/yyyy"),
                 DueDate = i.DueDate.ToString("dd/MM/yyyy"),
@@ -71,6 +71,7 @@ namespace InvoiceGenerator.Services
 
             Invoice invoice = new()
             {
+                UserId = input.UserId,
                 Address = input.Address,
                 ClientName = input.ClientName,
                 Comment = input.Comment,

@@ -1,5 +1,4 @@
-﻿using InvoiceGenerator.Entities.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace InvoiceGenerator.Entities
@@ -11,6 +10,22 @@ namespace InvoiceGenerator.Entities
     /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IInvoice" />
     public class Invoice : BaseEntity
     {
+        /// <summary>
+        /// Gets or sets the user.
+        /// </summary>
+        /// <value>
+        /// The user.
+        /// </value>
+        public virtual User User{ get; set; }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public long UserId { get; set; }
+
         /// <summary>
         /// Gets or sets the client name.
         /// </summary>
