@@ -10,5 +10,6 @@ namespace InvoiceGenerator.Services
         public Task<User> GetAsync(string username);
         public Task<bool> SignInAsync(SignInModel input);
         public Task RegisterAsync(RegisterModel input);
+        public Task<DetailsForInvoiceModel> GetDetailsForInvoice(long accountId);
     }
 }

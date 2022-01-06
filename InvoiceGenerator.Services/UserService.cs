@@ -1,4 +1,5 @@
 ﻿using InvoiceGenerator.Common.Constants;
+using InvoiceGenerator.Common.DataTypes;
 using InvoiceGenerator.Common.Exception;
 using InvoiceGenerator.Common.Helpers.Interfaces;
 using InvoiceGenerator.Common.Models.Image;
@@ -34,12 +35,26 @@ namespace InvoiceGenerator.Services
         public async Task<User> GetAsync(string username) =>
             await UnitOfWork.Query<User>(u => u.UserName == username).FirstOrDefaultAsync();
 
+        public async Task<DetailsForInvoiceModel> GetDetailsForInvoice(long accountId)
+        {
+            return await UnitOfWork.Query<User>(u => u.Id == accountId).Select(u => new DetailsForInvoiceModel
+            {
+                Address = u.Address,
+                CompanyName = u.CompanyName,
+                ContactNo = u.ContactNo,
+                Email = u.Email,
+                Logo = _fileHelper.GetImageAddress(u.CompanyLogo.ImageName),
+                Vat = u.VAT
+            }).FirstOrDefaultAsync();
+        }
+
         public async Task<bool> SignInAsync(SignInModel input)
         {
             var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, true, false);
             if (result.Succeeded)
             {
                 var user = await GetAsync(input.Username);
+                await AddClaim(user, "UserId", $"{user.Id}");
                 await AddClaim(user, "FullName", $"{user.FirstName} {user.FirstName}");
                 return true;
             }
@@ -51,7 +66,7 @@ namespace InvoiceGenerator.Services
             if (await _userManager.FindByEmailAsync(input.Email) != null)
                 throw new IGException("User with email already exists. If you have forgotten your password please contact the developer.");
 
-            ImageModel logo = await _fileHelper.UploadAsync(input.CompanyLogo, "Image");
+            ImageModel logo = await _fileHelper.UploadAsync(input.CompanyLogo, FileType.image);
 
             var image = new Image
             {
@@ -105,7 +120,7 @@ namespace InvoiceGenerator.Services
         {
             var claims = await _userManager.GetClaimsAsync(user);
             var newClaim = new Claim(claimName, claimValue);
-            Claim oldClaim = claims.FirstOrDefault(c => c.Type == "FullName");
+            Claim oldClaim = claims.FirstOrDefault(c => c.Type == claimName);
             if (oldClaim != null)
                 await _userManager.ReplaceClaimAsync(user, oldClaim, newClaim);
             else await _userManager.AddClaimAsync(user, newClaim);

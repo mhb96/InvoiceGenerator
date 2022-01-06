@@ -62,6 +62,9 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<long?>("InvoiceId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("InvoiceNo")
                         .HasColumnType("INTEGER");
 
@@ -73,7 +76,7 @@ namespace InvoiceGenerator.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceNo");
+                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Comments");
                 });
@@ -110,13 +113,16 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<string>("ClientName")
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("CompanyLogoId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Comment")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DueDate")
@@ -139,8 +145,6 @@ namespace InvoiceGenerator.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyLogoId");
-
                     b.ToTable("Invoices");
                 });
 
@@ -162,8 +166,8 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("TEXT");
@@ -419,23 +423,10 @@ namespace InvoiceGenerator.Repository.Migrations
             modelBuilder.Entity("InvoiceGenerator.Entities.Comment", b =>
                 {
                     b.HasOne("InvoiceGenerator.Entities.Invoice", "Invoice")
-                        .WithMany("Comments")
-                        .HasForeignKey("InvoiceNo")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("InvoiceId");
 
                     b.Navigation("Invoice");
-                });
-
-            modelBuilder.Entity("InvoiceGenerator.Entities.Invoice", b =>
-                {
-                    b.HasOne("InvoiceGenerator.Entities.Image", "CompanyLogo")
-                        .WithMany()
-                        .HasForeignKey("CompanyLogoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CompanyLogo");
                 });
 
             modelBuilder.Entity("InvoiceGenerator.Entities.Item", b =>
@@ -511,8 +502,6 @@ namespace InvoiceGenerator.Repository.Migrations
 
             modelBuilder.Entity("InvoiceGenerator.Entities.Invoice", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Items");
                 });
 #pragma warning restore 612, 618

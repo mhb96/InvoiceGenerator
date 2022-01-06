@@ -1,9 +1,9 @@
 ﻿using InvoiceGenerator.Common.Models;
 using System.Collections.Generic;
 
-namespace InvoiceGenerator.Models
+namespace InvoiceGenerator.Services.Models.Invoice
 {
-    public class CreateInvoiceInputModel
+    public class CreateInvoiceModel
     {
         public string ClientName { get; set; }
         public string CompanyName { get; set; }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace InvoiceGenerator.Controllers
@@ -65,6 +66,15 @@ namespace InvoiceGenerator.Controllers
             if (await _userService.SignInAsync(new SignInModel { Username = input.UserName, Password = input.Password}))
                 return Ok();
             return BadRequest("Registration failed.");
+        }
+
+        [Authorize]
+        [HttpGet("/api/user/getUserInvoiceDetails")]
+        public async Task<IActionResult> GetDetailsForInvoice()
+        {
+            long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
+            var userDetails = await _userService.GetDetailsForInvoice(userId);
+            return Ok(userDetails);
         }
     }
 }

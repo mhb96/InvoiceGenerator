@@ -1,7 +1,9 @@
 ﻿using InvoiceGenerator.Models;
 using InvoiceGenerator.Services;
+using InvoiceGenerator.Services.Models.Invoice;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace InvoiceGenerator.Controllers
@@ -31,8 +33,22 @@ namespace InvoiceGenerator.Controllers
         [HttpPost("/api/invoice/create")]
         public async Task<IActionResult> Create([FromBody] CreateInvoiceInputModel input)
         {
-            await _invoiceService.GetForDashboardAsync();
-            return Ok();
+            long invoiceId = await _invoiceService.CreateAsync(new CreateInvoiceModel
+            {
+                Address = input.Address,
+                TotalFee = input.TotalFee,
+                ClientName = input.ClientName,
+                Comment = input.Comment,
+                CompanyName = input.CompanyName,
+                CreatedDate = input.CreatedDate,
+                DueDate = input.DueDate,
+                EmailAddress = input.EmailAddress,
+                PhoneNumber = input.PhoneNumber,
+                Vat = input.Vat,
+                Items = input.Items
+            });
+
+            return Ok(invoiceId);
         }
     }
 }
