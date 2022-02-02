@@ -3,8 +3,16 @@
 app.controller("dashboard",
     function ($scope, httpRequest) {
         $scope.init = function () {
+            $scope.deleteAllTemp();
             $scope.getInvoices();
             $scope.dtOptions = { paging: true, searching: true, order: [[0, 'desc']] };
+        }
+
+        $scope.deleteAllTemp = function () {
+            var requestModel = {
+                url: '/api/invoice/deleteTemp'
+            };
+            httpRequest.post(requestModel);
         }
 
         $scope.getInvoices = function () {

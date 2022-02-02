@@ -28,10 +28,10 @@ namespace InvoiceGenerator.Entities
         public string LastName { get; set; }
 
         /// <summary>
-        /// Gets or sets the email.
+        /// Gets or sets the password.
         /// </summary>
         /// <value>
-        /// The email.
+        /// The password.
         /// </value>
         public string Password { get; set; }
 

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-
-namespace InvoiceGenerator.Services.Models
+﻿namespace InvoiceGenerator.Services.Models
 {
     public class InvoiceSummaryModel
     {

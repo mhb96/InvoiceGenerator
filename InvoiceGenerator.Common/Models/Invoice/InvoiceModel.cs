@@ -1,30 +1,57 @@
-﻿using System;
+﻿using InvoiceGenerator.Common.Models.Item;
 using System.Collections.Generic;
 
-namespace InvoiceGenerator.Entities
+namespace InvoiceGenerator.Common.Models.Invoice
 {
-    /// <summary>
-    /// Implements the invoice entity.
-    /// </summary>
-    /// <seealso cref="InvoiceGenerator.Entities.BaseEntity" />
-    /// <seealso cref="InvoiceGenerator.Entities.Interfaces.IInvoice" />
-    public class Invoice : BaseEntity
+    public class InvoiceModel
     {
         /// <summary>
-        /// Gets or sets the user.
+        /// Gets or sets the invoice number.
         /// </summary>
         /// <value>
-        /// The user.
+        /// The invoice number.
         /// </value>
-        public virtual User User{ get; set; }
+        public long InvoiceNo { get; set; }
 
         /// <summary>
-        /// Gets or sets the user identifier.
+        /// Gets or sets the user company name.
         /// </summary>
         /// <value>
-        /// The user identifier.
+        /// The user company name.
         /// </value>
-        public long UserId { get; set; }
+        public string UserCompanyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user address.
+        /// </summary>
+        /// <value>
+        /// The user address.
+        /// </value>
+        public string UserAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user contact no.
+        /// </summary>
+        /// <value>
+        /// The user contact no.
+        /// </value>
+        public string UserContactNo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user email.
+        /// </summary>
+        /// <value>
+        /// The user email.
+        /// </value>
+        public string UserEmail { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user logo.
+        /// </summary>
+        /// <value>
+        /// The user logo.
+        /// </value>
+        public string UserLogo { get; set; }
 
         /// <summary>
         /// Gets or sets the client name.
@@ -40,7 +67,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The company name.
         /// </value>
-        public string CompanyName { get; set; }
+        public string ClientCompanyName { get; set; }
 
         /// <summary>
         /// Gets or sets the address.
@@ -48,7 +75,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The address.
         /// </value>
-        public string Address { get; set; }
+        public string ClientAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number.
@@ -56,7 +83,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The phone number.
         /// </value>
-        public string PhoneNumber { get; set; }
+        public string ClientPhoneNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the email address.
@@ -64,7 +91,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The email address.
         /// </value>
-        public string EmailAddress { get; set; }
+        public string ClientEmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the created date.
@@ -72,7 +99,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The created date.
         /// </value>
-        public DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
 
         /// <summary>
         /// Gets or sets the due date.
@@ -80,7 +107,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The due date.
         /// </value>
-        public DateTime DueDate { get; set; }
+        public string DueDate { get; set; }
 
         /// <summary>
         /// Gets or sets the comment.
@@ -96,7 +123,15 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The list of items.
         /// </value> 
-        public List<Item> Items { get; set; }
+        public List<ItemOutputModel> Items { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sub total fee.
+        /// </summary>
+        /// <value>
+        /// The sub total fee.
+        /// </value> 
+        public string SubTotalFee { get; set; }
 
         /// <summary>
         /// Gets or sets the total fee.
@@ -104,7 +139,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The total fee.
         /// </value> 
-        public decimal TotalFee { get; set; }
+        public string TotalFee { get; set; }
 
         /// <summary>
         /// Gets or sets the vat.

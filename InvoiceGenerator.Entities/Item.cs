@@ -1,6 +1,4 @@
-﻿using InvoiceGenerator.Entities.Interfaces;
-
-namespace InvoiceGenerator.Entities
+﻿namespace InvoiceGenerator.Entities
 {
     /// <summary>
     /// Implements item entity.

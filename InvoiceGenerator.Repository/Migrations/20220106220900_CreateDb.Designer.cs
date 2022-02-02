@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenerator.Repository.Migrations
 {
     [DbContext(typeof(InGenDbContext))]
-    [Migration("20220106000018_InitDb")]
-    partial class InitDb
+    [Migration("20220106220900_CreateDb")]
+    partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -142,10 +142,15 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<decimal>("TotalFee")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("Vat")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Invoices");
                 });
@@ -429,6 +434,17 @@ namespace InvoiceGenerator.Repository.Migrations
                         .HasForeignKey("InvoiceId");
 
                     b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("InvoiceGenerator.Entities.Invoice", b =>
+                {
+                    b.HasOne("InvoiceGenerator.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("InvoiceGenerator.Entities.Item", b =>

@@ -55,6 +55,7 @@ app.controller("create",
         }
 
         $scope.addItem = function () {
+            if ($scope.items.length >= 15) { swalert('error', 'Error', `Cannot add more than 15 items.`); return; }
             if ($scope.itemName === "") { swalert('error', 'Error', `Item/Service name cannot be empty.`); return; }
             if ($scope.itemQty === 0) { swalert('error', 'Error', `Quantity/Hours cannot be zero.`); return;}
             if ($scope.itemPrice === 0) { swalert('error', 'Error', `Unit Price cannot be zero.`); return; }
@@ -134,7 +135,7 @@ app.controller("create",
             };
             httpRequest.post(requestModel).then(
                 function (result) {
-                    swalert('success', 'Success', 'Invoice created successfuly.', 'OK', '/invoice/view/' + result)
+                    swalert('success', 'Success', 'Invoice created successfuly.', 'OK', '/invoice/view/' + result.data)
                 },
                 function (error) {
                     swalert('error', 'Error', `${error.data}`);

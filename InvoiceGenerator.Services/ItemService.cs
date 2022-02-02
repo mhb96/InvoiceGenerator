@@ -1,9 +1,11 @@
-﻿using InvoiceGenerator.Common.Models;
+﻿using InvoiceGenerator.Common.Models.Item;
 using InvoiceGenerator.Entities;
 using InvoiceGenerator.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace InvoiceGenerator.Services
@@ -14,7 +16,20 @@ namespace InvoiceGenerator.Services
         {
         }
 
-        public async Task AddAsync(List<ItemModel> items, long invoiceNo)
+        public async Task<List<ItemOutputModel>> GetAsync(long invoiceNo)
+        {
+            Logger.LogInformation($"Getting items for invoice : {invoiceNo}.");
+
+            return await UnitOfWork.Query<Item>(i => i.InvoiceNo == invoiceNo).Select(i => new ItemOutputModel
+            {
+                Name = i.Name,
+                Quantity = i.Quantity,
+                UnitPrice = i.UnitPrice,
+                TotalPrice = Math.Round(i.Quantity * i.UnitPrice, 2, MidpointRounding.AwayFromZero)
+            }).ToListAsync();
+        }
+
+        public async Task AddAsync(List<ItemInputModel> items, long invoiceNo)
         {
             Logger.LogInformation($"Adding new items: {items} for invoice : {invoiceNo}.");
 

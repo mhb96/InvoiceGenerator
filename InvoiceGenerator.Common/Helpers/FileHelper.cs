@@ -5,6 +5,7 @@ using InvoiceGenerator.Common.Helpers.Interfaces;
 using InvoiceGenerator.Common.Models.Image;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using SelectPdf;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -36,11 +37,44 @@ namespace InvoiceGenerator.Common.Helpers
             await file.CopyToAsync(fileStream);
             return new ImageModel { ImageFile = file, ImageName = fileName };
         }
-        public string GetImageAddress(string fileName)
+
+        public string GetImageAddress(string fileName, bool isForPdf = false)
         {
-            var uploadPath = "/upload/image/";
-            string filePath = fileName == null ? Path.Combine(uploadPath, "placeholder.png") : Path.Combine(uploadPath, fileName);
+            string uploadPath;
+            if (isForPdf)
+            {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                uploadPath = Path.Combine(wwwRootPath + $"\\upload\\image\\");
+            }
+            else uploadPath = "/upload/image/";
+            string filePath = Path.Combine(uploadPath, fileName);
             return filePath;
+        }
+
+        public string CreatePdf(string html)
+        {
+            HtmlToPdf converter = new HtmlToPdf();
+            PdfDocument doc = converter.ConvertHtmlString(html);
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            var uploadPath = Path.Combine(wwwRootPath + $"\\temp");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+            var fileName = $"{DateTime.Now:yymmssffffff}";
+            var filePath = $"{uploadPath}\\{fileName}.pdf";
+            doc.Save(filePath);
+            return fileName;
+        }
+
+        public void DeleteAllTempFiles()
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            var tempPath = Path.Combine(wwwRootPath + $"\\temp");
+            if (!Directory.Exists(tempPath))
+                return;
+            DirectoryInfo di = new DirectoryInfo(tempPath);
+            foreach (FileInfo file in di.EnumerateFiles())
+                file.Delete();
+            return;
         }
     }
 }
