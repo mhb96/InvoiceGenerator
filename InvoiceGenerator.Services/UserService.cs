@@ -43,7 +43,7 @@ namespace InvoiceGenerator.Services
                 CompanyName = u.CompanyName,
                 ContactNo = u.ContactNo,
                 Email = u.Email,
-                Logo = _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false),
+                Logo = u.CompanyLogo != null ? _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false) : null,
                 Vat = u.VAT
             }).FirstOrDefaultAsync();
         }
@@ -66,17 +66,6 @@ namespace InvoiceGenerator.Services
             if (await _userManager.FindByEmailAsync(input.Email) != null)
                 throw new IGException("User with email already exists. If you have forgotten your password please contact the developer.");
 
-            ImageModel logo = await _fileHelper.UploadAsync(input.CompanyLogo, FileType.image);
-
-            var image = new Image
-            {
-                CreatedAt = DateTime.Now,
-                ImageFile = logo.ImageFile,
-                ImageName = logo.ImageName
-            };
-
-            await UnitOfWork.AddAsync<Image>(image);
-
             Logger.LogInformation($"Create user with email `{input.Email}` for application");
             var user = new User
             {
@@ -93,9 +82,23 @@ namespace InvoiceGenerator.Services
                 ContactNo = input.ContactNo,
                 Address = input.Address,
                 VAT = input.Vat,
-                CompanyLogo = image,
                 LockoutEnabled = false,
             };
+
+            if (input.CompanyLogo != null)
+            {
+                ImageModel logo = await _fileHelper.UploadAsync(input.CompanyLogo, FileType.image);
+
+                var image = new Image
+                {
+                    CreatedAt = DateTime.Now,
+                    ImageFile = logo.ImageFile,
+                    ImageName = logo.ImageName
+                };
+                await UnitOfWork.AddAsync<Image>(image);
+
+                user.CompanyLogo = image;
+            }
 
             try
             {

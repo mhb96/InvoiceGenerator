@@ -11,6 +11,12 @@
     border: none;
 }
 
+#nologo {
+    height: 125px;
+    width: 125px;
+    border: 2px dashed #555555;
+}
+
 #logo {
     float: left;
     margin-top: 8px;

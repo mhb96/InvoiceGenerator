@@ -53,7 +53,7 @@ namespace InvoiceGenerator.Services
                 UserCompanyName = i.User.CompanyName,
                 UserContactNo = i.User.ContactNo,
                 UserEmail = i.User.Email,
-                UserLogo = isForPdf ? _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, true) : _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, false)
+                UserLogo = i.User.CompanyLogo != null ? isForPdf ? _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, true) : _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, false) : null
             }).FirstOrDefaultAsync();
 
             var items = await _itemService.GetAsync(invoiceId);
