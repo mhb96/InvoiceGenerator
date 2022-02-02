@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InvoiceGenerator.Common.Constants
+﻿namespace InvoiceGenerator.Common.Constants
 {
     /// <summary>
     /// The roles class.

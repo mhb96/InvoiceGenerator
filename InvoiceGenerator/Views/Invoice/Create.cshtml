@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Create";
 }
 @section Styles
 {
@@ -107,7 +107,7 @@
                                         <td class="no">{{$index+1}}</td>
                                         <td class="desc">{{item.name}}</td>
                                         <td class="qty">{{item.quantity}}</td>
-                                        <td class="unit">{{item.unitPrice}}</td>
+                                        <td class="unit">{{item.unitPrice | number:2}}</td>
                                         <td class="total">{{item.total | number:2}}</td>
                                         <td class="final-column delete"><i class="fas fa-minus-square text-danger" ng-click="deleteItem($index)"></i></td>
                                     </tr>

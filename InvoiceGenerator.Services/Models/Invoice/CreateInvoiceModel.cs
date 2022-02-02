@@ -1,4 +1,4 @@
-﻿using InvoiceGenerator.Common.Models;
+﻿using InvoiceGenerator.Common.Models.Item;
 using System.Collections.Generic;
 
 namespace InvoiceGenerator.Services.Models.Invoice
@@ -12,7 +12,7 @@ namespace InvoiceGenerator.Services.Models.Invoice
         public string EmailAddress { get; set; }
         public string CreatedDate { get; set; }
         public string DueDate { get; set; }
-        public List<ItemModel> Items { get; set; }
+        public List<ItemInputModel> Items { get; set; }
         public decimal Vat { get; set; }
         public decimal TotalFee { get; set; }
         public string Comment { get; set; }

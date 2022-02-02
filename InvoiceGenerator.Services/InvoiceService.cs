@@ -1,4 +1,7 @@
 ﻿using InvoiceGenerator.Common.Exception;
+using InvoiceGenerator.Common.Helpers;
+using InvoiceGenerator.Common.Helpers.Interfaces;
+using InvoiceGenerator.Common.Models.Invoice;
 using InvoiceGenerator.Entities;
 using InvoiceGenerator.Repository;
 using InvoiceGenerator.Services.Models;
@@ -15,9 +18,11 @@ namespace InvoiceGenerator.Services
     public class InvoiceService : BaseService, IInvoiceService
     {
         private readonly IItemService _itemService;
-        public InvoiceService(IItemService itemService, IUnitOfWork unitOfWork, ILogger<InvoiceService> logger) : base(unitOfWork, logger)
+        private readonly IFileHelper _fileHelper;
+        public InvoiceService(IItemService itemService, IUnitOfWork unitOfWork, ILogger<InvoiceService> logger, IFileHelper fileHelper) : base(unitOfWork, logger)
         {
             _itemService = itemService;
+            _fileHelper = fileHelper;
         }
 
         public async Task<List<InvoiceSummaryModel>> GetForDashboardAsync(long userId) =>
@@ -27,8 +32,45 @@ namespace InvoiceGenerator.Services
                 DueDate = i.DueDate.ToString("dd/MM/yyyy"),
                 InvoiceNo = i.Id.ToString("D6"),
                 ToCompany = i.CompanyName,
-                TotalFee = i.TotalFee.ToString("F")
+                TotalFee = i.TotalFee.ToString("F2")
             }).ToListAsync();
+
+        public async Task<InvoiceModel> GetAsync(long invoiceId, bool isForPdf)
+        {
+            var invoice = await UnitOfWork.Query<Invoice>(i => i.Id == invoiceId).Select(i => new InvoiceModel
+            {
+                InvoiceNo = i.Id,
+                ClientAddress = i.Address,
+                ClientCompanyName = i.CompanyName,
+                ClientEmailAddress = i.EmailAddress,
+                ClientName = i.ClientName,
+                ClientPhoneNumber = i.PhoneNumber,
+                Comment = i.Comment,
+                CreatedDate = i.CreatedDate.ToString("dd/MM/yyyy"),
+                DueDate = i.DueDate.ToString("dd/MM/yyyy"),
+                Vat = i.Vat,
+                UserAddress = i.User.Address,
+                UserCompanyName = i.User.CompanyName,
+                UserContactNo = i.User.ContactNo,
+                UserEmail = i.User.Email,
+                UserLogo = isForPdf ? _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, true) : _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, false)
+            }).FirstOrDefaultAsync();
+
+            var items = await _itemService.GetAsync(invoiceId);
+
+            decimal subTotal = 0M;
+            foreach (var item in items)
+                subTotal += item.Quantity * item.UnitPrice;
+
+            decimal totalFee = Math.Round(subTotal + (subTotal * invoice.Vat / 100), 2, MidpointRounding.AwayFromZero);
+            subTotal = Math.Round(subTotal, 2, MidpointRounding.AwayFromZero);
+
+            invoice.TotalFee = totalFee.ToString("F2");
+            invoice.SubTotalFee = subTotal.ToString("F2");
+            invoice.Items = items;
+
+            return invoice;
+        }
 
         public async Task DeleteAsync(long id)
         {
@@ -45,11 +87,14 @@ namespace InvoiceGenerator.Services
             if (input.Items?.Count == 0)
                 throw new IGException("No items exist in this invoice!");
 
+            if (input.Items?.Count > 15)
+                throw new IGException("Number of items cannot be greater than 15!");
+
             if (string.IsNullOrEmpty(input.CompanyName))
                 throw new IGException("Required company name was not provided.");
 
             if (string.IsNullOrEmpty(input.CreatedDate))
-                throw new IGException("Required creatred date does not exist.");
+                throw new IGException("Required created date does not exist.");
 
             if (string.IsNullOrEmpty(input.DueDate))
                 throw new IGException("Required due date does not exist.");
@@ -93,6 +138,14 @@ namespace InvoiceGenerator.Services
             await _itemService.AddAsync(input.Items, invoice.Id);
 
             return invoice.Id;
+        }
+
+        public async Task<string> CreateInvoicePdf(long invoiceId)
+        {
+            InvoiceModel invoice = await GetAsync(invoiceId, true);
+            var invoiceHtml = TemplateHelper.BuildInvoiceHtml(invoice);
+            var fileName = _fileHelper.CreatePdf(invoiceHtml);
+            return fileName;
         }
     }
 }

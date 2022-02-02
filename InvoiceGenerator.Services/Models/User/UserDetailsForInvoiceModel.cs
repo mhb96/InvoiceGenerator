@@ -1,6 +1,6 @@
 ﻿namespace InvoiceGenerator.Services.Models.User
 {
-    public class DetailsForInvoiceModel
+    public class UserDetailsForInvoiceModel
     {
         public string CompanyName { get; set; }
         public string Address { get; set; }

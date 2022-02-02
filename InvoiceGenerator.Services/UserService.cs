@@ -35,15 +35,15 @@ namespace InvoiceGenerator.Services
         public async Task<User> GetAsync(string username) =>
             await UnitOfWork.Query<User>(u => u.UserName == username).FirstOrDefaultAsync();
 
-        public async Task<DetailsForInvoiceModel> GetDetailsForInvoice(long accountId)
+        public async Task<UserDetailsForInvoiceModel> GetDetailsForInvoice(long accountId)
         {
-            return await UnitOfWork.Query<User>(u => u.Id == accountId).Select(u => new DetailsForInvoiceModel
+            return await UnitOfWork.Query<User>(u => u.Id == accountId).Select(u => new UserDetailsForInvoiceModel
             {
                 Address = u.Address,
                 CompanyName = u.CompanyName,
                 ContactNo = u.ContactNo,
                 Email = u.Email,
-                Logo = _fileHelper.GetImageAddress(u.CompanyLogo.ImageName),
+                Logo = _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false),
                 Vat = u.VAT
             }).FirstOrDefaultAsync();
         }

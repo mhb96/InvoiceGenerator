@@ -1,6 +1,6 @@
 ﻿.report {
-    zoom: 125%;
-    width: 19cm;
+    zoom: 100%;
+    width: 21cm;
     margin: 0 auto;
     position: relative;
     color: #555555;
@@ -10,15 +10,18 @@
     font-family: Arial, Helvetica, sans-serif;
     border: none;
 }
+.view-card {
+    width:1000px;
+}
 
 #logo {
     float: left;
-    margin-top: 8px;
+    margin-top: 13px;
 }
 
     #logo img {
-        height: 125px;
-        width: 125px;
+        height: 100px;
+        width: 100px;
     }
 
 .clearfix:after {
@@ -44,7 +47,7 @@ body {
 }
 
 .company {
-    margin-left: 160px;
+    margin-left: 130px;
     margin-top: 20px;
     width: 300px;
 }
@@ -55,12 +58,23 @@ body {
         margin: 10px auto;
     }
 
+.company-no-logo {
+    margin-top: 20px;
+    width: 300px;
+}
+
+    .company-no-logo h2 {
+        font-size: 1.5em;
+        font-weight: normal;
+        margin: 10px auto;
+    }
+
 header .clearfix{
     padding: 40px 0;
     border-bottom: 1px solid #AAAAAA;
 }
 .clearfix {
-    padding: 40px 0;
+    padding: 30px 0;
     border-bottom: 1px solid #AAAAAA;
 }
 
@@ -80,21 +94,21 @@ header .clearfix{
     #client .name {
         font-size: 1.17em;
         font-weight: bold;
-        margin: 0px auto;
+        margin: 0px 0px;
     }
 
     #client .company {
         font-size: 1.17em;
         font-weight: bold;
-        margin: 0px auto 15px;
+        margin: 0px 0px 15px;
     }
 
     #client .address {
-        margin: 0px auto 5px;
+        margin: 0px auto 0px;
     }
 
 #invoice {
-    margin-top:40px;
+    margin-top:0px;
     float: right;
     text-align: right;
 }
@@ -190,8 +204,7 @@ table {
         border-bottom: 1px solid #0087C3;
     }
 
-    .notice div {
-        height: 150px;
+    .notice ul {
         margin: 0;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;

@@ -1,0 +1,123 @@
+﻿@model InvoiceGenerator.Common.Models.Invoice.InvoiceModel
+@{
+    ViewData["Title"] = "View";
+    int i = 0;
+}
+@section Styles
+{
+    <link href="~/css/view-invoice.css" rel="stylesheet" />
+}
+<body>
+    <div>
+        <div class="card view-card center">
+            <div class="card-header d-flex justify-content-between">
+                <h4 class="font-weight-bold text-primary pt-1">View Invoice</h4>
+                <div ng-controller="save">
+                    <a class="btn btn-primary" style="padding-top:7px;" href="/"><i class="mr-2 fas fa-chevron-left"></i>Dashboard</a>
+                    <a class="btn btn-info mx-3 px-3" style="padding-top:7px;" href="">Edit</a>
+                    <a class="btn btn-success" style="padding-top:7px;" href="" ng-click="download(@Model.InvoiceNo)">Download PDF<i id="download" class="ml-2 fas fa-download"></i></a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="report mb-5">
+                    <header class="clearfix">
+                        @if (!string.IsNullOrEmpty(Model.UserLogo))
+                        {
+                            <div id="logo"><img src="@Model.UserLogo"></div>
+                        }
+                        <h1>INVOICE</h1>
+                        @if (!string.IsNullOrEmpty(Model.UserLogo))
+                        {
+                            <div class="company">
+                                <h2>@Model.UserCompanyName</h2>
+                                <div>@Model.UserAddress</div>
+                                <div>@Model.UserContactNo</div>
+                                <div><a href="">@Model.UserEmail</a></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="company-no-logo">
+                                <h2>@Model.UserCompanyName</h2>
+                                <div>@Model.UserAddress</div>
+                                <div>@Model.UserContactNo</div>
+                                <div><a href="">@Model.UserEmail</a></div>
+                            </div>  
+                        }
+                    </header>
+                    <main>
+                        <div id="details" class="clearfix">
+                            <div id="client">
+                                <h2 class="to">Invoice To:</h2>
+                                <div class="name">@Model.ClientName</div>
+                                <div class="company">@Model.ClientCompanyName</div>
+                                <div class="address">@Model.ClientAddress</div>
+                                <div class="address">@Model.ClientPhoneNumber</div>
+                                <div><a href="">@Model.ClientEmailAddress</a></div>
+                            </div>
+                            <div id="invoice">
+                                <h2>Invoice No: @Model.InvoiceNo.ToString("D6")</h2>
+                                <div class="date">Date of Invoice: @Model.CreatedDate</div>
+                                <div class="date">Due Date: @Model.DueDate</div>
+                            </div>
+                        </div>
+                        <br>
+                        <h5 class="text-center" style="font-weight: bold;">Items / Services</h5>
+                        <br>
+                        <div class="items-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Description</th>
+                                        <th>Quantity /<br> Hours</th>
+                                        <th class="unit">Unit Price<br>(AED)</th>
+                                        <th class="final-column total">Total<br>(AED)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Items)
+                                    {
+                                        i++;
+                                        <tr>
+                                            <td class="no">@i</td>
+                                            <td class="desc">@item.Name</td>
+                                            <td class="qty">@item.Quantity.ToString("F1")</td>
+                                            <td class="unit">@item.UnitPrice.ToString("F2")</td>
+                                            <td class="final-column total">@item.TotalPrice.ToString("F2")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <br><br><br>
+                        <div class="summary">
+                            <h3>Summary</h3>
+                            <div>
+                                <p><span class="title">SubTotal Fee</span><span class="value">AED @Model.SubTotalFee</span></p>
+                                <p><span class="title">VAT</span><span class="value">AED @Model.Vat.ToString("F2")</span></p>
+                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value">AED @Model.TotalFee</span></p>
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.Comment))
+                        {
+                            <div class="notice">
+                                <h3>Remarks</h3>
+                                <ul><li class="my-2">@Model.Comment</li></ul>
+                            </div>
+                        }
+                    </main>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+@section Scripts
+{
+    <script src="~/js/save.js" asp-append-version="true"></script>
+}
