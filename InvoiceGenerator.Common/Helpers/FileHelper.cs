@@ -19,6 +19,7 @@ namespace InvoiceGenerator.Common.Helpers
         {
             _webHostEnvironment = webHostEnvironment;
         }
+
         public async Task<ImageModel> UploadAsync(IFormFile file, FileType type)
         {
             var fileType = file.IsImage() ? FileType.image : FileType.invalid;

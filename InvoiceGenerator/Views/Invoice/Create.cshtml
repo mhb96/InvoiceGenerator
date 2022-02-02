@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div class="card report mb-5">
                     <header class="clearfix">
-                        <div id="logo"><img ng-src="{{logo}}"></div>
+                        <div id="logo"><img ng-hide="{{logo == null}}" ng-src="{{logo}}"><div id="nologo" ng-show="{{logo == null}}" class="text-center"><br />Logo <br />comes <br />here<br />if exists.</div></div>
                         <h1>INVOICE</h1>
                         <div class="company">
                             <h2>{{userCompanyName}}</h2>
