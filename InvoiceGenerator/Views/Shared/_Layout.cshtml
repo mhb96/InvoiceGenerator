@@ -43,7 +43,7 @@
                                     <span class="mr-2 d-none d-lg-inline text-gray-600">@User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value <span class="ml-2 fas fa-caret-down"></span></span>
                                 </a>
                                 <div class="dropdown-menu" style="margin-left: -65px;" aria-labelledby="navbarDropdown">
-                                  <a class="dropdown-item text-gray-600" href="#">Edit user</a>
+                                  <a class="dropdown-item text-gray-600" asp-area="" asp-controller="User" asp-action="Edit">Edit User</a>
                                   <div class="dropdown-divider"></div>
                                   <a class="dropdown-item text-gray-600" href="#">Logout</a>
                                 </div>
