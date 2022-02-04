@@ -35,7 +35,7 @@ namespace InvoiceGenerator.Common.Helpers
 
             var items = "";
             var itemNo = 0;
-            foreach(var item in invoice.Items)
+            foreach (var item in invoice.Items)
             {
                 itemNo++;
                 var itemRow = TemplateConstants.Item;
@@ -50,7 +50,7 @@ namespace InvoiceGenerator.Common.Helpers
             invoiceHtml = invoiceHtml.Replace("{{SubTotalFee}}", invoice.SubTotalFee);
             invoiceHtml = invoiceHtml.Replace("{{VAT}}", invoice.Vat.ToString("F2"));
             invoiceHtml = invoiceHtml.Replace("{{TotalFee}}", invoice.TotalFee);
-            if(!string.IsNullOrEmpty(invoice.Comment))
+            if (!string.IsNullOrEmpty(invoice.Comment))
             {
                 var comment = TemplateConstants.Comment;
                 comment = comment.Replace("{{Comment}}", invoice.Comment);

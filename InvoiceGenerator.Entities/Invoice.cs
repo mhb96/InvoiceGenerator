@@ -16,7 +16,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The user.
         /// </value>
-        public virtual User User{ get; set; }
+        public virtual User User { get; set; }
 
         /// <summary>
         /// Gets or sets the user identifier.

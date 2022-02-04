@@ -48,7 +48,7 @@ namespace InvoiceGenerator
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IInvoiceService, InvoiceService>();
             services.AddScoped<IItemService, ItemService>();
-           
+
             //Registers services and their interfaces.
 
             //Adds Controllers with views.

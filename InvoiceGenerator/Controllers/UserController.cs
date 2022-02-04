@@ -63,7 +63,7 @@ namespace InvoiceGenerator.Controllers
                 CompanyLogo = input.CompanyLogo
             });
 
-            if (await _userService.SignInAsync(new SignInModel { Username = input.UserName, Password = input.Password}))
+            if (await _userService.SignInAsync(new SignInModel { Username = input.UserName, Password = input.Password }))
                 return Ok();
             return BadRequest("Registration failed.");
         }
