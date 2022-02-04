@@ -15,10 +15,14 @@
             </div>
             <div class="card-body">
                 <div class="card report mb-5">
-                    <header class="clearfix">
+                    <header class="clearfix pt-3">
+                        <div class="text-center">
+                            <a asp-controller="User" asp-action="Edit" class="btn btn-sm btn-info">Edit User Details</a>
+                        </div>
+                        <br />
                         <div id="logo">
                             <img ng-hide="logo == null" ng-src="{{logo}}">
-                            <div id="nologo" ng-show="{{logo == null}}" class="text-center"><br />Logo <br />comes <br />here<br />if exists.</div>
+                            <div id="nologo" ng-show="logo == null" class="text-center"><br />Logo <br />comes <br />here<br />if exists.</div>
                         </div>
                         <h1>INVOICE</h1>
                         <div class="company">
