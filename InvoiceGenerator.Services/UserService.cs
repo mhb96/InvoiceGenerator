@@ -3,6 +3,7 @@ using InvoiceGenerator.Common.DataTypes;
 using InvoiceGenerator.Common.Exception;
 using InvoiceGenerator.Common.Helpers.Interfaces;
 using InvoiceGenerator.Common.Models.Image;
+using InvoiceGenerator.Common.Models.User;
 using InvoiceGenerator.Entities;
 using InvoiceGenerator.Repository;
 using InvoiceGenerator.Services.Models.User;
@@ -29,11 +30,26 @@ namespace InvoiceGenerator.Services
             _fileHelper = fileHelper;
         }
 
-        public async Task<UserModel> GetAsync(long id) =>
-            await UnitOfWork.Query<User>(u => u.Id == id).Select(u => new UserModel { Id = u.Id, FullName = $"{u.FirstName} {u.LastName}" }).FirstOrDefaultAsync();
-
         public async Task<User> GetAsync(string username) =>
             await UnitOfWork.Query<User>(u => u.UserName == username).FirstOrDefaultAsync();
+
+        public async Task<UserModel> GetAsync(long accountId)
+        {
+            return await UnitOfWork.Query<User>(u => u.Id == accountId).Select(u => new UserModel
+            {
+                Id = u.Id,
+                UserName = u.UserName,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Address = u.Address,
+                CompanyName = u.CompanyName,
+                ContactNo = u.ContactNo,
+                Email = u.Email,
+                VAT = u.VAT,
+                Password = u.Password,
+                CompanyLogo = u.CompanyLogo != null ? _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false) : null
+            }).FirstOrDefaultAsync();
+        }
 
         public async Task<UserDetailsForInvoiceModel> GetDetailsForInvoice(long accountId)
         {
@@ -83,6 +99,7 @@ namespace InvoiceGenerator.Services
                 Address = input.Address,
                 VAT = input.Vat,
                 LockoutEnabled = false,
+                Password = input.Password
             };
 
             if (input.CompanyLogo != null)
@@ -117,6 +134,35 @@ namespace InvoiceGenerator.Services
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             await _userManager.AddToRoleAsync(createdUser, Roles.User);
             await UnitOfWork.SaveAsync();
+        }
+
+        public async Task UpdateAsync(UpdateModel input)
+        {
+            User user = await UnitOfWork.FirstOrDefaultAsync<User>(u => u.Id == input.Id);
+            user.FirstName = input.FirstName;
+            user.LastName = input.LastName;
+            user.Email = input.Email;
+            user.CompanyName = input.CompanyName;
+            user.ContactNo = input.ContactNo;
+            user.Address = input.Address;
+            user.VAT = input.Vat;
+
+            if (input.CompanyLogo != null)
+            {
+                ImageModel logo = await _fileHelper.UploadAsync(input.CompanyLogo, FileType.image);
+
+                var image = new Image
+                {
+                    CreatedAt = DateTime.Now,
+                    ImageFile = logo.ImageFile,
+                    ImageName = logo.ImageName
+                };
+                await UnitOfWork.AddAsync<Image>(image);
+
+                user.CompanyLogo = image;
+            }
+
+            await _userManager.UpdateAsync(user);
         }
 
         private async Task AddClaim(User user, string claimName, string claimValue)

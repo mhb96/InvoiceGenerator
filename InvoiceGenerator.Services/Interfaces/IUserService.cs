@@ -1,4 +1,5 @@
-﻿using InvoiceGenerator.Entities;
+﻿using InvoiceGenerator.Common.Models.User;
+using InvoiceGenerator.Entities;
 using InvoiceGenerator.Services.Models.User;
 using System.Threading.Tasks;
 
@@ -11,5 +12,6 @@ namespace InvoiceGenerator.Services
         public Task<bool> SignInAsync(SignInModel input);
         public Task RegisterAsync(RegisterModel input);
         public Task<UserDetailsForInvoiceModel> GetDetailsForInvoice(long accountId);
+        public Task UpdateAsync(UpdateModel input);
     }
 }

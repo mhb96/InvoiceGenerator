@@ -76,5 +76,40 @@ namespace InvoiceGenerator.Controllers
             var userDetails = await _userService.GetDetailsForInvoice(userId);
             return Ok(userDetails);
         }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Edit() => View();
+
+        [Authorize]
+        [HttpGet("/api/user/getDetails")]
+        public async Task<IActionResult> GetDetails()
+        {
+            long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
+            var userDetails = await _userService.GetAsync(userId);
+            return Ok(userDetails);
+        }
+
+        [Authorize]
+        [HttpPost("/api/user/editDetails")]
+        public async Task<IActionResult> EditDetails([FromForm] EditUserInputModel input)
+        {
+            long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
+
+            await _userService.UpdateAsync(new UpdateModel
+            {
+                Id = userId,
+                FirstName = input.FirstName,
+                CompanyName = input.CompanyName,
+                LastName = input.LastName,
+                Email = input.Email,
+                ContactNo = input.ContactNo,
+                Address = input.Address,
+                Vat = input.Vat,
+                CompanyLogo = input.CompanyLogo
+            });
+
+            return Ok();
+        }
     }
 }
