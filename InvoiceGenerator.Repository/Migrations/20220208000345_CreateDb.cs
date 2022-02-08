@@ -25,6 +25,22 @@ namespace InvoiceGenerator.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Currencies",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Code = table.Column<string>(type: "TEXT", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Images",
                 columns: table => new
                 {
@@ -73,6 +89,7 @@ namespace InvoiceGenerator.Repository.Migrations
                     ContactNo = table.Column<string>(type: "TEXT", nullable: true),
                     Address = table.Column<string>(type: "TEXT", nullable: true),
                     VAT = table.Column<decimal>(type: "TEXT", nullable: false),
+                    CurrencyId = table.Column<long>(type: "INTEGER", nullable: false),
                     BusinessEmail = table.Column<string>(type: "TEXT", nullable: true),
                     CompanyLogoId = table.Column<long>(type: "INTEGER", nullable: true),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
@@ -95,6 +112,12 @@ namespace InvoiceGenerator.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Images_CompanyLogoId",
                         column: x => x.CompanyLogoId,
@@ -205,6 +228,7 @@ namespace InvoiceGenerator.Repository.Migrations
                     Comment = table.Column<string>(type: "TEXT", nullable: true),
                     TotalFee = table.Column<decimal>(type: "TEXT", nullable: false),
                     Vat = table.Column<decimal>(type: "TEXT", nullable: false),
+                    CurrencyId = table.Column<long>(type: "INTEGER", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -215,6 +239,12 @@ namespace InvoiceGenerator.Repository.Migrations
                         name: "FK_Invoices_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Invoices_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -329,6 +359,11 @@ namespace InvoiceGenerator.Repository.Migrations
                 column: "CompanyLogoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_CurrencyId",
+                table: "AspNetUsers",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -343,6 +378,11 @@ namespace InvoiceGenerator.Repository.Migrations
                 name: "IX_Comments_InvoiceId",
                 table: "Comments",
                 column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_CurrencyId",
+                table: "Invoices",
+                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_UserId",
@@ -389,6 +429,9 @@ namespace InvoiceGenerator.Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Images");

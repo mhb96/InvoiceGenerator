@@ -19,7 +19,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         ///   <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
         /// </value>
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the created at.

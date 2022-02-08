@@ -8,5 +8,6 @@
         public string Email { get; set; }
         public string Logo { get; set; }
         public decimal Vat { get; set; }
+        public long CurrencyId { get; internal set; }
     }
 }

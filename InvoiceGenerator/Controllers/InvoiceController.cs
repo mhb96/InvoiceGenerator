@@ -32,7 +32,7 @@ namespace InvoiceGenerator.Controllers
         }
 
         [Authorize]
-        [HttpGet("/api/invoice/create")]
+        [HttpGet("/invoice/create")]
         public IActionResult Create() => View();
 
         [Authorize]
@@ -54,7 +54,8 @@ namespace InvoiceGenerator.Controllers
                 PhoneNumber = input.PhoneNumber,
                 Vat = input.Vat,
                 Items = input.Items,
-                UserId = userId
+                UserId = userId,
+                CurrencyId = input.CurrencyId
             });
 
             return Ok(invoiceId);
@@ -72,6 +73,35 @@ namespace InvoiceGenerator.Controllers
         public async Task<IActionResult> Download(long id)
         {
             return Ok(await _invoiceService.CreateInvoicePdf(id));
+        }
+
+        [Authorize]
+        [HttpGet("/invoice/edit")]
+        public IActionResult Edit() => View();
+
+        [Authorize]
+        [HttpPost("/api/invoice/edit")]
+        public async Task<IActionResult> Edit([FromBody] CreateInvoiceInputModel input)
+        {
+            long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
+
+            long invoiceId = await _invoiceService.CreateAsync(new CreateInvoiceModel
+            {
+                Address = input.Address,
+                TotalFee = input.TotalFee,
+                ClientName = input.ClientName,
+                Comment = input.Comment,
+                CompanyName = input.CompanyName,
+                CreatedDate = input.CreatedDate,
+                DueDate = input.DueDate,
+                EmailAddress = input.EmailAddress,
+                PhoneNumber = input.PhoneNumber,
+                Vat = input.Vat,
+                Items = input.Items,
+                UserId = userId
+            });
+
+            return Ok(invoiceId);
         }
 
         [Authorize]

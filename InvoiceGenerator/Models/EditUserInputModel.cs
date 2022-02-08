@@ -12,5 +12,6 @@ namespace InvoiceGenerator.Models
         public string Address { get; set; }
         public decimal Vat { get; set; }
         public IFormFile CompanyLogo { get; set; }
+        public long CurrencyId { get; set; }
     }
 }

@@ -15,13 +15,15 @@ namespace InvoiceGenerator.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly IUserService _userService;
+        private readonly ICurrencyService _currencyService;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger, SignInManager<User> signInManager, IUserService userService)
+        public UserController(ILogger<UserController> logger, SignInManager<User> signInManager, IUserService userService, ICurrencyService currencyService)
         {
             _logger = logger;
             _signInManager = signInManager;
             _userService = userService;
+            _currencyService = currencyService;
         }
 
         [HttpGet("/user/login")]
@@ -59,6 +61,7 @@ namespace InvoiceGenerator.Controllers
                 Email = input.Email,
                 ContactNo = input.ContactNo,
                 Address = input.Address,
+                CurrencyId = input.CurrencyId,
                 Vat = input.Vat,
                 CompanyLogo = input.CompanyLogo
             });
@@ -106,10 +109,18 @@ namespace InvoiceGenerator.Controllers
                 ContactNo = input.ContactNo,
                 Address = input.Address,
                 Vat = input.Vat,
-                CompanyLogo = input.CompanyLogo
+                CompanyLogo = input.CompanyLogo,
+                CurrencyId = input.CurrencyId
             });
 
             return Ok();
+        }
+
+        [HttpGet("/api/user/getCurrencies")]
+        public async Task<IActionResult> GetCurrencies()
+        {
+            var currencies = await _currencyService.GetAsync();
+            return Ok(currencies);
         }
     }
 }

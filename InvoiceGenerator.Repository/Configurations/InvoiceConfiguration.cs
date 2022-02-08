@@ -15,6 +15,10 @@ namespace InvoiceGenerator.Repository.Configurations
                 .WithMany()
                 .HasForeignKey(i => i.UserId);
 
+            builder.HasOne<Currency>(i => i.Currency)
+                .WithMany()
+                .HasForeignKey(i => i.CurrencyId);
+
             builder.HasMany<Item>(u => u.Items)
                 .WithOne(i => (Invoice)i.Invoice)
                 .HasForeignKey(u => u.InvoiceNo)

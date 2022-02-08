@@ -71,8 +71,8 @@
                                         <th>#</th>
                                         <th>Description</th>
                                         <th>Quantity /<br> Hours</th>
-                                        <th class="unit">Unit Price<br>(AED)</th>
-                                        <th class="final-column total">Total<br>(AED)</th>
+                                        <th class="unit">Unit Price<br>(@Model.CurrencyCode)</th>
+                                        <th class="final-column total">Total<br>(@Model.CurrencyCode)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -94,9 +94,9 @@
                         <div class="summary">
                             <h3>Summary</h3>
                             <div>
-                                <p><span class="title">SubTotal Fee</span><span class="value">AED @Model.SubTotalFee</span></p>
-                                <p><span class="title">VAT</span><span class="value">AED @Model.Vat.ToString("F2")</span></p>
-                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value">AED @Model.TotalFee</span></p>
+                                <p><span class="title">SubTotal Fee</span><span class="value">@Model.CurrencyCode @Model.SubTotalFee</span></p>
+                                <p><span class="title">VAT</span><span class="value">@Model.CurrencyCode @Model.Vat.ToString("F2")</span></p>
+                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value">@Model.CurrencyCode @Model.TotalFee</span></p>
                             </div>
                         </div>
                         @if (!string.IsNullOrEmpty(Model.Comment))

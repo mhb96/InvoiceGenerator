@@ -3,7 +3,7 @@
 app.controller("edit",
     function ($scope, httpRequest) {
         $scope.init = function () {
-            $scope.getDetails();
+            $scope.getCurrencies();
         }
 
         $scope.showPassword = function () {
@@ -12,6 +12,20 @@ app.controller("edit",
                 $("#password")[0].type = "text";
             else
                 password[0].type = "password";
+        }
+
+        $scope.getCurrencies = function () {
+            var requestModel = {
+                url: '/api/user/getCurrencies'
+            };
+            httpRequest.get(requestModel).then(
+                function (result) {
+                    $scope.currencies = result.data;
+                    $scope.getDetails();
+                },
+                function (error) {
+                    swalert('error', 'Error', `${error.data}`);
+                });
         }
 
         $scope.getDetails = function () {
@@ -30,6 +44,8 @@ app.controller("edit",
                     $scope.email = result.data.email;
                     $scope.companyLogo = result.data.companyLogo;
                     $scope.vat = result.data.vat;
+                    $scope.currencyId = result.data.currencyId;
+                    $scope.currency = $scope.currencies.find(c => c.id == $scope.currencyId);
                 },
                 function (error) {
                     swalert('error', 'Error', `${error.data}`);
@@ -46,6 +62,7 @@ app.controller("edit",
             formData.append('contactNo', $scope.contactNo);
             formData.append('address', $scope.address);
             formData.append('vat', $scope.vat);
+            formData.append('currencyId', $scope.currency.id);
             var requestModel = {
                 url: '/api/user/editDetails',
                 model: formData

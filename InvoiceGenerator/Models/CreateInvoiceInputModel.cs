@@ -16,5 +16,6 @@ namespace InvoiceGenerator.Models
         public decimal Vat { get; set; }
         public decimal TotalFee { get; set; }
         public string Comment { get; set; }
+        public long CurrencyId { get; set; }
     }
 }

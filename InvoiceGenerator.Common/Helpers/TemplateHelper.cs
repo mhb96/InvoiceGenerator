@@ -63,6 +63,8 @@ namespace InvoiceGenerator.Common.Helpers
 
             invoiceHtml = invoiceHtml.Replace("{{PdfPreview}}", "");
 
+            invoiceHtml = invoiceHtml.Replace("{{currencyCode}}", invoice.CurrencyCode);
+
             return invoiceHtml;
         }
     }

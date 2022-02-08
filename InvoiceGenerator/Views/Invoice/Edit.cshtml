@@ -9,8 +9,8 @@
     <div ng-controller="create" ng-init="init()">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h4 class="font-weight-bold text-primary pt-1">New Invoice</h4>
-                <h5 class="text-info pt-2"> Please fill your invoice details</h5>
+                <h4 class="font-weight-bold text-primary pt-1">Edit Invoice</h4>
+                <h5 class="text-info pt-2">Please edit any required invoice details.</h5>
                 <a class="btn btn-success" style="padding-top:7px;" ng-click="create()" href="">Save & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
             </div>
             <div class="card-body">
@@ -71,11 +71,6 @@
                             </div>
                         </div>
                         <br>
-                        <label class="mt-3 text-info" for="repeatSelect"> Currency: </label>
-                        <select class=" form-control form-control-user" style="width:300px;" name="mySelect" id="mySelect"
-                            ng-options="option.name for option in currencies track by option.id"
-                            ng-model="currency">
-                        </select>
                         <br>
                         <br>
                         <div id="add-item">
@@ -93,8 +88,8 @@
                                     <input type="number" class="form-control form-control-user" placeholder="Qty / Hrs" ng-model="itemQty" min="0.0" step="0.5">
                                 </div>
                                 <div id="new-item-price">
-                                    <label class="mb-0 text-info">Unit Price ({{currency.code}})</label>
-                                    <input type="number" class="form-control form-control-user" placeholder="{{currency.code}}" ng-model="itemPrice" min="0.00" step="0.01">
+                                    <label class="mb-0 text-info">Unit Price (AED)</label>
+                                    <input type="number" class="form-control form-control-user" placeholder="AED" ng-model="itemPrice" min="0.00" step="0.01">
                                 </div>
                                 <a id="add-item-button" class="btn btn-info mt-3" title="Add Item" ng-click="addItem()"><i class="fas fa-plus"></i></a>
                             </div>
@@ -109,8 +104,8 @@
                                         <th class="no">#</th>
                                         <th class="desc">Name</th>
                                         <th class="qty">Quantity /<br>Hours</th>
-                                        <th class="unit">Unit Price<br>({{currency.code}})</th>
-                                        <th class="total">Total<br>({{currency.code}})</th>
+                                        <th class="unit">Unit Price<br>(AED)</th>
+                                        <th class="total">Total<br>(AED)</th>
                                         <th class="final-column delete"></th>
                                     </tr>
                                 </thead>
@@ -130,9 +125,9 @@
                         <div class="summary">
                             <h3>Summary</h3>
                             <div>
-                                <p><span class="title">SubTotal Fee</span><span class="value">{{currency.code}} {{subTotal | number:2}}</span></p>
+                                <p><span class="title">SubTotal Fee</span><span class="value">AED {{subTotal | number:2}}</span></p>
                                 <p class="d-flex"><span class="mr-auto pt-2">VAT </span><span class="pt-2 mr-2">%</span> <input type="number" class="form-control form-control-user " id="vat-input" min="0.00" max="100.00" step="0.01" ng-model="vat" ng-change="vatChange()" ng-class="(vatError == 1) ? 'invalid' : ''"></p>
-                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value"> {{currency.code}} {{total | number:2}}</span></p>
+                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value"> AED {{total | number:2}}</span></p>
                             </div>
                         </div>
                         <div class="notice">

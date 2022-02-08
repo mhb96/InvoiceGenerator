@@ -15,7 +15,7 @@ app.controller("create",
             $scope.vat = 0;
             $scope.vatError = false;
             $scope.updateDueDate();
-            $scope.getUserDetails();
+            $scope.getCurrencies();
         }
 
         $scope.getUserDetails = function () {
@@ -30,11 +30,27 @@ app.controller("create",
                     $scope.userCompanyEmail = result.data.email;
                     $scope.logo = result.data.logo;
                     $scope.vat = result.data.vat;
+                    $scope.currencyId = result.data.currencyId;
+                    $scope.currency = $scope.currencies.find(c => c.id == $scope.currencyId);
                 },
                 function (error) {
                     swalert('error', 'Error', `${error.data}`);
                 });
-        }        
+        }
+
+        $scope.getCurrencies = function () {
+            var requestModel = {
+                url: '/api/user/getCurrencies'
+            };
+            httpRequest.get(requestModel).then(
+                function (result) {
+                    $scope.currencies = result.data;
+                    $scope.getUserDetails();
+                },
+                function (error) {
+                    swalert('error', 'Error', `${error.data}`);
+                });
+        }
 
         $scope.updateDueDate = function () {
             if ($scope.createdDate === undefined) { swalert('error', 'Error', `Invalid created date.`); return; }
@@ -122,6 +138,7 @@ app.controller("create",
                 createdDate: $scope.createdDate,
                 dueDate: $scope.dueDate,
 
+                currencyId: $scope.currency.id,
                 items: $scope.items,
                 vat: $scope.vat,
                 totalFee: $scope.total,

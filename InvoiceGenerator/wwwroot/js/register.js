@@ -3,6 +3,25 @@
 
 app.controller("register",
     function ($scope, httpRequest) {
+
+        $scope.init = function () {
+            $scope.getCurrencies();
+        }
+
+        $scope.getCurrencies = function () {
+            var requestModel = {
+                url: '/api/user/getCurrencies'
+            };
+            httpRequest.get(requestModel).then(
+                function (result) {
+                    $scope.currencies = result.data;
+                    $scope.currency = $scope.currencies.find(c => c.id === 53);
+                },
+                function (error) {
+                    swalert('error', 'Error', `${error.data}`);
+                });
+        }
+
         $scope.create = function () {
 
             if ($scope.password != $scope.confirmPassword) {
@@ -20,6 +39,7 @@ app.controller("register",
             formData.append('email', $scope.email);
             formData.append('contactNo', $scope.contactNo);
             formData.append('address', $scope.address);
+            formData.append('currencyId', $scope.currency.id);
             formData.append('vat', $scope.vat);
             var requestModel = {
                 url: '/user/register',
