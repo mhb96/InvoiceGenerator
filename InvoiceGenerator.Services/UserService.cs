@@ -47,6 +47,7 @@ namespace InvoiceGenerator.Services
                 Email = u.Email,
                 VAT = u.VAT,
                 Password = u.Password,
+                CurrencyId = u.CurrencyId,
                 CompanyLogo = u.CompanyLogo != null ? _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false) : null
             }).FirstOrDefaultAsync();
         }
@@ -60,7 +61,8 @@ namespace InvoiceGenerator.Services
                 ContactNo = u.ContactNo,
                 Email = u.Email,
                 Logo = u.CompanyLogo != null ? _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false) : null,
-                Vat = u.VAT
+                Vat = u.VAT,
+                CurrencyId = u.CurrencyId
             }).FirstOrDefaultAsync();
         }
 
@@ -98,6 +100,7 @@ namespace InvoiceGenerator.Services
                 ContactNo = input.ContactNo,
                 Address = input.Address,
                 VAT = input.Vat,
+                CurrencyId = input.CurrencyId,
                 LockoutEnabled = false,
                 Password = input.Password
             };
@@ -146,6 +149,7 @@ namespace InvoiceGenerator.Services
             user.ContactNo = input.ContactNo;
             user.Address = input.Address;
             user.VAT = input.Vat;
+            user.CurrencyId = input.CurrencyId;
 
             if (input.CompanyLogo != null)
             {

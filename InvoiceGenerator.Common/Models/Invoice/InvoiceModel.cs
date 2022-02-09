@@ -148,5 +148,13 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// The vat.
         /// </value> 
         public decimal Vat { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currency code.
+        /// </summary>
+        /// <value>
+        /// The currency code.
+        /// </value> 
+        public string CurrencyCode { get; set; }
     }
 }

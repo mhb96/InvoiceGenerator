@@ -23,6 +23,11 @@ namespace InvoiceGenerator.Repository
         public DbSet<Client> Clients { get; set; }
 
         /// <summary>
+        /// Gets or sets the currencies.
+        /// </summary>
+        public DbSet<Currency> Currencies { get; set; }
+
+        /// <summary>
         /// Gets or sets the invoices.
         /// </summary>
 
@@ -47,6 +52,12 @@ namespace InvoiceGenerator.Repository
                .WithMany(i => i.Items)
                .HasForeignKey(i => i.InvoiceNo)
                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<User>()
+                .HasOne<Currency>(i => (Currency)i.Currency)
+                .WithMany()
+                .HasForeignKey(i => i.CurrencyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.ApplyConfiguration(new InvoiceConfiguration());
         }

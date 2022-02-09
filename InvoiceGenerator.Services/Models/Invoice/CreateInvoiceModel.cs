@@ -17,5 +17,6 @@ namespace InvoiceGenerator.Services.Models.Invoice
         public decimal TotalFee { get; set; }
         public string Comment { get; set; }
         public long UserId { get; set; }
+        public long CurrencyId { get; set; }
     }
 }

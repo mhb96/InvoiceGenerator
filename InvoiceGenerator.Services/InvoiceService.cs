@@ -53,6 +53,7 @@ namespace InvoiceGenerator.Services
                 UserCompanyName = i.User.CompanyName,
                 UserContactNo = i.User.ContactNo,
                 UserEmail = i.User.Email,
+                CurrencyCode = i.Currency.Code,
                 UserLogo = i.User.CompanyLogo != null ? isForPdf ? _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, true) : _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, false) : null
             }).FirstOrDefaultAsync();
 
@@ -102,6 +103,9 @@ namespace InvoiceGenerator.Services
             if (DateTime.Parse(input.CreatedDate) > DateTime.Parse(input.DueDate))
                 throw new IGException("Created date cannot be greater than Due date.");
 
+            if (input.CurrencyId == 0)
+                throw new IGException("No currency was selected");
+
             Logger.LogInformation($"Validating total price.");
 
             decimal subTotal = 0M;
@@ -128,6 +132,7 @@ namespace InvoiceGenerator.Services
                 PhoneNumber = input.PhoneNumber,
                 TotalFee = totalFee,
                 Vat = input.Vat,
+                CurrencyId = input.CurrencyId,
                 IsDeleted = false
             };
 

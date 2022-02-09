@@ -68,6 +68,22 @@ namespace InvoiceGenerator.Entities
         public decimal VAT { get; set; }
 
         /// <summary>
+        /// Gets or sets the currency id.
+        /// </summary>
+        /// <value>
+        /// The currency id.
+        /// </value> 
+        public long CurrencyId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currency.
+        /// </summary>
+        /// <value>
+        /// The currency.
+        /// </value> 
+        public virtual Currency Currency { get; set; }
+
+        /// <summary>
         /// Gets or sets the business email.
         /// </summary>
         /// <value>

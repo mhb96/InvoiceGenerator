@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenerator.Repository.Migrations
 {
     [DbContext(typeof(InGenDbContext))]
-    [Migration("20220106220900_CreateDb")]
+    [Migration("20220208000345_CreateDb")]
     partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,29 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("InvoiceGenerator.Entities.Currency", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currencies");
+                });
+
             modelBuilder.Entity("InvoiceGenerator.Entities.Image", b =>
                 {
                     b.Property<long>("Id")
@@ -127,6 +150,9 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("CurrencyId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("TEXT");
 
@@ -149,6 +175,8 @@ namespace InvoiceGenerator.Repository.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("UserId");
 
@@ -250,6 +278,9 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("CurrencyId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -308,6 +339,8 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyLogoId");
+
+                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -438,11 +471,19 @@ namespace InvoiceGenerator.Repository.Migrations
 
             modelBuilder.Entity("InvoiceGenerator.Entities.Invoice", b =>
                 {
+                    b.HasOne("InvoiceGenerator.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("InvoiceGenerator.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Currency");
 
                     b.Navigation("User");
                 });
@@ -464,7 +505,15 @@ namespace InvoiceGenerator.Repository.Migrations
                         .WithMany()
                         .HasForeignKey("CompanyLogoId");
 
+                    b.HasOne("InvoiceGenerator.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("CompanyLogo");
+
+                    b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
