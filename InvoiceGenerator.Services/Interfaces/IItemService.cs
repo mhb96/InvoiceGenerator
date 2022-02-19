@@ -8,5 +8,6 @@ namespace InvoiceGenerator.Services
     {
         public Task<List<ItemOutputModel>> GetAsync(long invoiceNo);
         public Task AddAsync(List<ItemInputModel> items, long invoiceNo);
+        public Task DeleteAllAsync(long invoiceNo);
     }
 }

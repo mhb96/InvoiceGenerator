@@ -53,6 +53,7 @@ namespace InvoiceGenerator
             services.AddScoped<IInvoiceService, InvoiceService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IImageService, ImageService>();
 
             //Adds Controllers with views.
             services.AddControllersWithViews();
@@ -112,11 +113,16 @@ namespace InvoiceGenerator
         {
             var window = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
             {
-                WebPreferences = new WebPreferences { NativeWindowOpen = true }
+                WebPreferences = new WebPreferences { NativeWindowOpen = true },
+                AutoHideMenuBar = true
                 //Width = 1000,
                 //Height = 800,
-                //Show = false,
             });
+
+            window.OnReadyToShow += () =>
+            {
+                window.Show();
+            };
 
             window.OnClose += () =>
             {

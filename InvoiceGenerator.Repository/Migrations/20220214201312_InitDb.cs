@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InvoiceGenerator.Repository.Migrations
 {
-    public partial class CreateDb : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -219,16 +219,21 @@ namespace InvoiceGenerator.Repository.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<long>(type: "INTEGER", nullable: false),
                     ClientName = table.Column<string>(type: "TEXT", nullable: true),
-                    CompanyName = table.Column<string>(type: "TEXT", nullable: true),
-                    Address = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    EmailAddress = table.Column<string>(type: "TEXT", nullable: true),
+                    ClientCompanyName = table.Column<string>(type: "TEXT", nullable: true),
+                    ClientAddress = table.Column<string>(type: "TEXT", nullable: true),
+                    ClientPhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    ClientEmailAddress = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Comment = table.Column<string>(type: "TEXT", nullable: true),
                     TotalFee = table.Column<decimal>(type: "TEXT", nullable: false),
                     Vat = table.Column<decimal>(type: "TEXT", nullable: false),
                     CurrencyId = table.Column<long>(type: "INTEGER", nullable: false),
+                    UserCompanyName = table.Column<string>(type: "TEXT", nullable: true),
+                    UserContactNo = table.Column<string>(type: "TEXT", nullable: true),
+                    UserAddress = table.Column<string>(type: "TEXT", nullable: true),
+                    UserEmail = table.Column<string>(type: "TEXT", nullable: true),
+                    UserCompanyLogoId = table.Column<long>(type: "INTEGER", nullable: false),
                     IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

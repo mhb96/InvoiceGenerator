@@ -14,19 +14,19 @@
                 <h4 class="font-weight-bold text-primary pt-1">View Invoice</h4>
                 <div ng-controller="save">
                     <a class="btn btn-primary" style="padding-top:7px;" href="/"><i class="mr-2 fas fa-chevron-left"></i>Dashboard</a>
-                    <a class="btn btn-info mx-3 px-3" style="padding-top:7px;" href="">Edit</a>
+                    <a class="btn btn-info mx-3 px-3" style="padding-top:7px;" href="/invoice/edit/@Model.InvoiceNo">Edit</a>
                     <a class="btn btn-success" style="padding-top:7px;" href="" ng-click="download(@Model.InvoiceNo)">Download PDF<i id="download" class="ml-2 fas fa-download"></i></a>
                 </div>
             </div>
             <div class="card-body">
                 <div class="report mb-5">
                     <header class="clearfix">
-                        @if (!string.IsNullOrEmpty(Model.UserLogo))
+                        @if (!string.IsNullOrEmpty(Model.UserCompanyLogo))
                         {
-                            <div id="logo"><img src="@Model.UserLogo"></div>
+                            <div id="logo"><img src="@Model.UserCompanyLogo"></div>
                         }
                         <h1>INVOICE</h1>
-                        @if (!string.IsNullOrEmpty(Model.UserLogo))
+                        @if (!string.IsNullOrEmpty(Model.UserCompanyLogo))
                         {
                             <div class="company">
                                 <h2>@Model.UserCompanyName</h2>
@@ -56,7 +56,7 @@
                                 <div><a href="">@Model.ClientEmailAddress</a></div>
                             </div>
                             <div id="invoice">
-                                <h2>Invoice No: @Model.InvoiceNo.ToString("D6")</h2>
+                                <h2>Invoice No: @Model.InvoiceNo</h2>
                                 <div class="date">Date of Invoice: @Model.CreatedDate</div>
                                 <div class="date">Due Date: @Model.DueDate</div>
                             </div>
@@ -95,7 +95,7 @@
                             <h3>Summary</h3>
                             <div>
                                 <p><span class="title">SubTotal Fee</span><span class="value">@Model.CurrencyCode @Model.SubTotalFee</span></p>
-                                <p><span class="title">VAT</span><span class="value">@Model.CurrencyCode @Model.Vat.ToString("F2")</span></p>
+                                <p><span class="title">VAT</span><span class="value">% @Model.Vat.ToString("F2")</span></p>
                                 <p style="border: 0;"><span class="title">Total Fee</span><span class="value">@Model.CurrencyCode @Model.TotalFee</span></p>
                             </div>
                         </div>

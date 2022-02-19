@@ -14,5 +14,6 @@
         public string CompanyLogo { get; set; }
         public string Password { get; set; }
         public long CurrencyId { get; set; }
+        public long CompanyLogoId { get; set; }
     }
 }
