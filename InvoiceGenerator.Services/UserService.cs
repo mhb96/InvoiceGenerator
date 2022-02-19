@@ -48,6 +48,7 @@ namespace InvoiceGenerator.Services
                 VAT = u.VAT,
                 Password = u.Password,
                 CurrencyId = u.CurrencyId,
+                CompanyLogoId = u.CompanyLogo != null? u.CompanyLogo.Id : 0,
                 CompanyLogo = u.CompanyLogo != null ? _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false) : null
             }).FirstOrDefaultAsync();
         }
@@ -73,7 +74,7 @@ namespace InvoiceGenerator.Services
             {
                 var user = await GetAsync(input.Username);
                 await AddClaim(user, "UserId", $"{user.Id}");
-                await AddClaim(user, "FullName", $"{user.FirstName} {user.FirstName}");
+                await AddClaim(user, "FullName", $"{user.FirstName} {user.LastName}");
                 return true;
             }
             return false;
@@ -82,7 +83,10 @@ namespace InvoiceGenerator.Services
         public async Task RegisterAsync(RegisterModel input)
         {
             if (await _userManager.FindByEmailAsync(input.Email) != null)
-                throw new IGException("User with email already exists. If you have forgotten your password please contact the developer.");
+                throw new IGException($"User with email {input.Email} already exists. If you have forgotten your password please contact the developer.");
+
+            if (await GetAsync(input.UserName) != null)
+                throw new IGException($"User with username {input.UserName} already exists. If you have forgotten your password please contact the developer.");
 
             Logger.LogInformation($"Create user with email `{input.Email}` for application");
             var user = new User

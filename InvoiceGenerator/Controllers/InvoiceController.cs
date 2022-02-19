@@ -43,15 +43,15 @@ namespace InvoiceGenerator.Controllers
 
             long invoiceId = await _invoiceService.CreateAsync(new CreateInvoiceModel
             {
-                Address = input.Address,
+                ClientAddress = input.Address,
                 TotalFee = input.TotalFee,
                 ClientName = input.ClientName,
                 Comment = input.Comment,
-                CompanyName = input.CompanyName,
+                ClientCompanyName = input.CompanyName,
                 CreatedDate = input.CreatedDate,
                 DueDate = input.DueDate,
-                EmailAddress = input.EmailAddress,
-                PhoneNumber = input.PhoneNumber,
+                ClientEmailAddress = input.EmailAddress,
+                ClientPhoneNumber = input.PhoneNumber,
                 Vat = input.Vat,
                 Items = input.Items,
                 UserId = userId,
@@ -76,32 +76,51 @@ namespace InvoiceGenerator.Controllers
         }
 
         [Authorize]
-        [HttpGet("/invoice/edit")]
-        public IActionResult Edit() => View();
+        [HttpGet("/invoice/edit/{id}")]
+        public IActionResult Edit(long id) => View(new EditInvoiceViewModel { InvoiceId = id });
 
         [Authorize]
-        [HttpPost("/api/invoice/edit")]
-        public async Task<IActionResult> Edit([FromBody] CreateInvoiceInputModel input)
+        [HttpGet("/api/invoice/getInvoiceDetails/{id}")]
+        public async Task<IActionResult> GetInvoiceDetails(long id) => Ok(await _invoiceService.GetAsync(id, false));
+
+        [Authorize]
+        [HttpPost("/api/invoice/edit/{id}")]
+        public async Task<IActionResult> Edit(long id, [FromBody] EditInvoiceInputModel input)
         {
             long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
 
-            long invoiceId = await _invoiceService.CreateAsync(new CreateInvoiceModel
+            await _invoiceService.EditAsync(new EditInvoiceModel
             {
-                Address = input.Address,
+                InvoiceId = id,
+                UserCompanyName = input.UserCompanyName,
+                UserAddress = input.UserAddress,
+                CurrencyId = input.CurrencyId,
+                UserEmailAddress = input.UserEmail,
+                UserPhoneNumber = input.UserContactNo,
+                ClientAddress = input.Address,
                 TotalFee = input.TotalFee,
                 ClientName = input.ClientName,
                 Comment = input.Comment,
-                CompanyName = input.CompanyName,
+                ClientCompanyName = input.CompanyName,
                 CreatedDate = input.CreatedDate,
                 DueDate = input.DueDate,
-                EmailAddress = input.EmailAddress,
-                PhoneNumber = input.PhoneNumber,
+                ClientEmailAddress = input.EmailAddress,
+                ClientPhoneNumber = input.PhoneNumber,
                 Vat = input.Vat,
                 Items = input.Items,
                 UserId = userId
             });
 
-            return Ok(invoiceId);
+            return Ok(id);
+        }
+
+        [Authorize]
+        [HttpPost("/invoice/delete/{id}")]
+        public IActionResult Delete(long id)
+        {
+            long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
+            _invoiceService.DeleteAsync(invoiceId: id, userId: userId);
+            return Ok();
         }
 
         [Authorize]

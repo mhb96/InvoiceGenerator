@@ -1,20 +1,17 @@
 {
-  "executable": "InvoiceGenerator",
+  "executable": "",
   "splashscreen": {
     "imageFile": ""
   },
-  "name": "InvoiceGenerator",
+  "name": "",
   "author": "",
   "singleInstance": false,
   "environment": "Production",
   "build": {
-    "appId": "com.InvoiceGenerator.app",
-    "productName": "InvoiceGenerator",
+    "appId": "com..app",
+    "productName": "",
     "copyright": "Copyright © 2020",
     "buildVersion": "1.0.0",
-    "win": {
-      "icon": "../../../wwwroot/InGenLogo.ico"
-       },
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"

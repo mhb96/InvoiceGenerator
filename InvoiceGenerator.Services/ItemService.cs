@@ -51,5 +51,13 @@ namespace InvoiceGenerator.Services
             await UnitOfWork.SaveAsync();
             Logger.LogInformation($"Added items for invoice : {invoiceNo}.");
         }
+
+        public async Task DeleteAllAsync(long invoiceNo)
+        {
+            Logger.LogInformation($"Deleting all items for invoice : {invoiceNo}.");
+            var items = await UnitOfWork.Query<Item>(i => i.InvoiceNo == invoiceNo).ToListAsync();
+            UnitOfWork.DeleteRange(items);
+            await UnitOfWork.SaveAsync();
+        }
     }
 }

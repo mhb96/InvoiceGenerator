@@ -130,16 +130,22 @@ namespace InvoiceGenerator.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("ClientAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClientCompanyName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClientEmailAddress")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ClientName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Comment")
+                    b.Property<string>("ClientPhoneNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CompanyName")
+                    b.Property<string>("Comment")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
@@ -154,16 +160,25 @@ namespace InvoiceGenerator.Repository.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmailAddress")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<decimal>("TotalFee")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("TotalFee")
+                    b.Property<string>("UserAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("UserCompanyLogoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserCompanyName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserContactNo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserEmail")
                         .HasColumnType("TEXT");
 
                     b.Property<long>("UserId")

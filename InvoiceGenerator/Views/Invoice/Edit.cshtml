@@ -1,35 +1,57 @@
-﻿@{
-    ViewData["Title"] = "Create";
+﻿@model InvoiceGenerator.Models.EditInvoiceViewModel
+@{
+    ViewData["Title"] = "Edit";
 }
 @section Styles
 {
     <link href="~/css/create-invoice.css" rel="stylesheet" />
 }
 <body>
-    <div ng-controller="create" ng-init="init()">
+    <div ng-controller="edit" ng-init="init(@Model.InvoiceId)">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h4 class="font-weight-bold text-primary pt-1">Edit Invoice</h4>
                 <h5 class="text-info pt-2">Please edit any required invoice details.</h5>
-                <a class="btn btn-success" style="padding-top:7px;" ng-click="create()" href="">Save & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
+                <div>
+                    <a class="btn btn-primary mr-3" style="padding-top:7px;" href="~/invoice/view/@Model.InvoiceId"> <i class="mr-2 fas fa-chevron-left"></i>Cancel</a>
+                    <a class="btn btn-success" style="padding-top:7px;" ng-click="edit()" href="">Update & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="card report mb-5">
                     <header class="clearfix pt-3">
                         <div class="text-center">
-                            <a asp-controller="User" asp-action="Edit" class="btn btn-sm btn-info">Edit User Details</a>
+                            <div class="border border-info rounded py-2">
+                                <p class="text-info m-0">
+                                    <i class="fas fa-info-circle mr-2"></i>To use these company details in future invoices, please ensure they match the details in
+                                    <a asp-controller="User" asp-action="Edit">Edit User</a> 
+                                    page.
+                                </p>
+                            </div>                            
                         </div>
                         <br />
                         <div id="logo">
                             <img ng-hide="logo == null" ng-src="{{logo}}">
-                            <div id="nologo" ng-show="logo == null" class="text-center"><br />Logo <br />comes <br />here<br />if exists.</div>
+                            <div id="nologo" ng-show="logo == null" class="text-center pt-2"><br />This invoice<br />does not<br />have a logo.</div>
                         </div>
                         <h1>INVOICE</h1>
                         <div class="company">
-                            <h2>{{userCompanyName}}</h2>
-                            <div>{{userCompanyAddress}}</div>
-                            <div>{{userCompanyPhone}}</div>
-                            <div><a href="mailto:company@example.com">{{userCompanyEmail}}</a></div>
+                            <div class="text-info">
+                                <label class="m-0">Your company name</label>
+                                <input type="text" class="form-control form-control-user" ng-model="userCompanyName">
+                            </div>
+                            <div class="text-info">
+                                <label class="mt-3 mb-0">Your company address</label>
+                                <input type="text" class="form-control form-control-user" ng-model="userCompanyAddress">
+                            </div>
+                            <div class="text-info">
+                                <label class="mt-3 mb-0">Your company contact number</label>
+                                <input type="text" class="form-control form-control-user" ng-model="userContactNo">
+                            </div>
+                            <div class="text-info">
+                                <label class="mt-3 mb-0">Your company email</label>
+                                <input type="text" class="form-control form-control-user" ng-model="userCompanyEmail">
+                            </div>
                         </div>
                     </header>
                     <main>
@@ -38,44 +60,46 @@
                                 <h2 class="to">Invoice To:</h2>
                                 <div class="text-info">
                                     <label class="m-0">Client Name</label>
-                                    <input type="text" class="form-control form-control-user" placeholder="Eg: Tony Stark" ng-model="clientName">
+                                    <input type="text" class="form-control form-control-user" ng-model="clientName">
                                 </div>
                                 <div class="text-info my-3">
-                                    <label class="mb-0">Company Name: (Required)</label>
-                                    <input type="text" class="form-control form-control-user" placeholder="Eg: Stark Industries" ng-model="companyName" required>
+                                    <label class="mb-0">Client Company Name: (Required)</label>
+                                    <input type="text" class="form-control form-control-user" ng-model="clientCompanyName" required>
                                 </div>                               
                                 <div class="text-info my-3">
-                                    <label class="mb-0">Address:</label>
-                                    <input type="text" class="form-control form-control-user" placeholder="Eg: 1200 Industrial Ave, Long Beach, CA, US" ng-model="address">
+                                    <label class="mb-0">Client Address:</label>
+                                    <input type="text" class="form-control form-control-user" ng-model="clientAddress">
                                 </div> 
                                 <div class="text-info my-3">
-                                    <label class="mb-0">Phone Number:</label>
-                                    <input type="text" class="form-control form-control-user" placeholder="Eg: +971507562785" ng-model="phoneNumber">
+                                    <label class="mb-0">Client Phone Number:</label>
+                                    <input type="text" class="form-control form-control-user" ng-model="clientPhoneNumber">
                                 </div> 
                                 <div class="text-info my-3">
-                                    <label class="mb-0">Email Address:</label>
-                                    <input type="text" class="form-control form-control-user" placeholder="Eg: Tony@Stark.com" ng-model="emailAddress">
+                                    <label class="mb-0">Client Email Address:</label>
+                                    <input type="text" class="form-control form-control-user" ng-model="clientEmailAddress">
                                 </div> 
                             </div>
                             <div id="invoice">
-                                <h2>Invoice No: ###</h2>
+                                <h2>Invoice No: {{invoiceNo}}</h2>
                                 <div class="text-info mt-3 mb-4">
-                                    <label class="mb-0">Date Of Invoice: (Today's date by default)</label>
+                                    <label class="mb-0">Date Of Invoice</label>
                                     <input id="startDate" type="date" class="form-control form-control-user" min="2000-01-01" max="2100-01-01" ng-change="updateDueDate()" ng-model="createdDate">
                                 </div>
-                                    <label class="text-danger my-0" ng-show="dateError">Due Date cannot be less than Date Of Invoice!</label>
+                                <label class="text-danger my-0" ng-show="dateError">Due Date cannot be less than Date Of Invoice!</label>
                                 <div class="text-info ">
-                                    <label class="mb-0">Due Date: (Required)</label>
+                                    <label class="mb-0">Due Date</label>
                                     <input id="endDate" type="date" class="form-control form-control-user" min="2021-12-01" ng-model="dueDate" ng-change="validateDate()">
                                 </div> 
                             </div>
                         </div>
                         <br>
+                        <label class="mt-3 text-info" for="repeatSelect"> Currency: </label>
+                        <select class=" form-control form-control-user" style="width:300px;" name="mySelect" id="mySelect" ng-options="option.name for option in currencies track by option.id" ng-model="currency"></select>
                         <br>
                         <br>
                         <div id="add-item">
                             <div id="add-items-title" >
-                        <h5 class="text-center text-info pt-2" >Add Items</h5>
+                                <h5 class="text-center text-info pt-2" >Add Items</h5>
                                 <p class="text-center pb-2 my-0 text-info" id=""><span>(Enter item details and click on </span><i class="fas fa-plus mx-1"></i> <span>button to add item to the table below)</span></p>
                             </div>
                             <div id="item"  class="d-flex p-2">
@@ -88,15 +112,16 @@
                                     <input type="number" class="form-control form-control-user" placeholder="Qty / Hrs" ng-model="itemQty" min="0.0" step="0.5">
                                 </div>
                                 <div id="new-item-price">
-                                    <label class="mb-0 text-info">Unit Price (AED)</label>
-                                    <input type="number" class="form-control form-control-user" placeholder="AED" ng-model="itemPrice" min="0.00" step="0.01">
+                                    <label class="mb-0 text-info">Unit Price ({{currency.code}})</label>
+                                    <input type="number" class="form-control form-control-user" placeholder="{{currency.code}}" ng-model="itemPrice" min="0.00" step="0.01">
                                 </div>
                                 <a id="add-item-button" class="btn btn-info mt-3" title="Add Item" ng-click="addItem()"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
-                        <br>
-                        <br>
-                        <br>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
                         <div class="items-table">
                             <table>
                                 <thead>
@@ -104,8 +129,8 @@
                                         <th class="no">#</th>
                                         <th class="desc">Name</th>
                                         <th class="qty">Quantity /<br>Hours</th>
-                                        <th class="unit">Unit Price<br>(AED)</th>
-                                        <th class="total">Total<br>(AED)</th>
+                                        <th class="unit">Unit Price<br>({{currency.code}})</th>
+                                        <th class="total">Total<br>({{currency.code}})</th>
                                         <th class="final-column delete"></th>
                                     </tr>
                                 </thead>
@@ -125,9 +150,9 @@
                         <div class="summary">
                             <h3>Summary</h3>
                             <div>
-                                <p><span class="title">SubTotal Fee</span><span class="value">AED {{subTotal | number:2}}</span></p>
+                                <p><span class="title">SubTotal Fee</span><span class="value">{{currency.code}} {{subTotal | number:2}}</span></p>
                                 <p class="d-flex"><span class="mr-auto pt-2">VAT </span><span class="pt-2 mr-2">%</span> <input type="number" class="form-control form-control-user " id="vat-input" min="0.00" max="100.00" step="0.01" ng-model="vat" ng-change="vatChange()" ng-class="(vatError == 1) ? 'invalid' : ''"></p>
-                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value"> AED {{total | number:2}}</span></p>
+                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value"> {{currency.code}} {{total | number:2}}</span></p>
                             </div>
                         </div>
                         <div class="notice">
@@ -140,12 +165,12 @@
                 </div>
             </div>
             <div class="card-footer">
-                <a class="btn btn-success float-right" ng-click="create()" href="">Save & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
+                <a class="btn btn-success float-right" ng-click="edit()" href="">Update & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
             </div>
         </div>
     </div>
 </body>
 @section Scripts
 {
-    <script src="~/js/create.js" asp-append-version="true"></script>
+    <script src="~/js/edit-invoice.js" asp-append-version="true"></script>
 }

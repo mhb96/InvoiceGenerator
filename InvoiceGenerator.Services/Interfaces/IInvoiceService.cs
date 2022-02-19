@@ -10,8 +10,9 @@ namespace InvoiceGenerator.Services
     {
         public Task<List<InvoiceSummaryModel>> GetForDashboardAsync(long userId);
         public Task<InvoiceModel> GetAsync(long invoiceId, bool isForPdf);
-        public Task DeleteAsync(long id);
+        public Task DeleteAsync(long invoiceId, long userId);
         public Task<long> CreateAsync(CreateInvoiceModel input);
         public Task<string> CreateInvoicePdf(long invoiceId);
+        public Task<long> EditAsync(EditInvoiceModel input);
     }
 }

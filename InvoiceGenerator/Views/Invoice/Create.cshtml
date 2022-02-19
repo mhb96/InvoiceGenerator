@@ -11,7 +11,10 @@
             <div class="card-header d-flex justify-content-between">
                 <h4 class="font-weight-bold text-primary pt-1">New Invoice</h4>
                 <h5 class="text-info pt-2"> Please fill your invoice details</h5>
-                <a class="btn btn-success" style="padding-top:7px;" ng-click="create()" href="">Save & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
+                <div>
+                    <a class="btn btn-info" style="padding-top:7px;" href="/"><i class="mr-2 fas fa-chevron-left"></i>Cancel</a>
+                    <a class="btn btn-success mx-2" style="padding-top:7px;" ng-click="create()" href="">Save & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="card report mb-5">

@@ -35,12 +35,12 @@ namespace InvoiceGenerator.Entities
         public string ClientName { get; set; }
 
         /// <summary>
-        /// Gets or sets the company name.
+        /// Gets or sets the client company name.
         /// </summary>
         /// <value>
-        /// The company name.
+        /// The client company name.
         /// </value>
-        public string CompanyName { get; set; }
+        public string ClientCompanyName { get; set; }
 
         /// <summary>
         /// Gets or sets the address.
@@ -48,7 +48,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The address.
         /// </value>
-        public string Address { get; set; }
+        public string ClientAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number.
@@ -56,7 +56,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The phone number.
         /// </value>
-        public string PhoneNumber { get; set; }
+        public string ClientPhoneNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the email address.
@@ -64,7 +64,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The email address.
         /// </value>
-        public string EmailAddress { get; set; }
+        public string ClientEmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the created date.
@@ -96,7 +96,7 @@ namespace InvoiceGenerator.Entities
         /// <value>
         /// The list of items.
         /// </value> 
-        public List<Item> Items { get; set; }
+        public virtual List<Item> Items { get; set; }
 
         /// <summary>
         /// Gets or sets the total fee.
@@ -129,5 +129,45 @@ namespace InvoiceGenerator.Entities
         /// The currency.
         /// </value>
         public virtual Currency Currency { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user Company Name.
+        /// </summary>
+        /// <value>
+        /// The user Company Name.
+        /// </value> 
+        public string UserCompanyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user contact no.
+        /// </summary>
+        /// <value>
+        /// The user contact no.
+        /// </value> 
+        public string UserContactNo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user Address.
+        /// </summary>
+        /// <value>
+        /// The user Address.
+        /// </value> 
+        public string UserAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user email.
+        /// </summary>
+        /// <value>
+        /// The user email.
+        /// </value> 
+        public string UserEmail { get; set; }
+
+        /// <summary>
+        /// Gets or sets the User Company Logo.
+        /// </summary>
+        /// <value>
+        /// The User Company Logo.
+        /// </value> 
+        public long UserCompanyLogoId { get; set; }
     }
 }

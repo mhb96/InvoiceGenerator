@@ -19,10 +19,14 @@ namespace InvoiceGenerator.Services
     {
         private readonly IItemService _itemService;
         private readonly IFileHelper _fileHelper;
-        public InvoiceService(IItemService itemService, IUnitOfWork unitOfWork, ILogger<InvoiceService> logger, IFileHelper fileHelper) : base(unitOfWork, logger)
+        private readonly IUserService _userService;
+        private readonly IImageService _imageService;
+        public InvoiceService(IItemService itemService, IUnitOfWork unitOfWork, ILogger<InvoiceService> logger, IFileHelper fileHelper, IUserService userService, IImageService imageService) : base(unitOfWork, logger)
         {
             _itemService = itemService;
             _fileHelper = fileHelper;
+            _userService = userService;
+            _imageService = imageService;
         }
 
         public async Task<List<InvoiceSummaryModel>> GetForDashboardAsync(long userId) =>
@@ -31,31 +35,35 @@ namespace InvoiceGenerator.Services
                 CreatedDate = i.CreatedAt.ToString("dd/MM/yyyy"),
                 DueDate = i.DueDate.ToString("dd/MM/yyyy"),
                 InvoiceNo = i.Id.ToString("D6"),
-                ToCompany = i.CompanyName,
-                TotalFee = i.TotalFee.ToString("F2")
+                ToCompany = i.ClientCompanyName,
+                TotalFee = $"{i.Currency.Code} {i.TotalFee.ToString("F2")}"
             }).ToListAsync();
 
         public async Task<InvoiceModel> GetAsync(long invoiceId, bool isForPdf)
         {
             var invoice = await UnitOfWork.Query<Invoice>(i => i.Id == invoiceId).Select(i => new InvoiceModel
             {
-                InvoiceNo = i.Id,
-                ClientAddress = i.Address,
-                ClientCompanyName = i.CompanyName,
-                ClientEmailAddress = i.EmailAddress,
+                InvoiceNo = i.Id.ToString("D6"),
+                ClientAddress = i.ClientAddress,
+                ClientCompanyName = i.ClientCompanyName,
+                ClientEmailAddress = i.ClientEmailAddress,
                 ClientName = i.ClientName,
-                ClientPhoneNumber = i.PhoneNumber,
+                ClientPhoneNumber = i.ClientPhoneNumber,
                 Comment = i.Comment,
                 CreatedDate = i.CreatedDate.ToString("dd/MM/yyyy"),
                 DueDate = i.DueDate.ToString("dd/MM/yyyy"),
                 Vat = i.Vat,
-                UserAddress = i.User.Address,
-                UserCompanyName = i.User.CompanyName,
-                UserContactNo = i.User.ContactNo,
-                UserEmail = i.User.Email,
+                UserAddress = i.UserAddress,
+                UserCompanyName = i.UserCompanyName,
+                UserContactNo = i.UserContactNo,
+                UserEmail = i.UserEmail,
                 CurrencyCode = i.Currency.Code,
-                UserLogo = i.User.CompanyLogo != null ? isForPdf ? _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, true) : _fileHelper.GetImageAddress(i.User.CompanyLogo.ImageName, false) : null
+                CurrencyId = i.Currency.Id,
+                UserCompanyLogoId = i.UserCompanyLogoId
             }).FirstOrDefaultAsync();
+
+            var image = await _imageService.GetAsync(invoice.UserCompanyLogoId);
+            invoice.UserCompanyLogo = invoice.UserCompanyLogoId != 0 ? isForPdf ? _fileHelper.GetImageAddress(image.ImageName, true) : _fileHelper.GetImageAddress(image.ImageName, false) : null;
 
             var items = await _itemService.GetAsync(invoiceId);
 
@@ -73,14 +81,91 @@ namespace InvoiceGenerator.Services
             return invoice;
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(long invoiceId, long userId)
         {
-            var invoice = await UnitOfWork.FirstOrDefaultAsync<Invoice>(i => i.Id == id);
+            var invoice = await UnitOfWork.FirstOrDefaultAsync<Invoice>(i => i.Id == invoiceId && i.UserId == userId );
             Logger.LogInformation($"Attempting to delete invoice: {invoice.Id} {invoice.CreatedAt.Date}, {invoice.ClientName}, {invoice.TotalFee}");
             invoice.IsDeleted = true;
             UnitOfWork.Update(invoice);
             await UnitOfWork.SaveAsync();
-            Logger.LogInformation($"Successfully deleted invoice: {id}");
+            Logger.LogInformation($"Successfully deleted invoice: {invoiceId}");
+        }
+
+        public async Task<long> EditAsync(EditInvoiceModel input)
+        {
+            if (string.IsNullOrEmpty(input.UserCompanyName))
+                throw new IGException("Your company name cannot be empty!");
+
+            if (string.IsNullOrEmpty(input.UserEmailAddress))
+                throw new IGException("Your company email cannot be empty!");
+
+            if (string.IsNullOrEmpty(input.UserAddress))
+                throw new IGException("Your company address cannot be empty!");
+
+            if (string.IsNullOrEmpty(input.UserPhoneNumber))
+                throw new IGException("Your company phone number cannot be empty!");
+
+            if (input.Items?.Count == 0)
+                throw new IGException("No items exist in this invoice!");
+
+            if (input.Items?.Count > 15)
+                throw new IGException("Number of items cannot be greater than 15!");
+
+            if (string.IsNullOrEmpty(input.ClientCompanyName))
+                throw new IGException("Required client's company name was not provided.");
+
+            if (string.IsNullOrEmpty(input.CreatedDate))
+                throw new IGException("Required created date does not exist.");
+
+            if (string.IsNullOrEmpty(input.DueDate))
+                throw new IGException("Required due date does not exist.");
+
+            if (DateTime.Parse(input.CreatedDate) > DateTime.Parse(input.DueDate))
+                throw new IGException("Created date cannot be greater than Due date.");
+
+            if (input.CurrencyId == 0)
+                throw new IGException("No currency was selected");
+
+            Logger.LogInformation($"Validating total price.");
+
+            decimal subTotal = 0M;
+            foreach (var item in input.Items)
+                subTotal += item.Quantity * item.UnitPrice;
+
+            decimal totalFee = Math.Round(subTotal + (subTotal * input.Vat / 100), 2, MidpointRounding.AwayFromZero);
+            if (totalFee != input.TotalFee)
+                throw new IGException("Total fee is not equal to total price of items plus vat.");
+
+            Invoice invoice = await UnitOfWork.Query<Invoice>(i => i.Id == input.InvoiceId && i.UserId == input.UserId).FirstOrDefaultAsync();
+            
+            if (invoice == null)
+                throw new IGException("Invoice does not exist!");
+
+            Logger.LogInformation($"Updating invoice {invoice.Id}.");
+                        
+            invoice.UserAddress = input.UserAddress;
+            invoice.UserCompanyName = input.UserCompanyName;
+            invoice.UserContactNo = input.UserPhoneNumber;
+            invoice.UserEmail = input.UserEmailAddress;
+            invoice.ClientAddress = input.ClientAddress;
+            invoice.ClientName = input.ClientName;
+            invoice.Comment = input.Comment;
+            invoice.ClientCompanyName = input.ClientCompanyName;
+            invoice.CreatedDate = DateTime.Parse(input.CreatedDate);
+            invoice.DueDate = DateTime.Parse(input.DueDate);
+            invoice.ClientEmailAddress = input.ClientEmailAddress;
+            invoice.ClientPhoneNumber = input.ClientPhoneNumber;
+            invoice.TotalFee = totalFee;
+            invoice.Vat = input.Vat;
+            invoice.CurrencyId = input.CurrencyId;
+
+            UnitOfWork.Update(invoice);
+            await UnitOfWork.SaveAsync();
+
+            await _itemService.DeleteAllAsync(invoice.Id);
+            await _itemService.AddAsync(input.Items, invoice.Id);
+
+            return invoice.Id;
         }
 
         public async Task<long> CreateAsync(CreateInvoiceModel input)
@@ -91,7 +176,7 @@ namespace InvoiceGenerator.Services
             if (input.Items?.Count > 15)
                 throw new IGException("Number of items cannot be greater than 15!");
 
-            if (string.IsNullOrEmpty(input.CompanyName))
+            if (string.IsNullOrEmpty(input.ClientCompanyName))
                 throw new IGException("Required company name was not provided.");
 
             if (string.IsNullOrEmpty(input.CreatedDate))
@@ -116,20 +201,27 @@ namespace InvoiceGenerator.Services
             if (totalFee != input.TotalFee)
                 throw new IGException("Total fee is not equal to total price of items plus vat.");
 
+            var user = await _userService.GetAsync(input.UserId);
+
             Logger.LogInformation($"Creating new invoice.");
 
             Invoice invoice = new()
             {
                 UserId = input.UserId,
-                Address = input.Address,
+                UserAddress = user.Address,
+                UserCompanyName = user.CompanyName,
+                UserContactNo = user.ContactNo,
+                UserEmail = user.Email,
+                UserCompanyLogoId = user.CompanyLogoId,
+                ClientAddress = input.ClientAddress,
                 ClientName = input.ClientName,
                 Comment = input.Comment,
-                CompanyName = input.CompanyName,
+                ClientCompanyName = input.ClientCompanyName,
                 CreatedDate = DateTime.Parse(input.CreatedDate),
                 DueDate = DateTime.Parse(input.DueDate),
                 CreatedAt = DateTime.Now,
-                EmailAddress = input.EmailAddress,
-                PhoneNumber = input.PhoneNumber,
+                ClientEmailAddress = input.ClientEmailAddress,
+                ClientPhoneNumber = input.ClientPhoneNumber,
                 TotalFee = totalFee,
                 Vat = input.Vat,
                 CurrencyId = input.CurrencyId,

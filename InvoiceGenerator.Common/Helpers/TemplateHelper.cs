@@ -8,10 +8,10 @@ namespace InvoiceGenerator.Common.Helpers
         public static string BuildInvoiceHtml(InvoiceModel invoice)
         {
             var invoiceHtml = TemplateConstants.BaseHtml;
-            if (!string.IsNullOrEmpty(invoice.UserLogo))
+            if (!string.IsNullOrEmpty(invoice.UserCompanyLogo))
             {
                 var logo = TemplateConstants.Logo;
-                logo = logo.Replace("{{LogoUrl}}", invoice.UserLogo);
+                logo = logo.Replace("{{LogoUrl}}", invoice.UserCompanyLogo);
                 invoiceHtml = invoiceHtml.Replace("{{Logo}}", logo);
                 invoiceHtml = invoiceHtml.Replace("{{UserInfo}}", TemplateConstants.UserInfoWithLogo);
             }
@@ -29,7 +29,7 @@ namespace InvoiceGenerator.Common.Helpers
             invoiceHtml = invoiceHtml.Replace("{{ClientAddress}}", invoice.ClientAddress);
             invoiceHtml = invoiceHtml.Replace("{{ClientContactNumber}}", invoice.ClientPhoneNumber);
             invoiceHtml = invoiceHtml.Replace("{{ClientEmailAddress}}", invoice.ClientEmailAddress);
-            invoiceHtml = invoiceHtml.Replace("{{InvoiceNo}}", invoice.InvoiceNo.ToString("D6"));
+            invoiceHtml = invoiceHtml.Replace("{{InvoiceNo}}", invoice.InvoiceNo);
             invoiceHtml = invoiceHtml.Replace("{{CreatedDate}}", invoice.CreatedDate);
             invoiceHtml = invoiceHtml.Replace("{{DueDate}}", invoice.DueDate);
 

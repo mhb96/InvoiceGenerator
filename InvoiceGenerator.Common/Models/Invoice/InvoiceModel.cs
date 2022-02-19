@@ -11,7 +11,7 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// <value>
         /// The invoice number.
         /// </value>
-        public long InvoiceNo { get; set; }
+        public string InvoiceNo { get; set; }
 
         /// <summary>
         /// Gets or sets the user company name.
@@ -20,6 +20,14 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// The user company name.
         /// </value>
         public string UserCompanyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user company logo id.
+        /// </summary>
+        /// <value>
+        /// The user company logo id.
+        /// </value>
+        public long UserCompanyLogoId { get; set; }
 
         /// <summary>
         /// Gets or sets the user address.
@@ -51,7 +59,7 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// <value>
         /// The user logo.
         /// </value>
-        public string UserLogo { get; set; }
+        public string UserCompanyLogo { get; set; }
 
         /// <summary>
         /// Gets or sets the client name.
@@ -156,5 +164,13 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// The currency code.
         /// </value> 
         public string CurrencyCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the currency identifier.
+        /// </summary>
+        /// <value>
+        /// The currency identifier.
+        /// </value> 
+        public long CurrencyId { get; set; }
     }
 }
