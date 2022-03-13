@@ -15,7 +15,7 @@
                 <div ng-controller="save">
                     <a class="btn btn-primary" style="padding-top:7px;" href="/"><i class="mr-2 fas fa-chevron-left"></i>Dashboard</a>
                     <a class="btn btn-info mx-3 px-3" style="padding-top:7px;" href="/invoice/edit/@Model.InvoiceNo">Edit</a>
-                    <a class="btn btn-success" style="padding-top:7px;" href="" ng-click="download(@Model.InvoiceNo)">Download PDF<i id="download" class="ml-2 fas fa-download"></i></a>
+                    <a class="btn btn-success" style="padding-top:7px;" href="" ng-click="download(@Model.InvoiceNo)">Save As PDF<i id="download" class="ml-2 fas fa-download"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -96,7 +96,9 @@
                             <div>
                                 <p><span class="title">SubTotal Fee</span><span class="value">@Model.CurrencyCode @Model.SubTotalFee</span></p>
                                 <p><span class="title">VAT</span><span class="value">% @Model.Vat.ToString("F2")</span></p>
-                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value">@Model.CurrencyCode @Model.TotalFee</span></p>
+                                <p><span class="title">Total Fee</span><span class="value">@Model.CurrencyCode @Model.TotalFee</span></p>
+                                <p style="border-top: 5px solid #0087C3;"><span class="title">Fee Paid</span><span class="value">@Model.CurrencyCode @Model.FeePaid.ToString("F2")</span></p>
+                                <p style="border: 0;"><span class="title">Total Fee Due</span><span class="value">@Model.CurrencyCode @Model.TotalFeeDue</span></p>
                             </div>
                         </div>
                         @if (!string.IsNullOrEmpty(Model.Comment))

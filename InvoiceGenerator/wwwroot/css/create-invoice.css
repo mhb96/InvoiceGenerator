@@ -301,7 +301,9 @@ footer {
 #vat-input {
     width: 100px;
 }
-
+#feePaid-input {
+    width: 200px;
+}
 .invalid{
     box-shadow: 0 0 0 0.2rem rgb(226 0 0 / 0.40)
 }

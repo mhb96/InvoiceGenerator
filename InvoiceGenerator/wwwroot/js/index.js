@@ -4,6 +4,7 @@ app.controller("dashboard",
     function ($scope, httpRequest) {
         $scope.init = function () {
             $scope.deleteAllTemp();
+            $scope.status = '';
             $scope.getInvoices();
             $scope.dtOptions = { paging: true, searching: true, order: [[0, 'desc']] };
         }

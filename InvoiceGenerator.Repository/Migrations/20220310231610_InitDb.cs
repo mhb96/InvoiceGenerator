@@ -226,6 +226,7 @@ namespace InvoiceGenerator.Repository.Migrations
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    FeePaid = table.Column<decimal>(type: "TEXT", nullable: false),
                     TotalFee = table.Column<decimal>(type: "TEXT", nullable: false),
                     Vat = table.Column<decimal>(type: "TEXT", nullable: false),
                     CurrencyId = table.Column<long>(type: "INTEGER", nullable: false),

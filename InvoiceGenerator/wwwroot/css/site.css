@@ -115,6 +115,14 @@ body {
     margin-right: auto;
 }
 
+table {
+    overflow-x: scroll;
+}
+
 table .toCompany{
-    min-width: 250px;
+    max-width: 200px;
+}
+
+table .actions {
+    min-width: 120px;
 }

@@ -1,7 +1,7 @@
 {
   "executable": "InvoiceGenerator",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "/wwwroot/Splash.jpg"
   },
   "name": "InvoiceGenerator",
   "author": "",

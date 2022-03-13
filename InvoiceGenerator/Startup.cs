@@ -66,7 +66,7 @@ namespace InvoiceGenerator
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 1;
                 options.Password.RequiredUniqueChars = 0;
                 options.User.RequireUniqueEmail = false;
                 options.SignIn.RequireConfirmedEmail = false;
@@ -114,9 +114,9 @@ namespace InvoiceGenerator
             var window = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
             {
                 WebPreferences = new WebPreferences { NativeWindowOpen = true },
-                AutoHideMenuBar = true
-                //Width = 1000,
-                //Height = 800,
+                AutoHideMenuBar = true,
+                Width = 1200,
+                Height = 1000,
             });
 
             window.OnReadyToShow += () =>

@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h4 class="font-weight-bold text-primary pt-1">Edit Invoice</h4>
-                <h5 class="text-info pt-2">Please edit any required invoice details.</h5>
+                <h5 class="text-info pt-2">Please edit any invoice details as necessary.</h5>
                 <div>
                     <a class="btn btn-primary mr-3" style="padding-top:7px;" href="~/invoice/view/@Model.InvoiceId"> <i class="mr-2 fas fa-chevron-left"></i>Cancel</a>
                     <a class="btn btn-success" style="padding-top:7px;" ng-click="edit()" href="">Update & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
@@ -152,7 +152,10 @@
                             <div>
                                 <p><span class="title">SubTotal Fee</span><span class="value">{{currency.code}} {{subTotal | number:2}}</span></p>
                                 <p class="d-flex"><span class="mr-auto pt-2">VAT </span><span class="pt-2 mr-2">%</span> <input type="number" class="form-control form-control-user " id="vat-input" min="0.00" max="100.00" step="0.01" ng-model="vat" ng-change="vatChange()" ng-class="(vatError == 1) ? 'invalid' : ''"></p>
-                                <p style="border: 0;"><span class="title">Total Fee</span><span class="value"> {{currency.code}} {{total | number:2}}</span></p>
+                                <p style=""><span class="title">Total Fee</span><span class="value"> {{currency.code}} {{total | number:2}}</span></p>
+                                                            
+                                <p style="border-top: 5px solid #0087C3;" class="d-flex"><span class="mr-auto pt-2">Fee Paid </span><span class="pt-2 mr-2">{{currency.code}}</span><input type="number" class="form-control form-control-user " id="feePaid-input" min="0.00" step="0.01" ng-model="feePaid" ng-change="feePaidChange()" ng-class="(feePaidError == 1) ? 'invalid' : ''"></p>
+                                <p style="border: 0;"><span class="title">Total Fee Due</span><span class="value"> {{currency.code}} {{totalDue | number:2}}</span></p>
                             </div>
                         </div>
                         <div class="notice">

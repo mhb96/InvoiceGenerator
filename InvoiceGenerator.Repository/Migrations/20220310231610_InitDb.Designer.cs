@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenerator.Repository.Migrations
 {
     [DbContext(typeof(InGenDbContext))]
-    [Migration("20220214201312_InitDb")]
+    [Migration("20220310231610_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,6 +160,9 @@ namespace InvoiceGenerator.Repository.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DueDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("FeePaid")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsDeleted")

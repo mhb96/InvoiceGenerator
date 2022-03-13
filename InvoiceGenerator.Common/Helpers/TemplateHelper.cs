@@ -50,6 +50,8 @@ namespace InvoiceGenerator.Common.Helpers
             invoiceHtml = invoiceHtml.Replace("{{SubTotalFee}}", invoice.SubTotalFee);
             invoiceHtml = invoiceHtml.Replace("{{VAT}}", invoice.Vat.ToString("F2"));
             invoiceHtml = invoiceHtml.Replace("{{TotalFee}}", invoice.TotalFee);
+            invoiceHtml = invoiceHtml.Replace("{{FeePaid}}", invoice.FeePaid.ToString("F2"));
+            invoiceHtml = invoiceHtml.Replace("{{TotalFeeDue}}", invoice.TotalFeeDue);
             if (!string.IsNullOrEmpty(invoice.Comment))
             {
                 var comment = TemplateConstants.Comment;

@@ -99,6 +99,14 @@ namespace InvoiceGenerator.Entities
         public virtual List<Item> Items { get; set; }
 
         /// <summary>
+        /// Gets or sets the fee paid.
+        /// </summary>
+        /// <value>
+        /// The fee paid.
+        /// </value> 
+        public decimal FeePaid { get; set; }
+
+        /// <summary>
         /// Gets or sets the total fee.
         /// </summary>
         /// <value>

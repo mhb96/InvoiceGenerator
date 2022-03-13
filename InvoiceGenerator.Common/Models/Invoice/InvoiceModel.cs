@@ -150,6 +150,22 @@ namespace InvoiceGenerator.Common.Models.Invoice
         public string TotalFee { get; set; }
 
         /// <summary>
+        /// Gets or sets the fee paid.
+        /// </summary>
+        /// <value>
+        /// The fee paid.
+        /// </value> 
+        public decimal FeePaid { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total amount due.
+        /// </summary>
+        /// <value>
+        /// The total amount due.
+        /// </value> 
+        public string TotalFeeDue { get; set; }
+
+        /// <summary>
         /// Gets or sets the vat.
         /// </summary>
         /// <value>

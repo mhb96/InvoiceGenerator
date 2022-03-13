@@ -1,4 +1,5 @@
-﻿using InvoiceGenerator.Common.Exception;
+﻿using InvoiceGenerator.Common.DataTypes;
+using InvoiceGenerator.Common.Exception;
 using InvoiceGenerator.Common.Helpers;
 using InvoiceGenerator.Common.Helpers.Interfaces;
 using InvoiceGenerator.Common.Models.Invoice;
@@ -36,7 +37,8 @@ namespace InvoiceGenerator.Services
                 DueDate = i.DueDate.ToString("dd/MM/yyyy"),
                 InvoiceNo = i.Id.ToString("D6"),
                 ToCompany = i.ClientCompanyName,
-                TotalFee = $"{i.Currency.Code} {i.TotalFee.ToString("F2")}"
+                TotalFee = $"{i.Currency.Code} {i.TotalFee.ToString("F2")}",
+                PaymentStatus = i.FeePaid == 0 ? PaymentStatus.unpaid : i.FeePaid < i.TotalFee ? PaymentStatus.partial : PaymentStatus.full
             }).ToListAsync();
 
         public async Task<InvoiceModel> GetAsync(long invoiceId, bool isForPdf)
@@ -53,13 +55,14 @@ namespace InvoiceGenerator.Services
                 CreatedDate = i.CreatedDate.ToString("dd/MM/yyyy"),
                 DueDate = i.DueDate.ToString("dd/MM/yyyy"),
                 Vat = i.Vat,
+                FeePaid = i.FeePaid,
                 UserAddress = i.UserAddress,
                 UserCompanyName = i.UserCompanyName,
                 UserContactNo = i.UserContactNo,
                 UserEmail = i.UserEmail,
                 CurrencyCode = i.Currency.Code,
                 CurrencyId = i.Currency.Id,
-                UserCompanyLogoId = i.UserCompanyLogoId
+                UserCompanyLogoId = i.UserCompanyLogoId,
             }).FirstOrDefaultAsync();
 
             var image = await _imageService.GetAsync(invoice.UserCompanyLogoId);
@@ -77,6 +80,7 @@ namespace InvoiceGenerator.Services
             invoice.TotalFee = totalFee.ToString("F2");
             invoice.SubTotalFee = subTotal.ToString("F2");
             invoice.Items = items;
+            invoice.TotalFeeDue = (totalFee - invoice.FeePaid).ToString("F2");
 
             return invoice;
         }
@@ -105,11 +109,11 @@ namespace InvoiceGenerator.Services
             if (string.IsNullOrEmpty(input.UserPhoneNumber))
                 throw new IGException("Your company phone number cannot be empty!");
 
-            if (input.Items?.Count == 0)
+            if (input.Items?.Count <= 0)
                 throw new IGException("No items exist in this invoice!");
 
-            if (input.Items?.Count > 15)
-                throw new IGException("Number of items cannot be greater than 15!");
+            if (input.Items?.Count > 12)
+                throw new IGException("Number of items cannot be greater than 12!");
 
             if (string.IsNullOrEmpty(input.ClientCompanyName))
                 throw new IGException("Required client's company name was not provided.");
@@ -124,7 +128,13 @@ namespace InvoiceGenerator.Services
                 throw new IGException("Created date cannot be greater than Due date.");
 
             if (input.CurrencyId == 0)
-                throw new IGException("No currency was selected");
+                throw new IGException("No currency was selected.");
+
+            if (input.FeePaid < 0)
+                throw new IGException("Fee paid cannot be a negative value.");
+
+            if (input.FeePaid > input.TotalFee)
+                throw new IGException("Fee paid cannot be greater than total fee.");
 
             Logger.LogInformation($"Validating total price.");
 
@@ -156,6 +166,7 @@ namespace InvoiceGenerator.Services
             invoice.ClientEmailAddress = input.ClientEmailAddress;
             invoice.ClientPhoneNumber = input.ClientPhoneNumber;
             invoice.TotalFee = totalFee;
+            invoice.FeePaid = input.FeePaid;
             invoice.Vat = input.Vat;
             invoice.CurrencyId = input.CurrencyId;
 
@@ -173,8 +184,8 @@ namespace InvoiceGenerator.Services
             if (input.Items?.Count == 0)
                 throw new IGException("No items exist in this invoice!");
 
-            if (input.Items?.Count > 15)
-                throw new IGException("Number of items cannot be greater than 15!");
+            if (input.Items?.Count > 12)
+                throw new IGException("Number of items cannot be greater than 12!");
 
             if (string.IsNullOrEmpty(input.ClientCompanyName))
                 throw new IGException("Required company name was not provided.");
@@ -190,6 +201,12 @@ namespace InvoiceGenerator.Services
 
             if (input.CurrencyId == 0)
                 throw new IGException("No currency was selected");
+
+            if (input.FeePaid < 0)
+                throw new IGException("Fee paid cannot be a negative value.");
+
+            if (input.FeePaid > input.TotalFee)
+                throw new IGException("Fee paid cannot be greater than total fee.");
 
             Logger.LogInformation($"Validating total price.");
 
@@ -225,6 +242,7 @@ namespace InvoiceGenerator.Services
                 TotalFee = totalFee,
                 Vat = input.Vat,
                 CurrencyId = input.CurrencyId,
+                FeePaid = input.FeePaid,
                 IsDeleted = false
             };
 

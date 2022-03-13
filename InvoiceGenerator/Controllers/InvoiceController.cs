@@ -55,7 +55,8 @@ namespace InvoiceGenerator.Controllers
                 Vat = input.Vat,
                 Items = input.Items,
                 UserId = userId,
-                CurrencyId = input.CurrencyId
+                CurrencyId = input.CurrencyId,
+                FeePaid = input.FeePaid,
             });
 
             return Ok(invoiceId);
@@ -108,7 +109,8 @@ namespace InvoiceGenerator.Controllers
                 ClientPhoneNumber = input.PhoneNumber,
                 Vat = input.Vat,
                 Items = input.Items,
-                UserId = userId
+                UserId = userId,
+                FeePaid = input.FeePaid
             });
 
             return Ok(id);

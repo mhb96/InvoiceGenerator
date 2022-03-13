@@ -15,6 +15,7 @@ app.controller("edit",
             $scope.vatError = false;
             $scope.updateDueDate();
             $scope.getCurrencies();
+            $scope.feePaid = 0;
         }
 
         $scope.getInvoiceDetails = function () {
@@ -49,6 +50,7 @@ app.controller("edit",
                         value.total = value.quantity * value.unitPrice;
                     });
 
+                    $scope.feePaid = result.data.feePaid;
                     $scope.updateSummary();
                 },
                 function (error) {
@@ -98,7 +100,7 @@ app.controller("edit",
         }
 
         $scope.addItem = function () {
-            if ($scope.items.length >= 15) { swalert('error', 'Error', `Cannot add more than 15 items.`); return; }
+            if ($scope.items.length >= 12) { swalert('error', 'Error', `Cannot add more than 12 items.`); return; }
             if ($scope.itemName === "") { swalert('error', 'Error', `Item/Service name cannot be empty.`); return; }
             if ($scope.itemQty === 0) { swalert('error', 'Error', `Quantity/Hours cannot be zero.`); return;}
             if ($scope.itemPrice === 0) { swalert('error', 'Error', `Unit Price cannot be zero.`); return; }
@@ -133,9 +135,19 @@ app.controller("edit",
             return;
         }
 
+        $scope.feePaidChange = function () {
+            if ($scope.feePaid === undefined) { $scope.feePaidError = true; swalert('error', 'Error', `Invalid Fee Paid entered.`); return; }
+            if ($scope.feePaid < 0) { $scope.feePaidError = true; swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be less than zero.`); return; }
+            if ($scope.feePaid > $scope.total) { $scope.feePaidError = true; swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be greater than total fee.`); return; }
+            $scope.feePaidError = false;
+            $scope.updateSummary();
+            return;
+        }
+
         $scope.updateSummary = function () {
             let subTotal = 0;
             let total = 0;
+            let totalDue = 0;
             $scope.subTotal = 0;
             $scope.items.forEach(item =>
                 subTotal = (item.quantity * item.unitPrice) + subTotal
@@ -143,11 +155,14 @@ app.controller("edit",
             $scope.subTotal = subTotal.toFixed(2);
             total = subTotal + ($scope.vat / 100 * subTotal);
             $scope.total = total.toFixed(2);
+            totalDue = total - $scope.feePaid;
+            $scope.totalDue = totalDue.toFixed(2);
             return;
         }
 
         $scope.edit = function () {
             if ($scope.items.length === 0) { swalert('error', 'Error', `Item list cannot be empty.`); return; }
+            if ($scope.items.length > 12) { swalert('error', 'Error', `Cannot have more than 12 items.`); return; }
             if ($scope.userCompanyName === "") { swalert('error', 'Error', `Your company name cannot be empty.`); return; }
             if ($scope.userContactNo === "") { swalert('error', 'Error', `Your company contact number cannot be empty.`); return; }
             if ($scope.userCompanyAddress === "") { swalert('error', 'Error', `Your company address cannot be empty.`); return; }
@@ -158,6 +173,9 @@ app.controller("edit",
             if ($scope.vatError) { swalert('error', 'Error', `Invalid VAT entered. <br>Value can only exist between 0-100 with 0.01 intervals`); return; }
             if ($scope.subTotal === undefined || $scope.subTotal === 0 || $scope.subTotal === null) { swalert('error', 'Error', `subTotal Fee cannot be zero or undefined.`); return; }
             if ($scope.total === undefined || $scope.total === 0 || $scope.total === null) { swalert('error', 'Error', `Total Fee cannot be zero or undefined.`); return; }
+            if ($scope.feePaid === undefined || $scope.feePaid === null) { swalert('error', 'Error', `Invalid Fee Paid entered.`); return; }
+            if ($scope.feePaid < 0) { swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be less than zero.`); return; }
+            if ($scope.feePaid > $scope.total) { swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be greater than total fee.`); return; }
             if ($scope.clientCompanyName === "" || $scope.clientCompanyName === null || $scope.clientCompanyName === undefined) { swalert('error', 'Error', `Client's Company Name cannot be empty.`); return; }
 
             var invoice = {
@@ -179,6 +197,7 @@ app.controller("edit",
                 items: $scope.items,
                 vat: $scope.vat,
                 totalFee: $scope.total,
+                feePaid: $scope.feePaid,
 
                 comment: $scope.comment
             }
