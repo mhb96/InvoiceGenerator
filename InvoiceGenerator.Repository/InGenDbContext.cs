@@ -13,16 +13,6 @@ namespace InvoiceGenerator.Repository
         }
 
         /// <summary>
-        /// Gets or sets the comments
-        /// </summary>
-        public DbSet<Comment> Comments { get; set; }
-
-        /// <summary>
-        /// Gets or sets the clients
-        /// </summary>
-        public DbSet<Client> Clients { get; set; }
-
-        /// <summary>
         /// Gets or sets the currencies.
         /// </summary>
         public DbSet<Currency> Currencies { get; set; }
