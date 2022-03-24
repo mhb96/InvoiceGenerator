@@ -11,5 +11,11 @@ namespace InvoiceGenerator.Controllers
                 return RedirectToAction("Login", "User");
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Help()
+        {
+            return View();
+        }
     }
 }
