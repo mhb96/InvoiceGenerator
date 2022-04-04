@@ -171,6 +171,7 @@ namespace InvoiceGenerator.Services
             }
 
             await _userManager.UpdateAsync(user);
+            await AddClaim(user, "FullName", $"{user.FirstName} {user.LastName}");
         }
 
         private async Task AddClaim(User user, string claimName, string claimValue)

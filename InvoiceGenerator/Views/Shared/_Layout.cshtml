@@ -51,12 +51,9 @@
                         </li>
                     }
                 </ul>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="ml-3 mt-1" style="font-size: 25px;">
-                        <a asp-area="" asp-controller="Home" asp-action="Help"><i class="far fa-question-circle"></i></a>
-                    </div>
-                }
+                <div class="ml-3 mt-1" style="font-size: 25px;">
+                    <a asp-area="" asp-controller="Home" asp-action="Help"><i class="far fa-question-circle"></i></a>
+                </div>
             </div>
         </nav>
     </header>
