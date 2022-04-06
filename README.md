@@ -1,7 +1,7 @@
-# Invoice Generator
+# InvoiceGenerator
 
 ## About
-Invoice Generator is an application that can help you create, store and update invoices. You can search/filter and view them later whenever you need. It also features a PDF file output so you can share and send invoices to your clients as a PDF file.
+InvoiceGenerator is an application that can help you create, store and update invoices. You can search/filter and view them later whenever you need. It also features a PDF file output so you can share and send invoices to your clients as a PDF file.
 
 ## Install
 To install and use Invoice Generator: download the setup file from [here](https://drive.google.com/file/d/1ECkpSvfFwniraJgaVAJqHX3H-JK4awHK/view?usp=sharing)
