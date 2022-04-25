@@ -115,7 +115,7 @@ namespace InvoiceGenerator
             {
                 WebPreferences = new WebPreferences { NativeWindowOpen = true },
                 AutoHideMenuBar = true,
-                Width = 1200,
+                Width = 1300,
                 Height = 1000,
             });
 
