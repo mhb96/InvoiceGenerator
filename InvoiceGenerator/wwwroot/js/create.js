@@ -103,6 +103,7 @@ app.controller("create",
 
         $scope.vatChange = function () {
             if ($scope.vat === undefined) { $scope.vatError = true; swalert('error', 'Error', `Invalid VAT entered. <br>Value can only exist between 0-100 with 0.01 intervals`); return; }
+            if ($scope.vat == null) { $scope.vat = 0 }
             $scope.vatError = false;
             $scope.updateSummary();
             return;
@@ -142,7 +143,7 @@ app.controller("create",
             if ($scope.vatError) { swalert('error', 'Error', `Invalid VAT entered. <br>Value can only exist between 0-100 with 0.01 intervals`); return; }
             if ($scope.subTotal === undefined || $scope.subTotal === 0 || $scope.subTotal === null) { swalert('error', 'Error', `subTotal Fee cannot be zero or undefined.`); return; }
             if ($scope.total === undefined || $scope.total === 0 || $scope.total === null) { swalert('error', 'Error', `Total Fee cannot be zero or undefined.`); return; }
-            if ($scope.feePaid === undefined || $scope.feePaid === null) { swalert('error', 'Error', `Invalid Fee Paid entered.`); return; }
+            if ($scope.feePaid === undefined || $scope.feePaid === null) { $scope.feePaid = 0; }
             if ($scope.feePaid < 0) { swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be less than zero.`); return; }
             if ($scope.feePaid > $scope.total) { swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be greater than total fee.`); return; }
             if ($scope.companyName === "" || $scope.companyName === null || $scope.companyName === undefined) { swalert('error', 'Error', `Company Name cannot be empty.`); return; }
