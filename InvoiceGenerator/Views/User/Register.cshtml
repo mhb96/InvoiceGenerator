@@ -23,15 +23,15 @@
                                                 <h1 class="h5 text-gray-900 text-center">Login Details</h1>
                                                 <div class="form-group col-sm-6 center">
                                                     <label ng-cloak ng-show="userNameWarn" class="warn">{{userNameWarn}}</label>
-                                                    <input type="text" class="form-control form-control-user black" placeholder="Username" ng-model="userName" ng-change="checkUserName()" maxlength="20" required>
+                                                    <input type="text" class="form-control form-control-user black" placeholder="Username *" ng-model="userName" ng-change="checkUserName()" maxlength="20" required>
                                                 </div>
                                                 <div class="form-group col-sm-6 center">
                                                     <label ng-cloak ng-show="passwordWarn" class="warn">{{passwordWarn}}</label>
-                                                    <input type="password" class="form-control form-control-user black" placeholder="Password" ng-model="password" ng-change="checkPassword()" maxlength="20" required>
+                                                    <input type="password" class="form-control form-control-user black" placeholder="Password *" ng-model="password" ng-change="checkPassword()" maxlength="20" required>
                                                 </div>
                                                 <div class="form-group col-sm-6 center">
                                                     <label ng-cloak ng-show="confirmPasswordWarn" class="warn">{{confirmPasswordWarn}}</label>
-                                                    <input type="password" class="form-control form-control-user black" placeholder="Confirm Password" ng-change="checkConfirmPassword()" ng-model="confirmPassword" maxlength="20" required>
+                                                    <input type="password" class="form-control form-control-user black" placeholder="Confirm Password *" ng-change="checkConfirmPassword()" ng-model="confirmPassword" maxlength="20" required>
                                                 </div>
                                             </div>
                                             <hr class="my-4" />
@@ -41,27 +41,27 @@
                                                 <label ng-cloak ng-show="lastNameWarn" class="warn">{{lastNameWarn}}</label>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control form-control-user black" id="exampleFirstName" placeholder="First Name" ng-model="firstName" ng-change="checkFirstName()" maxlength="20" required>
+                                                        <input type="text" class="form-control form-control-user black" id="exampleFirstName" placeholder="First Name*" ng-model="firstName" ng-change="checkFirstName()" maxlength="20" required>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <input type="text" class="form-control form-control-user black" id="exampleLastName" placeholder="Last Name" ng-model="lastName" ng-change="checkLastName()" maxlength="20" required>
+                                                        <input type="text" class="form-control form-control-user black" id="exampleLastName" placeholder="Last Name*" ng-model="lastName" ng-change="checkLastName()" maxlength="20" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label ng-cloak ng-show="companyNameWarn" class="warn">{{companyNameWarn}}</label>
-                                                    <input class="form-control form-control-user black" placeholder="Company Name" ng-model="companyName" ng-change="checkCompanyName()" maxlength="40" required>
+                                                    <input class="form-control form-control-user black" placeholder="Company Name*" ng-model="companyName" ng-change="checkCompanyName()" maxlength="40" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label ng-cloak ng-show="emailWarn" class="warn">{{emailWarn}}</label>
-                                                    <input class="form-control form-control-user black" placeholder="Email" ng-model="email" ng-change="checkEmail()" maxlength="45" required>
+                                                    <input class="form-control form-control-user black" placeholder="Email*" ng-model="email" ng-change="checkEmail()" maxlength="45" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label ng-cloak ng-show="contactNoWarn" class="warn">{{contactNoWarn}}</label>
-                                                    <input class="form-control form-control-user black" id="phone" placeholder="Contact Number" ng-model="contactNo" ng-change="checkContactNo()" maxlength="25" required>
+                                                    <input class="form-control form-control-user black" id="phone" placeholder="Contact Number*" ng-model="contactNo" ng-change="checkContactNo()" maxlength="25" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label ng-cloak ng-show="addressWarn" class="warn">{{addressWarn}}</label>
-                                                    <input class="form-control form-control-user black" placeholder="Address" ng-model="address" ng-change="checkAddress()" maxlength="40" required>
+                                                    <input class="form-control form-control-user black" placeholder="Address*" ng-model="address" ng-change="checkAddress()" maxlength="40" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="repeatSelect"> Select Preferred Currency: </label>

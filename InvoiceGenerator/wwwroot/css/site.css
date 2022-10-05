@@ -94,6 +94,14 @@ body {
     margin-right: auto;
 }
 
+.confirm-edit {
+    width: 130px;
+    background-color: green;
+    color: white;
+    border-color: white;
+}
+
+
 .strikethrough-line {
     width: 100%;
     text-align: center;
@@ -127,14 +135,9 @@ table .actions {
     min-width: 120px;
 }
 
-.warns {
-    color: #de0001;
-    font-size: 0.8rem;
-}
-
 .warn {
     color: #de0000;
-    font-size: 0.675rem;
+    font-size: .7rem;
 }
 
 .black {

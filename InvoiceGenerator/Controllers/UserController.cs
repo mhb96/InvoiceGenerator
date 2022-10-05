@@ -61,7 +61,7 @@ namespace InvoiceGenerator.Controllers
             if (string.IsNullOrEmpty(input.Address) || input.Address == "undefined")
                 throw new IGException("Address is not provided");
 
-            if (string.IsNullOrEmpty(input.Password) || input.Password == "undefined")
+            if (string.IsNullOrEmpty(input.Password) || input.Password == "undefined" || input.Password == "null")
                 throw new IGException("Password is not provided");
 
             if (string.IsNullOrEmpty(input.FirstName) || input.FirstName == "undefined")

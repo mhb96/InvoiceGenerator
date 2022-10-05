@@ -32,31 +32,31 @@
                                                 <label ng-cloak ng-show="lastNameWarn" class="warn">{{lastNameWarn}}</label>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <label class="text-gray-900">First Name</label>
+                                                        <label class="text-gray-900">First Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control form-control-user black" id="exampleFirstName" placeholder="First Name" ng-model="firstName" ng-change="checkFirstName()" maxlength="20" required>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="text-gray-900">Last Name</label>
+                                                        <label class="text-gray-900">Last Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control form-control-user black" id="exampleLastName" placeholder="Last Name" ng-model="lastName" ng-change="checkLastName()" maxlength="20" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="text-gray-900">Company Name</label><br />
+                                                    <label class="text-gray-900">Company Name <span class="text-danger">*</span></label><br />
                                                     <label ng-cloak ng-show="companyNameWarn" class="warn">{{companyNameWarn}}</label>
                                                     <input class="form-control form-control-user black" placeholder="Company Name" ng-model="companyName" ng-change="checkCompanyName()" maxlength="60" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="text-gray-900">Email</label><br />
+                                                    <label class="text-gray-900">Email <span class="text-danger">*</span></label><br />
                                                     <label ng-cloak ng-show="emailWarn" class="warn">{{emailWarn}}</label>
                                                     <input class="form-control form-control-user black" placeholder="Email" ng-model="email" ng-change="checkEmail()" maxlength="60" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="text-gray-900">Contact Number</label><br />
+                                                    <label class="text-gray-900">Contact Number <span class="text-danger">*</span></label><br />
                                                     <label ng-cloak ng-show="contactNoWarn" class="warn">{{contactNoWarn}}</label>
                                                     <input class="form-control form-control-user black" id="phone" placeholder="Contact Number" ng-model="contactNo" ng-change="checkContactNo()" maxlength="25" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="text-gray-900">Address</label><br />
+                                                    <label class="text-gray-900">Address <span class="text-danger">*</span></label><br />
                                                     <label ng-cloak ng-show="addressWarn" class="warn">{{addressWarn}}</label>
                                                     <input class="form-control form-control-user black" placeholder="Address" ng-model="address" ng-change="checkAddress()" maxlength="60" required>
                                                 </div>
@@ -72,14 +72,19 @@
                                                       ng-model="currency">{{option.code}} - {{option.name}}
                                                     </select>
                                                 </div>
+                                                <div ng-hide="companyLogo == null" class="mb-5">
                                                     <label class="text-gray-900 mt-3">Current Company Logo:</label><br>
-                                                        <img style="height: 125px; width: 125px;" ng-hide="companyLogo == null" ng-src="{{companyLogo}}">
-                                                <div class="form-group mt-5">
+                                                    <img style="height: 125px; width: 125px;" ng-src="{{companyLogo}}">
+                                                </div>
+                                                <div class="form-group mt-3">
                                                     <label class="text-gray-900 mt">New logo :- For best results, please upload a square shaped image. (Optional)</label>
                                                     <input class="form-control form-control-user mt-2" id="logo" type="file">
                                                 </div>
                                             </div>
-                                            <div class="mt-4"> <button type="submit" href="" ng-disabled="error" class="btn btn-success btn-user btn-block register-button" ng-click="confirm()"> Confirm </button>  </div>
+                                            <div class="d-flex justify-content-end align-items-center mt-5">
+                                                <a class="btn btn-outline-dark mr-4" href='javascript:history.go(-1)'>Cancel</a>
+                                                <button type="submit" href="" ng-disabled="error" class="btn confirm-edit" ng-click="confirm()"> Confirm </button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
