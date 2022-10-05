@@ -24,7 +24,7 @@
                             <div class="border border-info rounded py-2">
                                 <p class="text-info m-0">
                                     <i class="fas fa-info-circle mr-2"></i>To use these company details in future invoices, please ensure they match the details in
-                                    <a asp-controller="User" asp-action="Edit">Edit User</a> 
+                                        <a ng-click="editUserRedirect()" href="#">Edit User</a>
                                     page.
                                 </p>
                             </div>                            
@@ -38,19 +38,23 @@
                         <div class="company">
                             <div class="text-info">
                                 <label class="m-0">Your company name</label>
-                                <input type="text" class="form-control form-control-user" ng-model="userCompanyName">
+                                <label ng-cloak ng-show="userCompanyNameWarn" class="warn">{{userCompanyNameWarn}}</label>
+                                <input type="text" class="form-control form-control-user black" ng-model="userCompanyName" ng-change="checkUserCompanyName()" maxlength="40">
                             </div>
                             <div class="text-info">
                                 <label class="mt-3 mb-0">Your company address</label>
-                                <input type="text" class="form-control form-control-user" ng-model="userCompanyAddress">
+                                <label ng-cloak ng-show="userCompanyAddressWarn" class="warn">{{userCompanyAddressWarn}}</label>
+                                <input type="text" class="form-control form-control-user black" ng-model="userCompanyAddress" ng-change="checkUserCompanyAddress()" maxlength="40">
                             </div>
                             <div class="text-info">
                                 <label class="mt-3 mb-0">Your company contact number</label>
-                                <input type="text" class="form-control form-control-user" ng-model="userContactNo">
+                                <label ng-cloak ng-show="userContactNoWarn" class="warn">{{userContactNoWarn}}</label>
+                                <input type="text" class="form-control form-control-user black" ng-model="userContactNo" ng-change="checkUserContactNo()" maxlength="25">
                             </div>
                             <div class="text-info">
                                 <label class="mt-3 mb-0">Your company email</label>
-                                <input type="text" class="form-control form-control-user" ng-model="userCompanyEmail">
+                                <label ng-cloak ng-show="userCompanyEmailWarn" class="warn">{{userCompanyEmailWarn}}</label>
+                                <input type="text" class="form-control form-control-user black" ng-model="userCompanyEmail" ng-change="checkUserCompanyEmail()" maxlength="40">
                             </div>
                         </div>
                     </header>
@@ -60,23 +64,28 @@
                                 <h2 class="to">Invoice To:</h2>
                                 <div class="text-info">
                                     <label class="m-0">Client Name</label>
-                                    <input type="text" class="form-control form-control-user" ng-model="clientName">
+                                    <label ng-cloak ng-show="clientNameWarn" class="warn">{{clientNameWarn}}</label>
+                                    <input type="text" class="form-control form-control-user black" ng-model="clientName" ng-change="clientNameCheck()" maxlength="40">
                                 </div>
                                 <div class="text-info my-3">
                                     <label class="mb-0">Client Company Name: (Required)</label>
-                                    <input type="text" class="form-control form-control-user" ng-model="clientCompanyName" required>
+                                    <label ng-cloak ng-show="clientCompanyNameWarn" class="warn">{{clientCompanyNameWarn}}</label>
+                                    <input type="text" class="form-control form-control-user black" ng-model="clientCompanyName" required ng-change="clientCompanyNameCheck()" maxlength="40">
                                 </div>                               
                                 <div class="text-info my-3">
                                     <label class="mb-0">Client Address:</label>
-                                    <input type="text" class="form-control form-control-user" ng-model="clientAddress">
+                                    <label ng-cloak ng-show="clientAddressWarn" class="warn">{{clientAddressWarn}}</label>
+                                    <input type="text" class="form-control form-control-user black" ng-model="clientAddress" ng-change="clientAddressCheck()" maxlength="40">
                                 </div> 
                                 <div class="text-info my-3">
                                     <label class="mb-0">Client Phone Number:</label>
-                                    <input type="text" class="form-control form-control-user" ng-model="clientPhoneNumber">
+                                    <label ng-cloak ng-show="clientPhoneNumberWarn" class="warn">{{clientPhoneNumberWarn}}</label>
+                                    <input type="text" class="form-control form-control-user black" ng-model="clientPhoneNumber" ng-change="clientPhoneNumberCheck()" maxlength="25">
                                 </div> 
                                 <div class="text-info my-3">
                                     <label class="mb-0">Client Email Address:</label>
-                                    <input type="text" class="form-control form-control-user" ng-model="clientEmailAddress">
+                                    <label ng-cloak ng-show="clientEmailAddressWarn" class="warn">{{clientEmailAddressWarn}}</label>
+                                    <input type="text" class="form-control form-control-user black" ng-model="clientEmailAddress" ng-change="clientEmailAddressCheck()" maxlength="40">
                                 </div> 
                             </div>
                             <div id="invoice">
@@ -102,21 +111,22 @@
                                 <h5 class="text-center text-info pt-2" >Add Items</h5>
                                 <p class="text-center pb-2 my-0 text-info" id=""><span>(Enter item details and click on </span><i class="fas fa-plus mx-1"></i> <span>button to add item to the table below)</span></p>
                             </div>
-                            <div id="item"  class="d-flex p-2">
-                                <div id="new-item-name">
-                                    <label class="mb-0 text-info">Item / Service Name</label>
-                                    <input type="text" class="form-control form-control-user" placeholder="Name" ng-model="itemName">
+                                <label ng-cloak ng-show="itemNameWarn" class="warn ml-2 mb-0">{{itemNameWarn}}</label>
+                                <div id="item"  class="d-flex p-2">
+                                    <div id="new-item-name">
+                                        <label class="mb-0 text-info">Item / Service Name</label>
+                                        <input type="text" class="form-control form-control-user" placeholder="Name" ng-model="itemName" maxlength="35" ng-change="itemNameCheck()">
+                                    </div>
+                                    <div id="new-item-quantity">
+                                        <label class="mb-0 text-info">Quantity / Hours</label>
+                                        <input type="number" class="form-control form-control-user" placeholder="Qty / Hrs" ng-model="itemQty" min="0.0" step="0.5">
+                                    </div>
+                                    <div id="new-item-price">
+                                        <label class="mb-0 text-info">Unit Price ({{currency.code}})</label>
+                                        <input type="number" class="form-control form-control-user" placeholder="{{currency.code}}" ng-model="itemPrice" min="0.00" step="0.01">
+                                    </div>
+                                    <button id="add-item-button" class="btn btn-info mt-3" title="Add Item" ng-click="addItem()" ng-disabled="itemNameError"><i class="fas fa-plus"></i></button>
                                 </div>
-                                <div id="new-item-quantity">
-                                    <label class="mb-0 text-info">Quantity / Hours</label>
-                                    <input type="number" class="form-control form-control-user" placeholder="Qty / Hrs" ng-model="itemQty" min="0.0" step="0.5">
-                                </div>
-                                <div id="new-item-price">
-                                    <label class="mb-0 text-info">Unit Price ({{currency.code}})</label>
-                                    <input type="number" class="form-control form-control-user" placeholder="{{currency.code}}" ng-model="itemPrice" min="0.00" step="0.01">
-                                </div>
-                                <a id="add-item-button" class="btn btn-info mt-3" title="Add Item" ng-click="addItem()"><i class="fas fa-plus"></i></a>
-                            </div>
                         </div>
                         <br />
                         <br />
@@ -161,19 +171,22 @@
                         <div class="notice">
                             <h3>Remarks</h3>
                             <div>
-                                <textarea class="m-2" rows="6" cols=43 placeholder="Add remark messages here if needed. (Max. 300 chars.)" maxlength=300 ng-model="comment"></textarea>
+                                <textarea class="m-2" rows="6" cols=43 placeholder="Add remark messages here if needed. (Max. 200 chars.)" maxlength=200 ng-model="comment"></textarea>
                             </div>
                         </div>
                     </main>
                 </div>
             </div>
             <div class="card-footer">
-                <a class="btn btn-success float-right" ng-click="edit()" href="">Update & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
+                    <button class="btn btn-success float-right" ng-click="edit()" ng-disabled="error" href="">Update & Preview <i class="ml-2 fas fa-chevron-right"></i></button>
             </div>
         </div>
     </div>
 </body>
 @section Scripts
 {
+    <script>
+         var editUserUrl = '@Url.Action("Edit", "User")';
+    </script>
     <script src="~/js/edit-invoice.js" asp-append-version="true"></script>
 }

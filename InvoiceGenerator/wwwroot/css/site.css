@@ -126,3 +126,22 @@ table .toCompany{
 table .actions {
     min-width: 120px;
 }
+
+.warns {
+    color: #de0001;
+    font-size: 0.8rem;
+}
+
+.warn {
+    color: #de0000;
+    font-size: 0.675rem;
+}
+
+.black {
+    color: black;
+}
+.black::placeholder {
+    color: #b5b5b5;
+    font-size: 14px;
+    word-wrap: break-word
+}

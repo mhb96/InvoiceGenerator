@@ -1,189 +1,123 @@
 ﻿using InvoiceGenerator.Common.Constants;
-using InvoiceGenerator.Common.DataTypes;
 using InvoiceGenerator.Common.Exception;
-using InvoiceGenerator.Common.Helpers.Interfaces;
-using InvoiceGenerator.Common.Models.Image;
+using InvoiceGenerator.Common.Extensions;
 using InvoiceGenerator.Common.Models.User;
 using InvoiceGenerator.Entities;
-using InvoiceGenerator.Repository;
+using InvoiceGenerator.Repository.DataServices.Interfaces;
+using InvoiceGenerator.Repository.Models.User;
 using InvoiceGenerator.Services.Models.User;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace InvoiceGenerator.Services
 {
     public class UserService : BaseService, IUserService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IFileHelper _fileHelper;
+        private readonly IUserDataService _userDataService;
+        private readonly IImageService _imageService;
 
-        public UserService(IUnitOfWork unitOfWork, ILogger<BaseService> logger, UserManager<User> userManager, SignInManager<User> signInManager, IFileHelper fileHelper) : base(unitOfWork, logger)
+        public UserService(ILogger<BaseService> logger, IUserDataService userDataService, IImageService imageService) : base(logger)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _fileHelper = fileHelper;
+            _userDataService = userDataService;
+            _imageService = imageService;
         }
 
-        public async Task<User> GetAsync(string username) =>
-            await UnitOfWork.Query<User>(u => u.UserName == username).FirstOrDefaultAsync();
+        public async Task<User> GetAsync(string username) => await _userDataService.GetAsync(username);
 
         public async Task<UserModel> GetAsync(long accountId)
         {
-            return await UnitOfWork.Query<User>(u => u.Id == accountId).Select(u => new UserModel
+
+            UserModel user = await _userDataService.GetAsync(accountId);
+            if (user == null)
             {
-                Id = u.Id,
-                UserName = u.UserName,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Address = u.Address,
-                CompanyName = u.CompanyName,
-                ContactNo = u.ContactNo,
-                Email = u.Email,
-                VAT = u.VAT,
-                Password = u.Password,
-                CurrencyId = u.CurrencyId,
-                CompanyLogoId = u.CompanyLogo != null? u.CompanyLogo.Id : 0,
-                CompanyLogo = u.CompanyLogo != null ? _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false) : null
-            }).FirstOrDefaultAsync();
+                Logger.LogError("User not found");
+                throw new IGException("User not found");
+            }
+
+            return user;
         }
 
         public async Task<UserDetailsForInvoiceModel> GetDetailsForInvoice(long accountId)
         {
-            return await UnitOfWork.Query<User>(u => u.Id == accountId).Select(u => new UserDetailsForInvoiceModel
+            var user = await _userDataService.GetDetailsForInvoice(accountId);
+            if (user == null)
             {
-                Address = u.Address,
-                CompanyName = u.CompanyName,
-                ContactNo = u.ContactNo,
-                Email = u.Email,
-                Logo = u.CompanyLogo != null ? _fileHelper.GetImageAddress(u.CompanyLogo.ImageName, false) : null,
-                Vat = u.VAT,
-                CurrencyId = u.CurrencyId
-            }).FirstOrDefaultAsync();
+                Logger.LogError("User not found");
+                throw new IGException("User not found");
+            }
+
+            return user;
         }
 
-        public async Task<bool> SignInAsync(SignInModel input)
+        public async Task<bool> SignInAsync(SignInModel input) => await _userDataService.SignInAsync(new SignInDataModel
         {
-            var result = await _signInManager.PasswordSignInAsync(input.Username, input.Password, true, false);
-            if (result.Succeeded)
-            {
-                var user = await GetAsync(input.Username);
-                await AddClaim(user, "UserId", $"{user.Id}");
-                await AddClaim(user, "FullName", $"{user.FirstName} {user.LastName}");
-                return true;
-            }
-            return false;
-        }
+            Username = input.Username,
+            Password = input.Password
+        });
 
         public async Task RegisterAsync(RegisterModel input)
         {
-            if (await _userManager.FindByEmailAsync(input.Email) != null)
-                throw new IGException($"User with email {input.Email} already exists. If you have forgotten your password please contact the developer.");
+            input.FirstName.ValidateString("First name", RegexStrings.Name, InputLengthLimits.Name);
+            input.LastName.ValidateString("Last name", RegexStrings.Name, InputLengthLimits.Name);
+            Validate.ValidateEmail(input.Email);
+            input.Address.ValidateString("Address", RegexStrings.ObjectName, InputLengthLimits.ObjectName);
+            input.ContactNo.ValidateString("Contact no.", RegexStrings.ContactNo, InputLengthLimits.ContactNo);
+            input.CompanyName.ValidateString("Company name", RegexStrings.ObjectName, InputLengthLimits.ObjectName);
+            input.UserName.ValidateString("Username", RegexStrings.Username, InputLengthLimits.Name);
+            input.Password.ValidateString("Password", RegexStrings.Password, InputLengthLimits.Password);
 
             if (await GetAsync(input.UserName) != null)
                 throw new IGException($"User with username {input.UserName} already exists. If you have forgotten your password please contact the developer.");
 
-            Logger.LogInformation($"Create user with email `{input.Email}` for application");
-            var user = new User
+            var user = new RegisterDataModel
             {
+                FirstName = input.FirstName,
+                LastName = input.LastName,
                 Email = input.Email,
                 NormalizedEmail = input.Email.ToUpper(),
                 BusinessEmail = input.Email,
                 UserName = input.UserName,
                 NormalizedUserName = input.UserName.ToUpper(),
-                AccessFailedCount = 0,
-                EmailConfirmed = true,
-                FirstName = input.FirstName,
-                LastName = input.LastName,
+                Password = input.Password,
                 CompanyName = input.CompanyName,
                 ContactNo = input.ContactNo,
                 Address = input.Address,
                 VAT = input.Vat,
-                CurrencyId = input.CurrencyId,
-                LockoutEnabled = false,
-                Password = input.Password
+                CurrencyId = input.CurrencyId
             };
 
             if (input.CompanyLogo != null)
-            {
-                ImageModel logo = await _fileHelper.UploadAsync(input.CompanyLogo, FileType.image);
+                user.CompanyLogo = await _imageService.AddAsync(input.CompanyLogo);
 
-                var image = new Image
-                {
-                    CreatedAt = DateTime.Now,
-                    ImageFile = logo.ImageFile,
-                    ImageName = logo.ImageName
-                };
-                await UnitOfWork.AddAsync<Image>(image);
-
-                user.CompanyLogo = image;
-            }
-
-            try
-            {
-                var result = await _userManager.CreateAsync(user, input.Password);
-                if (result.Succeeded)
-                    Logger.LogInformation($"Created user `{user.Email}` successfully");
-                else
-                    throw new IGException($"User `{user.Email}` cannot be created");
-            }
-            catch (IGException ex)
-            {
-                Logger.LogError("Registration failed", ex);
-                throw new IGException($"User `{user.Email}` cannot be created");
-            }
-
-            var createdUser = await _userManager.FindByEmailAsync(user.Email);
-            await _userManager.AddToRoleAsync(createdUser, Roles.User);
-            await UnitOfWork.SaveAsync();
+            await _userDataService.RegisterAsync(user);
         }
 
         public async Task UpdateAsync(UpdateModel input)
         {
-            User user = await UnitOfWork.FirstOrDefaultAsync<User>(u => u.Id == input.Id);
-            user.FirstName = input.FirstName;
-            user.LastName = input.LastName;
-            user.Email = input.Email;
-            user.CompanyName = input.CompanyName;
-            user.ContactNo = input.ContactNo;
-            user.Address = input.Address;
-            user.VAT = input.Vat;
-            user.CurrencyId = input.CurrencyId;
+            input.FirstName.ValidateString("First name", RegexStrings.Name, InputLengthLimits.Name);
+            input.LastName.ValidateString("Last name", RegexStrings.Name, InputLengthLimits.Name);
+            Validate.ValidateEmail(input.Email);
+            input.Address.ValidateString("Address", RegexStrings.ObjectName, InputLengthLimits.ObjectName);
+            input.ContactNo.ValidateString("Contact no.", RegexStrings.ContactNo, InputLengthLimits.ContactNo);
+            input.CompanyName.ValidateString("Company name", RegexStrings.ObjectName, InputLengthLimits.ObjectName);
 
+            Image companyLogo = null;
             if (input.CompanyLogo != null)
+                companyLogo = await _imageService.AddAsync(input.CompanyLogo);
+
+            await _userDataService.UpdateAsync(new UpdateDataModel
             {
-                ImageModel logo = await _fileHelper.UploadAsync(input.CompanyLogo, FileType.image);
-
-                var image = new Image
-                {
-                    CreatedAt = DateTime.Now,
-                    ImageFile = logo.ImageFile,
-                    ImageName = logo.ImageName
-                };
-                await UnitOfWork.AddAsync<Image>(image);
-
-                user.CompanyLogo = image;
-            }
-
-            await _userManager.UpdateAsync(user);
-            await AddClaim(user, "FullName", $"{user.FirstName} {user.LastName}");
-        }
-
-        private async Task AddClaim(User user, string claimName, string claimValue)
-        {
-            var claims = await _userManager.GetClaimsAsync(user);
-            var newClaim = new Claim(claimName, claimValue);
-            Claim oldClaim = claims.FirstOrDefault(c => c.Type == claimName);
-            if (oldClaim != null)
-                await _userManager.ReplaceClaimAsync(user, oldClaim, newClaim);
-            else await _userManager.AddClaimAsync(user, newClaim);
-
-            await _signInManager.RefreshSignInAsync(user);
+                Id = input.Id,
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                Email = input.Email,
+                CompanyName = input.CompanyName,
+                ContactNo = input.ContactNo,
+                Address = input.Address,
+                Vat = input.Vat,
+                CurrencyId = input.CurrencyId,
+                CompanyLogo = companyLogo
+            });
         }
     }
 }

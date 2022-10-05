@@ -1,4 +1,5 @@
-﻿using InvoiceGenerator.Entities;
+﻿using InvoiceGenerator.Common.Exception;
+using InvoiceGenerator.Entities;
 using InvoiceGenerator.Models;
 using InvoiceGenerator.Services;
 using InvoiceGenerator.Services.Models.User;
@@ -51,6 +52,36 @@ namespace InvoiceGenerator.Controllers
         [HttpPost("/user/register")]
         public async Task<IActionResult> Register([FromForm] RegisterInputModel input)
         {
+            if (string.IsNullOrEmpty(input.UserName) || input.UserName == "undefined")
+                throw new IGException("Username is not provided");
+
+            if (string.IsNullOrEmpty(input.Email) || input.Email == "undefined")
+                throw new IGException("Email is not provided");
+
+            if (string.IsNullOrEmpty(input.Address) || input.Address == "undefined")
+                throw new IGException("Address is not provided");
+
+            if (string.IsNullOrEmpty(input.Password) || input.Password == "undefined")
+                throw new IGException("Password is not provided");
+
+            if (string.IsNullOrEmpty(input.FirstName) || input.FirstName == "undefined")
+                throw new IGException("First name is not provided");
+
+            if (string.IsNullOrEmpty(input.LastName) || input.LastName == "undefined")
+                throw new IGException("Last name is not provided");
+
+            if (string.IsNullOrEmpty(input.ContactNo) || input.ContactNo == "undefined")
+                throw new IGException("Contact no is not provided");
+
+            if (string.IsNullOrEmpty(input.CompanyName) || input.CompanyName == "undefined")
+                throw new IGException("Company name is not provided");
+
+            if (input.CurrencyId == 0)
+                throw new IGException("Currency is not provided");
+
+            if (input.Vat < 0 || input.Vat > 100)
+                throw new IGException("Vat can only be between 0 and 100.");
+
             await _userService.RegisterAsync(new RegisterModel
             {
                 UserName = input.UserName,
@@ -97,6 +128,30 @@ namespace InvoiceGenerator.Controllers
         [HttpPost("/api/user/editDetails")]
         public async Task<IActionResult> EditDetails([FromForm] EditUserInputModel input)
         {
+            if (string.IsNullOrEmpty(input.Email) || input.Email == "undefined")
+                throw new IGException("Email is not provided");
+
+            if (string.IsNullOrEmpty(input.Address) || input.Address == "undefined")
+                throw new IGException("Address is not provided");
+
+            if (string.IsNullOrEmpty(input.FirstName) || input.FirstName == "undefined")
+                throw new IGException("First name is not provided");
+
+            if (string.IsNullOrEmpty(input.LastName) || input.LastName == "undefined")
+                throw new IGException("Last name is not provided");
+
+            if (string.IsNullOrEmpty(input.ContactNo) || input.ContactNo == "undefined")
+                throw new IGException("Contact no is not provided");
+
+            if (string.IsNullOrEmpty(input.CompanyName) || input.CompanyName == "undefined")
+                throw new IGException("Company name is not provided");
+
+            if (input.CurrencyId == 0)
+                throw new IGException("Currency is not provided");
+
+            if (input.Vat < 0 || input.Vat > 100)
+                throw new IGException("Vat can only be between 0 and 100.");
+
             long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
 
             await _userService.UpdateAsync(new UpdateModel

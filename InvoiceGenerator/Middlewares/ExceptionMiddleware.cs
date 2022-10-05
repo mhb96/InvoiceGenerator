@@ -14,7 +14,7 @@ namespace InvoiceGenerator.Middlewares
         private readonly RequestDelegate _next;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PortalExceptionMiddleware"/> class.
+        /// Initializes a new instance of the <see cref="ExceptionMiddleware"/> class.
         /// </summary>
         /// <param name="next">The next.</param>
         /// <param name="logger">The logger.</param>

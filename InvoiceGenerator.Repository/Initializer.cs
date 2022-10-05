@@ -76,7 +76,6 @@ namespace InvoiceGenerator.Repository
             currencies.Add(new Currency { Name = "Argentina peso", Code = "ARS" });
             currencies.Add(new Currency { Name = "Armenia dram", Code = "AMD" });
             currencies.Add(new Currency { Name = "Aruban florin", Code = "AWG" });
-            currencies.Add(new Currency { Name = "Saint Helena pound", Code = "SHP" });
             currencies.Add(new Currency { Name = "Australian dollar", Code = "AUD" });
             currencies.Add(new Currency { Name = "Azerbaijan manat", Code = "AZN" });
             currencies.Add(new Currency { Name = "Bahamian dollar", Code = "BSD" });
@@ -118,7 +117,6 @@ namespace InvoiceGenerator.Repository
             currencies.Add(new Currency { Name = "Ethiopian birr", Code = "ETB" });
             currencies.Add(new Currency { Name = "Falkland Islands pound", Code = "FKP" });
             currencies.Add(new Currency { Name = "Fijian dollar", Code = "FJD" });
-            currencies.Add(new Currency { Name = "CFP franc", Code = "XPF" });
             currencies.Add(new Currency { Name = "Gambian dalasi", Code = "GMD" });
             currencies.Add(new Currency { Name = "Georgian lari", Code = "GEL" });
             currencies.Add(new Currency { Name = "Ghanaian cedi", Code = "GHS" });
@@ -151,7 +149,6 @@ namespace InvoiceGenerator.Repository
             currencies.Add(new Currency { Name = "Lesotho loti", Code = "LSL" });
             currencies.Add(new Currency { Name = "Liberian dollar", Code = "LRD" });
             currencies.Add(new Currency { Name = "Libyan dinar", Code = "LYD" });
-            currencies.Add(new Currency { Name = "Swiss franc", Code = "CHF" });
             currencies.Add(new Currency { Name = "Macanese pataca", Code = "MOP" });
             currencies.Add(new Currency { Name = "Malagasy ariary", Code = "MGA" });
             currencies.Add(new Currency { Name = "Malawian kwacha", Code = "MWK" });
@@ -168,11 +165,9 @@ namespace InvoiceGenerator.Repository
             currencies.Add(new Currency { Name = "Namibian dollar", Code = "NAD" });
             currencies.Add(new Currency { Name = "Nepalese rupee", Code = "NPR" });
             currencies.Add(new Currency { Name = "CFP franc", Code = "XPF" });
-            currencies.Add(new Currency { Name = "New Zealand dollar", Code = "NZD" });
             currencies.Add(new Currency { Name = "Nigerian naira", Code = "NGN" });
             currencies.Add(new Currency { Name = "North Korean won", Code = "KPW" });
             currencies.Add(new Currency { Name = "Macedonian denar", Code = "MKD" });
-            currencies.Add(new Currency { Name = "Norwegian krone", Code = "NOK" });
             currencies.Add(new Currency { Name = "Omani rial", Code = "OMR" });
             currencies.Add(new Currency { Name = "Pakistani rupee", Code = "PKR" });
             currencies.Add(new Currency { Name = "Papua New Guinean kina", Code = "PGK" });
@@ -185,7 +180,6 @@ namespace InvoiceGenerator.Repository
             currencies.Add(new Currency { Name = "Russian ruble", Code = "RUB" });
             currencies.Add(new Currency { Name = "Rwandan franc", Code = "RWF" });
             currencies.Add(new Currency { Name = "Saint Helena pound", Code = "SHP" });
-            currencies.Add(new Currency { Name = "East Caribbean dollar", Code = "XCD" });
             currencies.Add(new Currency { Name = "Samoan tala", Code = "WST" });
             currencies.Add(new Currency { Name = "Sao Tome and Principe dobra", Code = "STN" });
             currencies.Add(new Currency { Name = "Saudi Arabian riyal", Code = "SAR" });
@@ -193,7 +187,6 @@ namespace InvoiceGenerator.Repository
             currencies.Add(new Currency { Name = "Seychellois rupee", Code = "SCR" });
             currencies.Add(new Currency { Name = "Sierra Leonean leone", Code = "SLL" });
             currencies.Add(new Currency { Name = "Singapore dollar", Code = "SGD" });
-            currencies.Add(new Currency { Name = "Netherlands Antillean guilder", Code = "ANG" });
             currencies.Add(new Currency { Name = "Solomon Islands dollar", Code = "SBD" });
             currencies.Add(new Currency { Name = "Somali shilling", Code = "SOS" });
             currencies.Add(new Currency { Name = "South African rand", Code = "ZAR" });

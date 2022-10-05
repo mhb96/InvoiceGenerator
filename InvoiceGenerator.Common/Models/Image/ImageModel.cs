@@ -2,6 +2,9 @@
 
 namespace InvoiceGenerator.Common.Models.Image
 {
+    /// <summary>
+    /// The image model
+    /// </summary>
     public class ImageModel
     {
         /// <summary>

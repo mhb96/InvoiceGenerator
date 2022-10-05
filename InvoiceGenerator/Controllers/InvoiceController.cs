@@ -1,9 +1,11 @@
-﻿using InvoiceGenerator.Common.Helpers.Interfaces;
+﻿using InvoiceGenerator.Common.Exception;
+using InvoiceGenerator.Common.Helpers.Interfaces;
 using InvoiceGenerator.Models;
 using InvoiceGenerator.Services;
 using InvoiceGenerator.Services.Models.Invoice;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,6 +41,33 @@ namespace InvoiceGenerator.Controllers
         [HttpPost("/api/invoice/create")]
         public async Task<IActionResult> Create([FromBody] CreateInvoiceInputModel input)
         {
+            if (input.Items?.Count == 0)
+                throw new IGException("No items exist in this invoice!");
+
+            if (input.Items?.Count > 10)
+                throw new IGException("Number of items cannot be greater than 10!");
+
+            if (string.IsNullOrEmpty(input.CompanyName))
+                throw new IGException("Required company name was not provided.");
+
+            if (string.IsNullOrEmpty(input.CreatedDate))
+                throw new IGException("Required created date does not exist.");
+
+            if (string.IsNullOrEmpty(input.DueDate))
+                throw new IGException("Required due date does not exist.");
+
+            if (DateTime.Parse(input.CreatedDate) > DateTime.Parse(input.DueDate))
+                throw new IGException("Created date cannot be greater than Due date.");
+
+            if (input.CurrencyId == 0)
+                throw new IGException("No currency was selected");
+
+            if (input.FeePaid < 0)
+                throw new IGException("Fee paid cannot be a negative value.");
+
+            if (input.FeePaid > input.TotalFee)
+                throw new IGException("Fee paid cannot be greater than total fee.");
+
             long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
 
             long invoiceId = await _invoiceService.CreateAsync(new CreateInvoiceModel
@@ -88,6 +117,45 @@ namespace InvoiceGenerator.Controllers
         [HttpPost("/api/invoice/edit/{id}")]
         public async Task<IActionResult> Edit(long id, [FromBody] EditInvoiceInputModel input)
         {
+            if (string.IsNullOrEmpty(input.UserCompanyName))
+                throw new IGException("Your company name cannot be empty!");
+
+            if (string.IsNullOrEmpty(input.UserEmail))
+                throw new IGException("Your company email cannot be empty!");
+
+            if (string.IsNullOrEmpty(input.UserAddress))
+                throw new IGException("Your company address cannot be empty!");
+
+            if (string.IsNullOrEmpty(input.UserContactNo))
+                throw new IGException("Your company phone number cannot be empty!");
+
+            if (input.Items?.Count <= 0)
+                throw new IGException("No items exist in this invoice!");
+
+            if (input.Items?.Count > 10)
+                throw new IGException("Number of items cannot be greater than 10!");
+
+            if (string.IsNullOrEmpty(input.CompanyName))
+                throw new IGException("Required client's company name was not provided.");
+
+            if (string.IsNullOrEmpty(input.CreatedDate))
+                throw new IGException("Required created date does not exist.");
+
+            if (string.IsNullOrEmpty(input.DueDate))
+                throw new IGException("Required due date does not exist.");
+
+            if (DateTime.Parse(input.CreatedDate) > DateTime.Parse(input.DueDate))
+                throw new IGException("Created date cannot be greater than Due date.");
+
+            if (input.CurrencyId == 0)
+                throw new IGException("No currency was selected.");
+
+            if (input.FeePaid < 0)
+                throw new IGException("Fee paid cannot be a negative value.");
+
+            if (input.FeePaid > input.TotalFee)
+                throw new IGException("Fee paid cannot be greater than total fee.");
+
             long userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value);
 
             await _invoiceService.EditAsync(new EditInvoiceModel

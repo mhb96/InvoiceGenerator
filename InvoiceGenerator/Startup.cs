@@ -5,6 +5,8 @@ using InvoiceGenerator.Common.Helpers.Interfaces;
 using InvoiceGenerator.Entities;
 using InvoiceGenerator.Middlewares;
 using InvoiceGenerator.Repository;
+using InvoiceGenerator.Repository.DataServices;
+using InvoiceGenerator.Repository.DataServices.Interfaces;
 using InvoiceGenerator.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +49,14 @@ namespace InvoiceGenerator
 
             //Registers helpers and their interfaces.
             services.AddScoped<IFileHelper, FileHelper>();
+
+
+            //Registers data services and their interfaces.
+            services.AddScoped<IUserDataService, UserDataService>();
+            services.AddScoped<IInvoiceDataService, InvoiceDataService>();
+            services.AddScoped<IItemDataService, ItemDataService>();
+            services.AddScoped<ICurrencyDataService, CurrencyDataService>();
+            services.AddScoped<IImageDataService, ImageDataService>();
 
             //Registers services and their interfaces.
             services.AddScoped<IUserService, UserService>();

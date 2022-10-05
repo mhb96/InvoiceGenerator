@@ -1,5 +1,4 @@
 ﻿using InvoiceGenerator.Common.Models.Invoice;
-using InvoiceGenerator.Services.Models;
 using InvoiceGenerator.Services.Models.Invoice;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,6 +12,6 @@ namespace InvoiceGenerator.Services
         public Task DeleteAsync(long invoiceId, long userId);
         public Task<long> CreateAsync(CreateInvoiceModel input);
         public Task<string> CreateInvoicePdf(long invoiceId);
-        public Task<long> EditAsync(EditInvoiceModel input);
+        public Task EditAsync(EditInvoiceModel input);
     }
 }

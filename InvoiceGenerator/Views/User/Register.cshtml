@@ -2,7 +2,7 @@
     ViewData["Title"] = "Register";
 }
 
-<body class="">
+<body class="" ng-controller="register" ng-init="init()" ng-click="clickExt()">
     <div class="container">
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -22,37 +22,46 @@
                                             <div>
                                                 <h1 class="h5 text-gray-900 text-center">Login Details</h1>
                                                 <div class="form-group col-sm-6 center">
-                                                    <input type="text" class="form-control form-control-user" placeholder="Username" ng-model="userName" required>
+                                                    <label ng-cloak ng-show="userNameWarn" class="warn">{{userNameWarn}}</label>
+                                                    <input type="text" class="form-control form-control-user black" placeholder="Username" ng-model="userName" ng-change="checkUserName()" maxlength="20" required>
                                                 </div>
                                                 <div class="form-group col-sm-6 center">
-                                                    <input type="password" class="form-control form-control-user" placeholder="Password" ng-model="password" required>
+                                                    <label ng-cloak ng-show="passwordWarn" class="warn">{{passwordWarn}}</label>
+                                                    <input type="password" class="form-control form-control-user black" placeholder="Password" ng-model="password" ng-change="checkPassword()" maxlength="20" required>
                                                 </div>
                                                 <div class="form-group col-sm-6 center">
-                                                    <input type="password" class="form-control form-control-user" placeholder="Confirm Password" ng-model="confirmPassword" required>
+                                                    <label ng-cloak ng-show="confirmPasswordWarn" class="warn">{{confirmPasswordWarn}}</label>
+                                                    <input type="password" class="form-control form-control-user black" placeholder="Confirm Password" ng-change="checkConfirmPassword()" ng-model="confirmPassword" maxlength="20" required>
                                                 </div>
                                             </div>
                                             <hr class="my-4" />
                                             <div>
                                                 <h1 class="h5 text-gray-900 text-center">User Details</h1>
+                                                <label ng-cloak ng-show="firstNameWarn" class="warn">{{firstNameWarn}}</label>
+                                                <label ng-cloak ng-show="lastNameWarn" class="warn">{{lastNameWarn}}</label>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name" ng-model="firstName" required>
+                                                        <input type="text" class="form-control form-control-user black" id="exampleFirstName" placeholder="First Name" ng-model="firstName" ng-change="checkFirstName()" maxlength="20" required>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name" ng-model="lastName" required>
+                                                        <input type="text" class="form-control form-control-user black" id="exampleLastName" placeholder="Last Name" ng-model="lastName" ng-change="checkLastName()" maxlength="20" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control form-control-user" placeholder="Company Name" ng-model="companyName" required>
+                                                    <label ng-cloak ng-show="companyNameWarn" class="warn">{{companyNameWarn}}</label>
+                                                    <input class="form-control form-control-user black" placeholder="Company Name" ng-model="companyName" ng-change="checkCompanyName()" maxlength="40" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control form-control-user" placeholder="Email" ng-model="email" required>
+                                                    <label ng-cloak ng-show="emailWarn" class="warn">{{emailWarn}}</label>
+                                                    <input class="form-control form-control-user black" placeholder="Email" ng-model="email" ng-change="checkEmail()" maxlength="45" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control form-control-user" id="phone" placeholder="Contact Number" ng-model="contactNo" required>
+                                                    <label ng-cloak ng-show="contactNoWarn" class="warn">{{contactNoWarn}}</label>
+                                                    <input class="form-control form-control-user black" id="phone" placeholder="Contact Number" ng-model="contactNo" ng-change="checkContactNo()" maxlength="25" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control form-control-user" placeholder="Address" ng-model="address" required>
+                                                    <label ng-cloak ng-show="addressWarn" class="warn">{{addressWarn}}</label>
+                                                    <input class="form-control form-control-user black" placeholder="Address" ng-model="address" ng-change="checkAddress()" maxlength="40" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="repeatSelect"> Select Preferred Currency: </label>
@@ -62,14 +71,15 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control form-control-user" placeholder="VAT (Optional)" ng-model="vat" type="number" min="0" step="0.01">
+                                                    <label ng-cloak ng-show="vatWarn" class="warn">{{vatWarn}}</label>
+                                                    <input class="form-control form-control-user black" placeholder="VAT % (Optional)" ng-model="vat" type="number" min="0" ng-change="checkVat()" step="0.01">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Company Logo - For best results, please upload a square shaped image. (Optional)</label>
                                                     <input class="form-control form-control-user" name="logo" id="logo" type="file">
                                                 </div>
                                             </div>
-                                            <div class="mt-4"> <button type="submit" href="" class="btn btn-success btn-user btn-block register-button" ng-click="create()"> Create </button>  </div>
+                                            <div class="mt-4"> <button type="submit" href="" ng-disabled="error" class="btn btn-success btn-user btn-block register-button" ng-click="create()"> Create </button>  </div>
                                         </div>
                                     </form>
                                 </div>

@@ -1,10 +1,19 @@
 ﻿using InvoiceGenerator.Common.Constants;
+using InvoiceGenerator.Common.Extensions;
 using InvoiceGenerator.Common.Models.Invoice;
 
 namespace InvoiceGenerator.Common.Helpers
 {
+    /// <summary>
+    /// The template helper static class.
+    /// </summary>
     public static class TemplateHelper
     {
+        /// <summary>
+        /// Builds invoice html.
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <returns></returns>
         public static string BuildInvoiceHtml(InvoiceModel invoice)
         {
             var invoiceHtml = TemplateConstants.BaseHtml;
@@ -37,21 +46,22 @@ namespace InvoiceGenerator.Common.Helpers
             var itemNo = 0;
             foreach (var item in invoice.Items)
             {
+                var quantityText = 
                 itemNo++;
                 var itemRow = TemplateConstants.Item;
                 itemRow = itemRow.Replace("{{itemNo}}", $"{itemNo}");
                 itemRow = itemRow.Replace("{{itemName}}", $"{item.Name}");
-                itemRow = itemRow.Replace("{{itemQty}}", $"{item.Quantity}");
-                itemRow = itemRow.Replace("{{itemPrice}}", item.UnitPrice.ToString("F2"));
-                itemRow = itemRow.Replace("{{itemTotalPrice}}", item.TotalPrice.ToString("F2"));
+                itemRow = itemRow.Replace("{{itemQty}}", item.Quantity.FormatToQuantityString());
+                itemRow = itemRow.Replace("{{itemPrice}}", item.UnitPrice.FormatTo2DpMoneyString());
+                itemRow = itemRow.Replace("{{itemTotalPrice}}", item.TotalPrice.FormatTo2DpMoneyString());
                 items += itemRow;
             }
             invoiceHtml = invoiceHtml.Replace("{{Item}}", items);
-            invoiceHtml = invoiceHtml.Replace("{{SubTotalFee}}", invoice.SubTotalFee);
+            invoiceHtml = invoiceHtml.Replace("{{SubTotalFee}}", invoice.SubTotalFee.FormatTo2DpMoneyString());
             invoiceHtml = invoiceHtml.Replace("{{VAT}}", invoice.Vat.ToString("F2"));
-            invoiceHtml = invoiceHtml.Replace("{{TotalFee}}", invoice.TotalFee);
-            invoiceHtml = invoiceHtml.Replace("{{FeePaid}}", invoice.FeePaid.ToString("F2"));
-            invoiceHtml = invoiceHtml.Replace("{{TotalFeeDue}}", invoice.TotalFeeDue);
+            invoiceHtml = invoiceHtml.Replace("{{TotalFee}}", invoice.TotalFee.FormatTo2DpMoneyString());
+            invoiceHtml = invoiceHtml.Replace("{{FeePaid}}", invoice.FeePaid.FormatTo2DpMoneyString());
+            invoiceHtml = invoiceHtml.Replace("{{TotalFeeDue}}", invoice.TotalFeeDue.FormatTo2DpMoneyString());
             if (!string.IsNullOrEmpty(invoice.Comment))
             {
                 var comment = TemplateConstants.Comment;

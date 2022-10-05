@@ -10,8 +10,8 @@
   "build": {
     "appId": "com.InvoiceGenerator.app",
     "productName": "InvoiceGenerator",
-    "copyright": "Copyright © 2020",
-    "buildVersion": "1.0.0",
+    "copyright": "Copyright © 2022",
+    "buildVersion": "1.0.1",
     "win": {
       "icon": "../../../wwwroot/InGenLogo.ico"
        },

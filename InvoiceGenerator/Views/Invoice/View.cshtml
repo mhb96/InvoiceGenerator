@@ -1,4 +1,5 @@
-﻿@model InvoiceGenerator.Common.Models.Invoice.InvoiceModel
+﻿@using InvoiceGenerator.Common.Extensions
+@model InvoiceGenerator.Common.Models.Invoice.InvoiceModel
 @{
     ViewData["Title"] = "View Invoice";
     int i = 0;
@@ -82,9 +83,9 @@
                                         <tr>
                                             <td class="no">@i</td>
                                             <td class="desc">@item.Name</td>
-                                            <td class="qty">@item.Quantity.ToString("F1")</td>
-                                            <td class="unit">@item.UnitPrice.ToString("F2")</td>
-                                            <td class="final-column total">@item.TotalPrice.ToString("F2")</td>
+                                            <td class="qty">@item.Quantity.FormatToQuantityString()</td>
+                                            <td class="unit">@item.UnitPrice.FormatTo2DpMoneyString()</td>
+                                            <td class="final-column total">@item.TotalPrice.FormatTo2DpMoneyString()</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -94,11 +95,11 @@
                         <div class="summary">
                             <h3>Summary</h3>
                             <div>
-                                <p><span class="title">SubTotal Fee</span><span class="value">@Model.CurrencyCode @Model.SubTotalFee</span></p>
+                                <p><span class="title">SubTotal Fee</span><span class="value">@Model.CurrencyCode @Model.SubTotalFee.FormatTo2DpMoneyString()</span></p>
                                 <p><span class="title">VAT</span><span class="value">% @Model.Vat.ToString("F2")</span></p>
-                                <p><span class="title">Total Fee</span><span class="value">@Model.CurrencyCode @Model.TotalFee</span></p>
-                                <p style="border-top: 5px solid #0087C3;"><span class="title">Fee Paid</span><span class="value">@Model.CurrencyCode @Model.FeePaid.ToString("F2")</span></p>
-                                <p style="border: 0;"><span class="title">Total Fee Due</span><span class="value">@Model.CurrencyCode @Model.TotalFeeDue</span></p>
+                                <p><span class="title">Total Fee</span><span class="value">@Model.CurrencyCode @Model.TotalFee.FormatTo2DpMoneyString()</span></p>
+                                <p style="border-top: 5px solid #0087C3;"><span class="title">Fee Paid</span><span class="value">@Model.CurrencyCode @Model.FeePaid.FormatTo2DpMoneyString()</span></p>
+                                <p style="border: 0;"><span class="title">Total Fee Due</span><span class="value">@Model.CurrencyCode @Model.TotalFeeDue.FormatTo2DpMoneyString()</span></p>
                             </div>
                         </div>
                         @if (!string.IsNullOrEmpty(Model.Comment))

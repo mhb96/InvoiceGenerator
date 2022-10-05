@@ -9,14 +9,6 @@ namespace InvoiceGenerator.Services
         private bool _disposed;
 
         /// <summary>
-        /// Gets the unit of work.
-        /// </summary>
-        /// <value>
-        /// The unit of work.
-        /// </value>
-        protected virtual IUnitOfWork UnitOfWork { get; }
-
-        /// <summary>
         /// Gets the logger.
         /// </summary>
         /// <value>
@@ -29,9 +21,8 @@ namespace InvoiceGenerator.Services
         /// </summary>
         /// <param name="unitOfWork"></param>
         /// <param name="logger"></param>
-        public BaseService(IUnitOfWork unitOfWork, ILogger<BaseService> logger)
+        public BaseService(ILogger<BaseService> logger)
         {
-            UnitOfWork = unitOfWork;
             Logger = logger;
         }
 
@@ -53,7 +44,6 @@ namespace InvoiceGenerator.Services
             if (!_disposed && disposing)
             {
                 _disposed = true;
-                UnitOfWork.Dispose();
             }
         }
     }

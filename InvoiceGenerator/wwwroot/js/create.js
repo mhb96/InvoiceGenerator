@@ -18,6 +18,143 @@ app.controller("create",
             $scope.vatError = false;
             $scope.updateDueDate();
             $scope.getCurrencies();
+
+            $scope.clientNameWarn = null;
+            $scope.companyNameWarn = null;
+            $scope.addressWarn = null;
+            $scope.phoneNumberWarn = null;
+            $scope.emailAddressWarn = null;
+
+            $scope.clientNameError = false;
+            $scope.companyNameError = true;
+            $scope.addressError = false;
+            $scope.phoneNumberError = false;
+            $scope.emailAddressError = false;
+
+            $scope.error = true;
+            $scope.itemNameError = false;
+        }
+
+        $scope.clientNameCheck = function () {
+            if ($scope.clientName) {
+                var re = new RegExp("^[a-zA-Z]+([a-zA-Z. ]*[a-zA-Z]+)?$");
+                if (re.test($scope.clientName)) {
+                    $scope.clientNameWarn = null;
+                    $scope.clientNameError = false;
+                } else {
+                    $scope.clientNameError = true;
+                    $scope.clientNameWarn = "Client name can only contain letters with spaces and periods in between.";
+                }
+            }
+            else {
+                $scope.clientNameWarn = null;
+                $scope.clientNameError = false;
+            }
+            $scope.checkErrors();
+        }
+
+        $scope.companyNameCheck = function () {
+            if ($scope.companyName) {
+                var re = new RegExp("^[ -~]*$");
+                if (re.test($scope.companyName)) {
+                    $scope.companyNameWarn = null;
+                    $scope.companyNameError = false;
+                } else {
+                    $scope.companyNameError = true;
+                    $scope.companyNameWarn = "Please enter valid characters.";
+                }
+            }
+            else {
+                $scope.companyNameWarn = null;
+                $scope.companyNameError = true;
+            }
+            $scope.checkErrors();
+        }
+
+        $scope.addressCheck = function () {
+            if ($scope.address ) {
+                var re = new RegExp("^[ -~]*$");
+                if (re.test($scope.address)) {
+                    $scope.addressWarn = null;
+                    $scope.addressError = false;
+                } else {
+                    $scope.addressError = true;
+                    $scope.addressWarn = "Please enter valid characters.";
+                }
+            }
+            else {
+                $scope.addressWarn = null;
+                $scope.addressError = false;
+            }
+            $scope.checkErrors();
+        }
+
+        $scope.phoneNumberCheck = function () {
+            if ($scope.phoneNumber) {
+                var re = new RegExp("^[+]?[0-9]+([0-9 -]*[0-9]+)?$");
+                if (re.test($scope.phoneNumber)) {
+                    $scope.phoneNumberWarn = null;
+                    $scope.phoneNumberError = false;
+                } else {
+                    $scope.phoneNumberError = true;
+                    $scope.phoneNumberWarn = "Contact number can only contain numbers with spaces and '-' between them and '+' as prefix.";
+                }
+            }
+            else {
+                $scope.phoneNumberWarn = null;
+                $scope.phoneNumberError = false;
+            }
+            $scope.checkErrors();
+        }
+
+        $scope.emailAddressCheck = function () {
+            if ($scope.emailAddress) {
+                var re = new RegExp("^.+[@]+.+$");
+                if (re.test($scope.emailAddress)) {
+                    $scope.emailAddressWarn = null;
+                    $scope.emailAddressError = false;
+                } else {
+                    $scope.emailAddressError = true;
+                    $scope.emailAddressWarn = "Please enter a valid email.";
+                }
+            }
+            else {
+                $scope.emailAddressWarn = null;
+                $scope.emailAddressError = false;
+            }
+            $scope.checkErrors();
+        }
+
+        $scope.itemNameCheck = function () {
+            if ($scope.itemName) {
+                var re = new RegExp("^[ -~]*$");
+                if (re.test($scope.itemName)) {
+                    $scope.itemNameWarn = null;
+                    $scope.itemNameError = false;
+                } else {
+                    $scope.itemNameError = true;
+                    $scope.itemNameWarn = "Please enter valid characters.";
+                }
+            }
+            else {
+                $scope.itemNameWarn = null;
+                $scope.itemNameError = false;
+            }
+        }
+
+        $scope.checkErrors = function () {
+            if (!$scope.clientNameError &&
+                !$scope.companyNameError &&
+                !$scope.addressError &&
+                !$scope.phoneNumberError &&
+                !$scope.emailAddressError) {
+                $scope.error = false;
+            }
+            else { $scope.error = true; }
+        }
+
+        $scope.editUserRedirect = function () {
+            swalert2('warning', 'Warning', 'All unsaved data will be lost! <br> Continue?', 'Yes', `${window.editUserUrl}`, true);
         }
 
         $scope.getUserDetails = function () {
@@ -73,12 +210,14 @@ app.controller("create",
         }
 
         $scope.addItem = function () {
-            if ($scope.items.length >= 12) { swalert('error', 'Error', `Cannot add more than 12 items.`); return; }
-            if ($scope.itemName === "") { swalert('error', 'Error', `Item/Service name cannot be empty.`); return; }
-            if ($scope.itemQty === 0 || $scope.itemQty === null) { swalert('error', 'Error', `Quantity/Hours cannot be zero.`); return;}
+            if ($scope.items.length >= 10) { swalert('error', 'Error', `Cannot add more than 10 items.`); return; }
+            if ($scope.itemName === "" || !$scope.itemName) { swalert('error', 'Error', `Item/Service name cannot be empty.`); return; }
+            if ($scope.itemQty === 0 || $scope.itemQty === null) { swalert('error', 'Error', `Quantity/Hours cannot be zero.`); return; }
             if ($scope.itemPrice === 0 || $scope.itemPrice === null) { swalert('error', 'Error', `Unit Price cannot be zero.`); return; }
             if ($scope.itemQty === undefined) { swalert('error', 'Error', `Invalid quantity/hours entered. <br>Value can only be positive with 0.5 intervals`); return; }
+            if ($scope.itemQty > 999999999) { swalert('error', 'Error', `Invalid quantity/hours entered. <br>Value cannot exceed 999999999`); return; }
             if ($scope.itemPrice === undefined) { swalert('error', 'Error', `Invalid Unit Price entered. <br>Value can only be positive with 0.01 intervals`); return; }
+            if ($scope.itemPrice > 999999999) { swalert('error', 'Error', `Invalid Unit Price entered. <br>Value cannot exceed 999999999`); return; }
 
             var item = {
                 name: $scope.itemName,
@@ -86,6 +225,11 @@ app.controller("create",
                 unitPrice: $scope.itemPrice,
                 total: ($scope.itemPrice * $scope.itemQty).toFixed(2),
             }
+            var x = +item.total + +$scope.subTotal;
+            if (x > 1000000000.00) {
+                swalert('error', 'Error', `SubTotal fee cannot be greater than 1,000,000,000.`); return;
+            }
+
             $scope.items.push(item);
 
             $scope.updateSummary();
@@ -136,14 +280,14 @@ app.controller("create",
 
         $scope.create = function () {
             if ($scope.items.length === 0) { swalert('error', 'Error', `Item list cannot be empty.`); return; }
-            if ($scope.items.length > 12) { swalert('error', 'Error', `Cannot contain more than 12 items.`); return; }
+            if ($scope.items.length > 10) { swalert('error', 'Error', `Cannot contain more than 10 items.`); return; }
             if ($scope.dateError) { swalert('error', 'Error', `Due Date cannot be less than Date Of Invoice.`); return; }
             if ($scope.dueDate === undefined) { swalert('error', 'Error', `Invalid due date.`); return; }
             if ($scope.createdDate === undefined) { swalert('error', 'Error', `Invalid created date.`); return; }
             if ($scope.vatError) { swalert('error', 'Error', `Invalid VAT entered. <br>Value can only exist between 0-100 with 0.01 intervals`); return; }
             if ($scope.subTotal === undefined || $scope.subTotal === 0 || $scope.subTotal === null) { swalert('error', 'Error', `subTotal Fee cannot be zero or undefined.`); return; }
             if ($scope.total === undefined || $scope.total === 0 || $scope.total === null) { swalert('error', 'Error', `Total Fee cannot be zero or undefined.`); return; }
-            if ($scope.feePaid === undefined || $scope.feePaid === null) { $scope.feePaid = 0; }
+            if ($scope.feePaid === undefined || $scope.feePaid === null) { swalert('error', 'Error', `Invalid Fee Paid entered.`); return; }
             if ($scope.feePaid < 0) { swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be less than zero.`); return; }
             if ($scope.feePaid > $scope.total) { swalert('error', 'Error', `Invalid Fee Paid entered. <br>Value cannot be greater than total fee.`); return; }
             if ($scope.companyName === "" || $scope.companyName === null || $scope.companyName === undefined) { swalert('error', 'Error', `Company Name cannot be empty.`); return; }

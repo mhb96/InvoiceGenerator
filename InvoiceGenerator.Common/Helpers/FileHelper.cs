@@ -12,14 +12,23 @@ using System.Threading.Tasks;
 
 namespace InvoiceGenerator.Common.Helpers
 {
+    /// <summary>
+    /// The file helprer.
+    /// </summary>
     public class FileHelper : IFileHelper
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
+        
+        /// <summary>
+        /// The file helper constructor.
+        /// </summary>
+        /// <param name="webHostEnvironment"></param>
         public FileHelper(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
         }
 
+        ///<inheritdoc/>
         public async Task<ImageModel> UploadAsync(IFormFile file, FileType type)
         {
             var fileType = file.IsImage() ? FileType.image : FileType.invalid;
@@ -39,6 +48,7 @@ namespace InvoiceGenerator.Common.Helpers
             return new ImageModel { ImageFile = file, ImageName = fileName };
         }
 
+        ///<inheritdoc/>
         public string GetImageAddress(string fileName, bool isForPdf = false)
         {
             string uploadPath;
@@ -52,6 +62,7 @@ namespace InvoiceGenerator.Common.Helpers
             return filePath;
         }
 
+        ///<inheritdoc/>
         public string CreatePdf(string html)
         {
             HtmlToPdf converter = new HtmlToPdf();
@@ -66,6 +77,7 @@ namespace InvoiceGenerator.Common.Helpers
             return fileName;
         }
 
+        ///<inheritdoc/>
         public void DeleteAllTempFiles()
         {
             string wwwRootPath = _webHostEnvironment.WebRootPath;

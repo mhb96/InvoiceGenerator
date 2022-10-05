@@ -15,6 +15,24 @@ swalert = function (type, title, message, confirmButtonText = "OK", link = null,
     });
 };
 
+swalert2 = function (type, title, message, confirmButtonText = "OK", link = null, showCancelButton = false, timer = null, position = null) {
+    Swal.fire({
+        position: position,// 'top-right',
+        icon: type,
+        title: title,
+        html: message,
+        showConfirmButton: true,
+        confirmButtonText: confirmButtonText,
+        showCancelButton: showCancelButton,
+        timer: timer
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (link != null) window.location.href = link;
+        }
+    });
+};
+
+
 app.factory('httpRequest', function ($http) {
 
     var httpRequest = {};

@@ -31,7 +31,7 @@
                                 <td>{{item.invoiceNo}}</td>
                                 <td>{{item.createdDate}}</td>
                                 <td>{{item.dueDate}}</td>
-                                <td>{{item.toCompany}}</td>
+                                <td style="word-wrap: break-word;">{{item.toCompany}}</td>
                                 <td class="text-right">{{item.totalFee}}</td>
                                 <td ng-class="item.paymentStatus == 0 ? '' : item.paymentStatus == 1 ? 'text-warning' : 'text-success'">
                                     <b ng-if="status = item.paymentStatus == 0 ? 'Unpaid' : item.paymentStatus == 1 ? 'Partially Paid' : 'Fully Paid'">{{status}}</b>

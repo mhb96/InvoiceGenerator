@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 namespace InvoiceGenerator.Services.Models.Invoice
 {
-    public class CreateInvoiceModel
+    public class EditInvoiceModel
     {
+        public string UserCompanyName { get; set; }
+        public string UserAddress { get; set; }
+        public string UserPhoneNumber { get; set; }
+        public string UserEmailAddress { get; set; }
         public string ClientName { get; set; }
         public string ClientCompanyName { get; set; }
         public string ClientAddress { get; set; }
@@ -19,5 +23,6 @@ namespace InvoiceGenerator.Services.Models.Invoice
         public string Comment { get; set; }
         public long UserId { get; set; }
         public long CurrencyId { get; set; }
+        public long InvoiceId { get; set; }
     }
 }

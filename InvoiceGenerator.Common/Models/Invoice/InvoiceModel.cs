@@ -139,7 +139,7 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// <value>
         /// The sub total fee.
         /// </value> 
-        public string SubTotalFee { get; set; }
+        public decimal SubTotalFee { get; set; }
 
         /// <summary>
         /// Gets or sets the total fee.
@@ -147,7 +147,7 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// <value>
         /// The total fee.
         /// </value> 
-        public string TotalFee { get; set; }
+        public decimal TotalFee { get; set; }
 
         /// <summary>
         /// Gets or sets the fee paid.
@@ -163,7 +163,7 @@ namespace InvoiceGenerator.Common.Models.Invoice
         /// <value>
         /// The total amount due.
         /// </value> 
-        public string TotalFeeDue { get; set; }
+        public decimal TotalFeeDue { get; set; }
 
         /// <summary>
         /// Gets or sets the vat.
