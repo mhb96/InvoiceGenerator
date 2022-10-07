@@ -14,7 +14,7 @@
                 <h5 class="text-info pt-2">Please edit any invoice details as necessary.</h5>
                 <div>
                     <a class="btn btn-primary mr-3" style="padding-top:7px;" href="~/invoice/view/@Model.InvoiceId"> <i class="mr-2 fas fa-chevron-left"></i>Cancel</a>
-                    <a class="btn btn-success" style="padding-top:7px;" ng-click="edit()" href="">Update & Preview <i class="ml-2 fas fa-chevron-right"></i></a>
+                    <button class="btn btn-success" style="padding-top:7px;" ng-disabled="error" ng-click="edit()" href="">Update & Preview <i class="ml-2 fas fa-chevron-right"></i></button>
                 </div>
             </div>
             <div class="card-body">
@@ -186,7 +186,7 @@
 @section Scripts
 {
     <script>
-         var editUserUrl = '@Url.Action("Edit", "User")';
+        var editUserUrl = '@Url.Action("Edit", "User")';
     </script>
     <script src="~/js/edit-invoice.js" asp-append-version="true"></script>
 }

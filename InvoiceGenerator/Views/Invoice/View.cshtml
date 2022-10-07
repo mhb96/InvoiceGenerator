@@ -42,7 +42,7 @@
                                 <h2>@Model.UserCompanyName</h2>
                                 <div>@Model.UserAddress</div>
                                 <div>@Model.UserContactNo</div>
-                                <div><a href="">@Model.UserEmail</a></div>
+                                <div><a href="mailto: @Model.UserEmail">@Model.UserEmail</a></div>
                             </div>  
                         }
                     </header>
@@ -50,11 +50,11 @@
                         <div id="details" class="clearfix">
                             <div id="client">
                                 <h2 class="to">Invoice To:</h2>
-                                <div class="name">@Model.ClientName</div>
-                                <div class="company">@Model.ClientCompanyName</div>
+                                <div class="name">@Model.ClientName</div> 
+                                <div class="name">@Model.ClientCompanyName</div>
                                 <div class="address">@Model.ClientAddress</div>
                                 <div class="address">@Model.ClientPhoneNumber</div>
-                                <div><a href="">@Model.ClientEmailAddress</a></div>
+                                <div><a href="mailto: @Model.ClientEmailAddress">@Model.ClientEmailAddress</a></div>
                             </div>
                             <div id="invoice">
                                 <h2>Invoice No: @Model.InvoiceNo</h2>

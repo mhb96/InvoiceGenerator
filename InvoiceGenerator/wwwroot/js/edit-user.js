@@ -205,7 +205,7 @@ app.controller("edit",
             };
             httpRequest.postForm(requestModel).then(
                 function () {
-                    swalert('success', 'Success', 'Updated successfully!', 'Proceed to dashboard', `${window.dashboardUrl}`);
+                    swalert('success', 'Success', 'Updated successfully!', 'Ok', `${document.referrer}`);
                 },
                 function (error) {
                     swalert('error', 'Error', `${error.data}`);
