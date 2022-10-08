@@ -49,7 +49,7 @@ body {
 .company {
     margin-left: 130px;
     margin-top: 20px;
-    width: 300px;
+    width: 470px;
 }
 
     .company h2 {
@@ -60,7 +60,7 @@ body {
 
 .company-no-logo {
     margin-top: 20px;
-    width: 300px;
+    width: 470px;
 }
 
     .company-no-logo h2 {
@@ -82,7 +82,7 @@ header .clearfix{
     padding-left: 20px;
     border-left: 6px solid #0087C3;
     float: left;
-    width: 400px;
+    width: 450px;
 }
 
     #client .to {
